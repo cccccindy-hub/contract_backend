@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nnroad.system.mapper.SysTableUpdateMapper">
+    
+    <resultMap type="SysTableUpdate" id="SysTableUpdateResult">
+        <result property="id"    column="id"    />
+        <result property="entryId"    column="entry_id"    />
+        <result property="entryUuid"    column="entry_uuid"    />
+        <result property="entryCode"    column="entry_code"    />
+        <result property="source"    column="source"    />
+        <result property="sourceTable"    column="source_table"    />
+        <result property="status"    column="status"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="updateBy"    column="update_by"    />
+    </resultMap>
+
+    <sql id="selectSysTableUpdateVo">
+        select id, entry_id, entry_uuid, entry_code, source, status, create_by, create_time, update_time, update_by from sys_table_update
+    </sql>
+
+    <select id="selectSysTableUpdateList" parameterType="SysTableUpdate" resultMap="SysTableUpdateResult">
+        <include refid="selectSysTableUpdateVo"/>
+        <where>  
+            <if test="entryId != null "> and entry_id = #{entryId}</if>
+            <if test="entryUuid != null  and entryUuid != ''"> and entry_uuid = #{entryUuid}</if>
+            <if test="entryCode != null  and entryCode != ''"> and entry_code = #{entryCode}</if>
+            <if test="source != null  and source != ''"> and source = #{source}</if>
+            <if test="sourceTable != null  and sourceTable != ''"> and source_table = #{sourceTable}</if>
+            <if test="status != null  and status != ''"> and status = #{status}</if>
+        </where>
+    </select>
+    
+    <select id="selectSysTableUpdateById" parameterType="Long" resultMap="SysTableUpdateResult">
+        <include refid="selectSysTableUpdateVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertSysTableUpdate" parameterType="SysTableUpdate">
+        insert into sys_table_update
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="entryId != null">entry_id,</if>
+            <if test="entryUuid != null">entry_uuid,</if>
+            <if test="entryCode != null">entry_code,</if>
+            <if test="source != null">source,</if>
+            <if test="sourceTable != null">source_table,</if>
+            <if test="status != null and status != ''">status,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="updateBy != null">update_by,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="entryId != null">#{entryId},</if>
+            <if test="entryUuid != null">#{entryUuid},</if>
+            <if test="entryCode != null">#{entryCode},</if>
+            <if test="source != null">#{source},</if>
+            <if test="sourceTable != null">#{sourceTable},</if>
+            <if test="status != null and status != ''">#{status},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+         </trim>
+    </insert>
+
+
+    <update id="updateSysTableUpdate" parameterType="SysTableUpdate">
+        update sys_table_update
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="entryId != null">entry_id = #{entryId},</if>
+            <if test="entryUuid != null">entry_uuid = #{entryUuid},</if>
+            <if test="entryCode != null">entry_code = #{entryCode},</if>
+            <if test="source != null">source = #{source},</if>
+            <if test="sourceTable != null">source = #{sourceTable},</if>
+            <if test="status != null and status != ''">status = #{status},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteSysTableUpdateById" parameterType="Long">
+        delete from sys_table_update where id = #{id}
+    </delete>
+
+    <delete id="deleteSysTableUpdateByIds" parameterType="String">
+        delete from sys_table_update where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

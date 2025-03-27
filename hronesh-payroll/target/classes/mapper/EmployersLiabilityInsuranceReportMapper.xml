@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nnroad.payroll.mapper.EmployersLiabilityInsuranceReportMapper">
+    
+    <resultMap type="EmployersLiabilityInsuranceReport" id="EmployersLiabilityInsuranceReportResult">
+        <result property="name"    column="name"    />
+        <result property="idNumber"    column="id_number"    />
+        <result property="monthlyIncomeBeforeTax"    column="monthly_income_before_tax"    />
+        <result property="annualPremium"    column="annual_premium"    />
+        <result property="dateOfInsuranceIncrease"    column="date_of_insurance_increase"    />
+        <result property="clientCompanyName"    column="client_company_name"    />
+        <result property="placeOfEmploymentContractSigning"    column="place_of_employment_contract_signing"    />
+        <result property="employeeCode"    column="employee_code"    />
+        <result property="clientCode"    column="client_code"    />
+        <result property="isLeave"    column="is_leave"    />
+    </resultMap>
+
+    <sql id="selectEmployersLiabilityInsuranceReportVo">
+SELECT
+	employee_code,
+	NAME,
+	id_number,
+	Round(monthly_income_before_tax,2) as monthly_income_before_tax,
+	( CASE WHEN ( tax_before_after = '税前' or tax_before_after = '') THEN Round(before_tax_annual_premium,2) WHEN ( tax_before_after = '税后' ) THEN Round(after_tax_annual_premium,2) END ) AS annual_premium,
+	date_of_insurance_increase,
+	client_company_name,
+	place_of_employment_contract_signing,
+	client_code,
+	is_leave
+FROM
+	employers_liability_insurance_report p
+    </sql>
+
+    <select id="selectEmployersLiabilityInsuranceReportList" parameterType="EmployersLiabilityInsuranceReport" resultMap="EmployersLiabilityInsuranceReportResult">
+        <include refid="selectEmployersLiabilityInsuranceReportVo"/>
+
+        <where>  
+            <if test="employeeCode != null  and employeeCode != ''"> and employee_code like concat('%', #{employeeCode}, '%')</if>
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="clientCode != null  and clientCode != ''"> and client_code like concat('%', #{clientCode}, '%')</if>
+            <if test="isLeave != null  and isLeave != ''"> and is_leave = #{isLeave}</if>
+            <if test="clientCompanyName != null  and clientCompanyName != ''"> and client_company_name like concat('%', #{clientCompanyName}, '%')</if>
+
+        </where>
+    </select>
+    
+    <select id="selectEmployersLiabilityInsuranceReportById" parameterType="String" resultMap="EmployersLiabilityInsuranceReportResult">
+        <include refid="selectEmployersLiabilityInsuranceReportVo"/>
+        where name = #{name}
+    </select>
+        
+    <insert id="insertEmployersLiabilityInsuranceReport" parameterType="EmployersLiabilityInsuranceReport">
+        insert into employers_liability_insurance_report
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null and name != ''">name,</if>
+            <if test="idNumber != null and idNumber != ''">id_number,</if>
+            <if test="monthlyIncomeBeforeTax != null and monthlyIncomeBeforeTax != ''">monthly_income_before_tax,</if>
+            <if test="annualPremium != null">annual_premium,</if>
+            <if test="clientCompanyName != null and clientCompanyName != ''">client_company_name,</if>
+            <if test="placeOfEmploymentContractSigning != null and placeOfEmploymentContractSigning != ''">place_of_employment_contract_signing,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="name != null and name != ''">#{name},</if>
+            <if test="idNumber != null and idNumber != ''">#{idNumber},</if>
+            <if test="monthlyIncomeBeforeTax != null and monthlyIncomeBeforeTax != ''">#{monthlyIncomeBeforeTax},</if>
+            <if test="annualPremium != null">#{annualPremium},</if>
+            <if test="clientCompanyName != null and clientCompanyName != ''">#{clientCompanyName},</if>
+            <if test="placeOfEmploymentContractSigning != null and placeOfEmploymentContractSigning != ''">#{placeOfEmploymentContractSigning},</if>
+         </trim>
+    </insert>
+
+    <update id="updateEmployersLiabilityInsuranceReport" parameterType="EmployersLiabilityInsuranceReport">
+        update employers_liability_insurance_report
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="idNumber != null and idNumber != ''">id_number = #{idNumber},</if>
+            <if test="monthlyIncomeBeforeTax != null and monthlyIncomeBeforeTax != ''">monthly_income_before_tax = #{monthlyIncomeBeforeTax},</if>
+            <if test="annualPremium != null">annual_premium = #{annualPremium},</if>
+            <if test="clientCompanyName != null and clientCompanyName != ''">client_company_name = #{clientCompanyName},</if>
+            <if test="placeOfEmploymentContractSigning != null and placeOfEmploymentContractSigning != ''">place_of_employment_contract_signing = #{placeOfEmploymentContractSigning},</if>
+        </trim>
+        where name = #{name}
+    </update>
+
+    <delete id="deleteEmployersLiabilityInsuranceReportById" parameterType="String">
+        delete from employers_liability_insurance_report where name = #{name}
+    </delete>
+
+    <delete id="deleteEmployersLiabilityInsuranceReportByIds" parameterType="String">
+        delete from employers_liability_insurance_report where name in
+        <foreach item="name" collection="array" open="(" separator="," close=")">
+            #{name}
+        </foreach>
+    </delete>
+
+</mapper>

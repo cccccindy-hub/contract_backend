@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nnroad.payroll.mapper.PsCityBasicSalaryMapper">
+    
+    <resultMap type="PsCityBasicSalary" id="PsCityBasicSalaryResult">
+        <result property="id"    column="id"    />
+        <result property="city"    column="city"    />
+        <result property="duration"    column="duration"    />
+        <result property="basicSalary"    column="basic_salary"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectPsCityBasicSalaryVo">
+        select id, city, duration, basic_salary, create_by, create_time, update_by, update_time from ps_city_basic_salary
+    </sql>
+
+    <select id="selectPsCityBasicSalaryList" parameterType="PsCityBasicSalary" resultMap="PsCityBasicSalaryResult">
+        <include refid="selectPsCityBasicSalaryVo"/>
+        <where>  
+            <if test="city != null  and city != ''"> and city = #{city}</if>
+            <if test="duration != null  and duration != ''"> and duration = #{duration}</if>
+        </where>
+    </select>
+    
+    <select id="selectPsCityBasicSalaryById" parameterType="Long" resultMap="PsCityBasicSalaryResult">
+        <include refid="selectPsCityBasicSalaryVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertPsCityBasicSalary" parameterType="PsCityBasicSalary" useGeneratedKeys="true" keyProperty="id">
+        insert into ps_city_basic_salary
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="city != null">city,</if>
+            <if test="duration != null">duration,</if>
+            <if test="basicSalary != null">basic_salary,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="city != null">#{city},</if>
+            <if test="duration != null">#{duration},</if>
+            <if test="basicSalary != null">#{basicSalary},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updatePsCityBasicSalary" parameterType="PsCityBasicSalary">
+        update ps_city_basic_salary
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="city != null">city = #{city},</if>
+            <if test="duration != null">duration = #{duration},</if>
+            <if test="basicSalary != null">basic_salary = #{basicSalary},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deletePsCityBasicSalaryById" parameterType="Long">
+        delete from ps_city_basic_salary where id = #{id}
+    </delete>
+
+    <delete id="deletePsCityBasicSalaryByIds" parameterType="String">
+        delete from ps_city_basic_salary where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

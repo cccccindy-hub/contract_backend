@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nnroad.payroll.mapper.PsStaffMapper">
+    <resultMap id="StaffResult" type="Staff">
+        <result property="eeCode" column="ee_code" />
+        <result property="eeName" column="ee_name" />
+        <result property="userId" column="user_id" />
+        <result property="email" column="email" />
+        <result property="clientCode" column="client_code" />
+        <result property="idNum" column="id_number" />
+        <result property="phone" column="phone" />
+    </resultMap>
+
+    <select id="selectStaff" parameterType="Staff" resultMap="StaffResult">
+        SELECT
+            employee_code AS ee_code,
+            employee_name AS ee_name,
+            employee_email AS email,
+            company_code AS client_code,
+            extra_data->>'$."254"' AS id_number,
+            employee_phone AS phone
+        FROM
+            sys_employee
+        where employee_code = #{eeCode}
+    </select>
+
+    <select id="selectStaffByCodeAndIdNum" resultType="java.lang.String">
+        select ee_code
+        from v_staff_info
+        where client_code=#{clientCode} and id_number=#{idNum}
+    </select>
+    <select id="selectAllStaff" parameterType="Staff" resultMap="StaffResult">
+        select ee_code, ee_name
+        from v_roster_info
+        where ee_name is not null and ee_code is not null
+        and  status = 1
+    </select>
+</mapper>

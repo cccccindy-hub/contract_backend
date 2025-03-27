@@ -1,0 +1,14 @@
+/Users/guo/Desktop/contract/hronesh-employee/src/main/java/com/nnroad/employee/service/EmployeeInfoService.java
+/Users/guo/Desktop/contract/hronesh-employee/src/main/java/com/nnroad/employee/domain/VEmployeeInfo.java
+/Users/guo/Desktop/contract/hronesh-employee/src/main/java/com/nnroad/employee/domain/EmployeeInfo.java
+/Users/guo/Desktop/contract/hronesh-employee/src/main/java/com/nnroad/employee/service/ISysEmployeeService.java
+/Users/guo/Desktop/contract/hronesh-employee/src/main/java/com/nnroad/employee/mapper/getDataSyncFromHRHKMapper.java
+/Users/guo/Desktop/contract/hronesh-employee/src/main/java/com/nnroad/employee/service/EmployeeSyncService.java
+/Users/guo/Desktop/contract/hronesh-employee/src/main/java/com/nnroad/employee/service/impl/EmployeeInfoServiceImpl.java
+/Users/guo/Desktop/contract/hronesh-employee/src/main/java/com/nnroad/employee/mapper/EmployeeInfoMapper.java
+/Users/guo/Desktop/contract/hronesh-employee/src/main/java/com/nnroad/employee/service/impl/SysEmployeeServiceImpl.java
+/Users/guo/Desktop/contract/hronesh-employee/src/main/java/com/nnroad/employee/constants/enums/EEStatus.java
+/Users/guo/Desktop/contract/hronesh-employee/src/main/java/com/nnroad/employee/model/dto/EEBaseDTO.java
+/Users/guo/Desktop/contract/hronesh-employee/src/main/java/com/nnroad/employee/service/impl/EmployeeSyncServiceImpl.java
+/Users/guo/Desktop/contract/hronesh-employee/src/main/java/com/nnroad/employee/mapper/SysEmployeeMapper.java
+/Users/guo/Desktop/contract/hronesh-employee/src/main/java/com/nnroad/employee/domain/SysEmployee.java

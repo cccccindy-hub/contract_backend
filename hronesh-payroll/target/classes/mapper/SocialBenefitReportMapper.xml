@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nnroad.payroll.mapper.SocialBenefitReportMapper">
+    
+    <resultMap type="SocialBenefitReport" id="SocialBenefitReportResult">
+        <result property="idNo"    column="id_no"    />
+        <result property="erName"    column="er_name"    />
+        <result property="name"    column="name"    />
+        <result property="certificateNumber"    column="certificate_number"    />
+        <result property="socialBenefitsAddress"    column="social_benefits_address"    />
+        <result property="pensionBase"    column="pension_base"    />
+        <result property="housingFundBase"    column="housing_fund_base"    />
+        <result property="pension"    column="pension"    />
+        <result property="medical"    column="medical"    />
+        <result property="unemployment"    column="unemployment"    />
+        <result property="pensionRepayment"    column="pension_repayment"    />
+        <result property="medicalRepayment"    column="medical_repayment"    />
+        <result property="unemploymentRepayment"    column="unemployment_repayment"    />
+        <result property="companyPension"    column="company_pension"    />
+        <result property="companyMedical"    column="company_medical"    />
+        <result property="companyUnemployment"    column="company_unemployment"    />
+        <result property="companyWri"    column="company_wri"    />
+        <result property="companyMaternity"    column="company_maternity"    />
+        <result property="erPensionRepayment"    column="er_pension_repayment"    />
+        <result property="erMedicalRepayment"    column="er_medical_repayment"    />
+        <result property="erUnemployementRepayment"    column="er_unemployement_repayment"    />
+        <result property="erWriRepayment"    column="er_wri_repayment"    />
+        <result property="erMaternityRepayment"    column="er_maternity_repayment"    />
+        <result property="csbRepayment"    column="csb_repayment"    />
+        <result property="sumFiveSi"    column="sum_five_si"    />
+        <result property="heatingFee"    column="heating_fee"    />
+        <result property="companyDisability"    column="company_disability"    />
+        <result property="cdRepayment"    column="cd_repayment"    />
+        <result property="sumSi"    column="sum_si"    />
+        <result property="housingFund"    column="housing_fund"    />
+        <result property="steHousingFund"    column="ste_housing_fund"    />
+        <result property="housingFundPayment"    column="housing_fund_payment"    />
+        <result property="companyHousingFund"    column="company_housing_fund"    />
+        <result property="companyShf"    column="company_shf"    />
+        <result property="chfRepayment"    column="chf_repayment"    />
+        <result property="sumHf"    column="sum_hf"    />
+        <result property="vendor"    column="vendor"    />
+    </resultMap>
+
+    <resultMap type="StefaniniSocialBenefitReport" id="StefaniniSocialBenefitReportResult">
+        <result property="idNo"    column="id_no"    />
+        <result property="erName"    column="er_name"    />
+        <result property="name"    column="name"    />
+        <result property="certificateNumber"    column="certificate_number"    />
+        <result property="socialBenefitsAddress"    column="social_benefits_address"    />
+        <result property="pensionBase"    column="pension_base"    />
+        <result property="housingFundBase"    column="housing_fund_base"    />
+        <result property="pension"    column="pension"    />
+        <result property="medical"    column="medical"    />
+        <result property="unemployment"    column="unemployment"    />
+        <result property="pensionRepayment"    column="pension_repayment"    />
+        <result property="medicalRepayment"    column="medical_repayment"    />
+        <result property="unemploymentRepayment"    column="unemployment_repayment"    />
+        <result property="sumPersonSb"    column="sum_person_sb"    />
+        <result property="companyPension"    column="company_pension"    />
+        <result property="companyMedical"    column="company_medical"    />
+        <result property="companyUnemployment"    column="company_unemployment"    />
+        <result property="companyWri"    column="company_wri"    />
+        <result property="companyMaternity"    column="company_maternity"    />
+        <result property="erPensionRepayment"    column="er_pension_repayment"    />
+        <result property="erMedicalRepayment"    column="er_medical_repayment"    />
+        <result property="erUnemployementRepayment"    column="er_unemployement_repayment"    />
+        <result property="erWriRepayment"    column="er_wri_repayment"    />
+        <result property="erMaternityRepayment"    column="er_maternity_repayment"    />
+        <result property="sumCompanyFiveSi"    column="sum_company_five_si"    />
+        <result property="sumFiveSi"    column="sum_five_si"    />
+        <result property="heatingFee"    column="heating_fee"    />
+        <result property="companyDisability"    column="company_disability"    />
+        <result property="companySbOther"    column="company_sb_other"    />
+        <result property="heatingFeeRepayment"    column="heating_fee_repayment"    />
+        <result property="cdRepayment"    column="cd_repayment"    />
+        <result property="sumSi"    column="sum_si"    />
+        <result property="housingFund"    column="housing_fund"    />
+        <result property="housingFundPayment"    column="housing_fund_payment"    />
+        <result property="sumPersonHf"    column="sum_person_hf"    />
+        <result property="companyHousingFund"    column="company_housing_fund"    />
+        <result property="chfRepayment"    column="chf_repayment"    />
+        <result property="sumCompanyHf"    column="sum_company_hf"    />
+        <result property="sumHf"    column="sum_hf"    />
+        <result property="sumSiHf"    column="sum_si_hf"    />
+    </resultMap>
+
+    <sql id="selectSocialBenefitReportVo">
+        select p.duration, p.id_no, p.er_name, p.name, p.certificate_number, p.social_benefits_address, p.pension_base, p.housing_fund_base,
+        p.pension, p.medical, p.unemployment, p.pension_repayment, p.medical_repayment, p.unemployment_repayment, p.company_pension,
+        p.company_medical, p.company_unemployment, p.company_wri, p.company_maternity, p.er_pension_repayment, p.er_medical_repayment,
+        p.er_unemployement_repayment, p.er_wri_repayment, p.er_maternity_repayment, p.csb_repayment, p.sum_five_si, p.heating_fee,
+        p.company_disability, p.cd_repayment, p.sum_si, p.housing_fund, p.ste_housing_fund, p.housing_fund_payment, p.company_housing_fund,
+        p.company_shf, p.chf_repayment, p.sum_hf, p.vendor from social_benefit_report p
+    </sql>
+
+    <select id="selectStefaniniSocialBenefitReportList" parameterType="Map" resultMap="StefaniniSocialBenefitReportResult">
+        select p.duration, p.id_no, p.er_name, p.name, p.certificate_number, p.social_benefits_address, p.pension_base, p.housing_fund_base,
+        p.pension, p.medical, p.unemployment, p.pension_repayment, p.medical_repayment, p.unemployment_repayment, p.sum_person_sb, p.company_pension,
+        p.company_medical, p.company_unemployment, p.company_wri, p.company_maternity, p.er_pension_repayment, p.er_medical_repayment,
+        p.er_unemployement_repayment, p.er_wri_repayment, p.er_maternity_repayment, p.sum_company_five_si, p.sum_five_si, p.heating_fee,
+        p.company_disability, p.company_sb_other, p.heating_fee_repayment, p.cd_repayment, p.sum_si, p.housing_fund, p.housing_fund_payment, p.sum_person_hf,
+        p.company_housing_fund, p.chf_repayment, p.sum_company_hf, p.sum_hf, p.sum_si_hf from social_benefit_report p
+        <where>
+            <if test="params.duration != null and params.duration != ''">
+                AND p.duration = #{params.duration}
+            </if>
+            <if test="params.erNo != null and params.erNo != ''">
+                AND p.client_code = #{params.erNo}
+            </if>
+            <if test="params.idNo != null and params.idNo != ''">
+                AND p.id_no in (${params.idNo})
+            </if>
+        </where>
+    </select>
+
+    <select id="selectSocialBenefitReportList" parameterType="SocialBenefitReport" resultMap="SocialBenefitReportResult">
+        <include refid="selectSocialBenefitReportVo"/>
+
+        <where>
+            <if test="erName != null  and erName != ''"> and p.er_name like concat('%', #{erName}, '%')</if>
+            <if test="name != null  and name != ''"> and p.name like concat('%', #{name}, '%')</if>
+            <if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
+                AND p.duration &gt;= #{params.beginTime}
+            </if>
+            <if test="params.endTime != null and params.endTime != ''"><!-- 结束时间检索 -->
+                AND p.duration &lt;= #{params.endTime}
+            </if>
+        </where>
+    </select>
+    
+    <select id="selectSocialBenefitReportById" parameterType="String" resultMap="SocialBenefitReportResult">
+        <include refid="selectSocialBenefitReportVo"/>
+        where id_no = #{idNo}
+    </select>
+        
+    <insert id="insertSocialBenefitReport" parameterType="SocialBenefitReport">
+        insert into social_benefit_report
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="idNo != null">id_no,</if>
+            <if test="erName != null">er_name,</if>
+            <if test="name != null">name,</if>
+            <if test="certificateNumber != null">certificate_number,</if>
+            <if test="socialBenefitsAddress != null">social_benefits_address,</if>
+            <if test="pensionBase != null">pension_base,</if>
+            <if test="housingFundBase != null">housing_fund_base,</if>
+            <if test="pension != null">pension,</if>
+            <if test="medical != null">medical,</if>
+            <if test="unemployment != null">unemployment,</if>
+            <if test="pensionRepayment != null">pension_repayment,</if>
+            <if test="medicalRepayment != null">medical_repayment,</if>
+            <if test="unemploymentRepayment != null">unemployment_repayment,</if>
+            <if test="companyPension != null">company_pension,</if>
+            <if test="companyMedical != null">company_medical,</if>
+            <if test="companyUnemployment != null">company_unemployment,</if>
+            <if test="companyWri != null">company_wri,</if>
+            <if test="companyMaternity != null">company_maternity,</if>
+            <if test="erPensionRepayment != null">er_pension_repayment,</if>
+            <if test="erMedicalRepayment != null">er_medical_repayment,</if>
+            <if test="erUnemployementRepayment != null">er_unemployement_repayment,</if>
+            <if test="erWriRepayment != null">er_wri_repayment,</if>
+            <if test="erMaternityRepayment != null">er_maternity_repayment,</if>
+            <if test="csbRepayment != null">csb_repayment,</if>
+            <if test="sumFiveSi != null">sum_five_si,</if>
+            <if test="heatingFee != null">heating_fee,</if>
+            <if test="companyDisability != null">company_disability,</if>
+            <if test="cdRepayment != null">cd_repayment,</if>
+            <if test="sumSi != null">sum_si,</if>
+            <if test="housingFund != null">housing_fund,</if>
+            <if test="steHousingFund != null">ste_housing_fund,</if>
+            <if test="housingFundPayment != null">housing_fund_payment,</if>
+            <if test="companyHousingFund != null">company_housing_fund,</if>
+            <if test="companyShf != null">company_shf,</if>
+            <if test="chfRepayment != null">chf_repayment,</if>
+            <if test="sumHf != null">sum_hf,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="idNo != null">#{idNo},</if>
+            <if test="erName != null">#{erName},</if>
+            <if test="name != null">#{name},</if>
+            <if test="certificateNumber != null">#{certificateNumber},</if>
+            <if test="socialBenefitsAddress != null">#{socialBenefitsAddress},</if>
+            <if test="pensionBase != null">#{pensionBase},</if>
+            <if test="housingFundBase != null">#{housingFundBase},</if>
+            <if test="pension != null">#{pension},</if>
+            <if test="medical != null">#{medical},</if>
+            <if test="unemployment != null">#{unemployment},</if>
+            <if test="pensionRepayment != null">#{pensionRepayment},</if>
+            <if test="medicalRepayment != null">#{medicalRepayment},</if>
+            <if test="unemploymentRepayment != null">#{unemploymentRepayment},</if>
+            <if test="companyPension != null">#{companyPension},</if>
+            <if test="companyMedical != null">#{companyMedical},</if>
+            <if test="companyUnemployment != null">#{companyUnemployment},</if>
+            <if test="companyWri != null">#{companyWri},</if>
+            <if test="companyMaternity != null">#{companyMaternity},</if>
+            <if test="erPensionRepayment != null">#{erPensionRepayment},</if>
+            <if test="erMedicalRepayment != null">#{erMedicalRepayment},</if>
+            <if test="erUnemployementRepayment != null">#{erUnemployementRepayment},</if>
+            <if test="erWriRepayment != null">#{erWriRepayment},</if>
+            <if test="erMaternityRepayment != null">#{erMaternityRepayment},</if>
+            <if test="csbRepayment != null">#{csbRepayment},</if>
+            <if test="sumFiveSi != null">#{sumFiveSi},</if>
+            <if test="heatingFee != null">#{heatingFee},</if>
+            <if test="companyDisability != null">#{companyDisability},</if>
+            <if test="cdRepayment != null">#{cdRepayment},</if>
+            <if test="sumSi != null">#{sumSi},</if>
+            <if test="housingFund != null">#{housingFund},</if>
+            <if test="steHousingFund != null">#{steHousingFund},</if>
+            <if test="housingFundPayment != null">#{housingFundPayment},</if>
+            <if test="companyHousingFund != null">#{companyHousingFund},</if>
+            <if test="companyShf != null">#{companyShf},</if>
+            <if test="chfRepayment != null">#{chfRepayment},</if>
+            <if test="sumHf != null">#{sumHf},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSocialBenefitReport" parameterType="SocialBenefitReport">
+        update social_benefit_report
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="erName != null">er_name = #{erName},</if>
+            <if test="name != null">name = #{name},</if>
+            <if test="certificateNumber != null">certificate_number = #{certificateNumber},</if>
+            <if test="socialBenefitsAddress != null">social_benefits_address = #{socialBenefitsAddress},</if>
+            <if test="pensionBase != null">pension_base = #{pensionBase},</if>
+            <if test="housingFundBase != null">housing_fund_base = #{housingFundBase},</if>
+            <if test="pension != null">pension = #{pension},</if>
+            <if test="medical != null">medical = #{medical},</if>
+            <if test="unemployment != null">unemployment = #{unemployment},</if>
+            <if test="pensionRepayment != null">pension_repayment = #{pensionRepayment},</if>
+            <if test="medicalRepayment != null">medical_repayment = #{medicalRepayment},</if>
+            <if test="unemploymentRepayment != null">unemployment_repayment = #{unemploymentRepayment},</if>
+            <if test="companyPension != null">company_pension = #{companyPension},</if>
+            <if test="companyMedical != null">company_medical = #{companyMedical},</if>
+            <if test="companyUnemployment != null">company_unemployment = #{companyUnemployment},</if>
+            <if test="companyWri != null">company_wri = #{companyWri},</if>
+            <if test="companyMaternity != null">company_maternity = #{companyMaternity},</if>
+            <if test="erPensionRepayment != null">er_pension_repayment = #{erPensionRepayment},</if>
+            <if test="erMedicalRepayment != null">er_medical_repayment = #{erMedicalRepayment},</if>
+            <if test="erUnemployementRepayment != null">er_unemployement_repayment = #{erUnemployementRepayment},</if>
+            <if test="erWriRepayment != null">er_wri_repayment = #{erWriRepayment},</if>
+            <if test="erMaternityRepayment != null">er_maternity_repayment = #{erMaternityRepayment},</if>
+            <if test="csbRepayment != null">csb_repayment = #{csbRepayment},</if>
+            <if test="sumFiveSi != null">sum_five_si = #{sumFiveSi},</if>
+            <if test="heatingFee != null">heating_fee = #{heatingFee},</if>
+            <if test="companyDisability != null">company_disability = #{companyDisability},</if>
+            <if test="cdRepayment != null">cd_repayment = #{cdRepayment},</if>
+            <if test="sumSi != null">sum_si = #{sumSi},</if>
+            <if test="housingFund != null">housing_fund = #{housingFund},</if>
+            <if test="steHousingFund != null">ste_housing_fund = #{steHousingFund},</if>
+            <if test="housingFundPayment != null">housing_fund_payment = #{housingFundPayment},</if>
+            <if test="companyHousingFund != null">company_housing_fund = #{companyHousingFund},</if>
+            <if test="companyShf != null">company_shf = #{companyShf},</if>
+            <if test="chfRepayment != null">chf_repayment = #{chfRepayment},</if>
+            <if test="sumHf != null">sum_hf = #{sumHf},</if>
+        </trim>
+        where id_no = #{idNo}
+    </update>
+
+    <delete id="deleteSocialBenefitReportById" parameterType="String">
+        delete from social_benefit_report where id_no = #{idNo}
+    </delete>
+
+    <delete id="deleteSocialBenefitReportByIds" parameterType="String">
+        delete from social_benefit_report where id_no in 
+        <foreach item="idNo" collection="array" open="(" separator="," close=")">
+            #{idNo}
+        </foreach>
+    </delete>
+
+</mapper>

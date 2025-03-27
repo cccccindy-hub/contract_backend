@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nnroad.payroll.mapper.PsBasicUnfixedInfoHisMapper">
+    
+    <resultMap type="PsBasicUnfixedInfoHis" id="PsBasicUnfixedInfoHisResult">
+        <result property="id"    column="id"    />
+        <result property="duration"    column="duration"    />
+        <result property="idNo"    column="id_no"    />
+        <result property="name"    column="name"    />
+        <result property="dailyAttendanceDays"    column="daily_attendance_days"    />
+        <result property="monthlyAward"    column="monthly_award"    />
+        <result property="quarterAward"    column="quarter_award"    />
+        <result property="overtime150hours"    column="overtime_150hours"    />
+        <result property="overtime200hours"    column="overtime_200hours"    />
+        <result property="overtime300hours"    column="overtime_300hours"    />
+        <result property="fullAttendanceDays"    column="full_attendance_days"    />
+        <result property="ealDays"    column="eal_days"    />
+        <result property="affairLeaveDays"    column="affair_leave_days"    />
+        <result property="absentEeismDays"    column="absent_eeism_days"    />
+        <result property="sickLeaveDays"    column="sick_leave_days"    />
+        <result property="sickLeaveDeduction"    column="sick_leave_deduction"    />
+        <result property="transportationFee"    column="transportation_fee"    />
+        <result property="communicationFee"    column="communication_fee"    />
+        <result property="middleShiftDay"    column="middle_shift_day"    />
+        <result property="nightShiftDays"    column="night_shift_days"    />
+        <result property="highTemperatureDays"    column="high_temperature_days"    />
+        <result property="ohtFee"    column="oht_fee"    />
+        <result property="hotWorkingDays"    column="hot_working_days"    />
+        <result property="tahwDays"    column="tahw_days"    />
+        <result property="reissue"    column="reissue"    />
+        <result property="wageDeduction"    column="wage_deduction"    />
+        <result property="taxFreeIncome2"    column="tax_free_income2"    />
+        <result property="taxCalculation"    column="tax_calculation"    />
+        <result property="companyTax2"    column="company_tax2"    />
+        <result property="expense"    column="expense"    />
+        <result property="expense25"    column="expense_25"    />
+        <result property="afterTaxReissue"    column="after_tax_reissue"    />
+        <result property="afterTaxDeduction2"    column="after_tax_deduction2"    />
+        <result property="individualTaxAdjustment"    column="Individual_tax_adjustment"    />
+        <result property="annualBonus"    column="annual_bonus"    />
+        <result property="remarks2"    column="remarks2"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="groupIds"    column="group_ids"    />
+    </resultMap>
+
+    <sql id="selectPsBasicUnfixedInfoHisVo">
+        select id, duration, id_no, name, daily_attendance_days, monthly_award, quarter_award, overtime_150hours, overtime_200hours,
+         overtime_300hours, full_attendance_days, eal_days, affair_leave_days, absent_eeism_days, sick_leave_days, sick_leave_deduction,
+         transportation_fee, communication_fee, middle_shift_day, night_shift_days, high_temperature_days, oht_fee, hot_working_days,
+         tahw_days, reissue, wage_deduction, tax_free_income2, tax_calculation, company_tax2, expense, expense_25, after_tax_reissue,
+         after_tax_deduction2, Individual_tax_adjustment, annual_bonus, remarks2, create_by, create_time, update_by, update_time,
+         group_ids from ps_basic_unfixed_info_his  p
+    </sql>
+
+
+        
+    <insert id="insertPsBasicUnfixedInfoHis" parameterType="PsBasicUnfixedInfoHis" useGeneratedKeys="true" keyProperty="id">
+        insert into ps_basic_unfixed_info_his
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="duration != null">duration,</if>
+            <if test="idNo != null">id_no,</if>
+            <if test="name != null">name,</if>
+            <if test="dailyAttendanceDays != null">daily_attendance_days,</if>
+            <if test="monthlyAward != null">monthly_award,</if>
+            <if test="quarterAward != null">quarter_award,</if>
+            <if test="overtime150hours != null">overtime_150hours,</if>
+            <if test="overtime200hours != null">overtime_200hours,</if>
+            <if test="overtime300hours != null">overtime_300hours,</if>
+            <if test="fullAttendanceDays != null">full_attendance_days,</if>
+            <if test="ealDays != null">eal_days,</if>
+            <if test="affairLeaveDays != null">affair_leave_days,</if>
+            <if test="absentEeismDays != null">absent_eeism_days,</if>
+            <if test="sickLeaveDays != null">sick_leave_days,</if>
+            <if test="sickLeaveDeduction != null">sick_leave_deduction,</if>
+            <if test="transportationFee != null">transportation_fee,</if>
+            <if test="communicationFee != null">communication_fee,</if>
+            <if test="middleShiftDay != null">middle_shift_day,</if>
+            <if test="nightShiftDays != null">night_shift_days,</if>
+            <if test="highTemperatureDays != null">high_temperature_days,</if>
+            <if test="ohtFee != null">oht_fee,</if>
+            <if test="hotWorkingDays != null">hot_working_days,</if>
+            <if test="tahwDays != null">tahw_days,</if>
+            <if test="reissue != null">reissue,</if>
+            <if test="wageDeduction != null">wage_deduction,</if>
+            <if test="taxFreeIncome2 != null">tax_free_income2,</if>
+            <if test="taxCalculation != null">tax_calculation,</if>
+            <if test="companyTax2 != null">company_tax2,</if>
+            <if test="expense != null">expense,</if>
+            <if test="expense25 != null">expense_25,</if>
+            <if test="afterTaxReissue != null">after_tax_reissue,</if>
+            <if test="afterTaxDeduction2 != null">after_tax_deduction2,</if>
+            <if test="individualTaxAdjustment != null">Individual_tax_adjustment,</if>
+            <if test="annualBonus != null">annual_bonus,</if>
+            <if test="remarks2 != null">remarks2,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="groupIds != null">group_ids,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="duration != null">#{duration},</if>
+            <if test="idNo != null">#{idNo},</if>
+            <if test="name != null">#{name},</if>
+            <if test="dailyAttendanceDays != null">#{dailyAttendanceDays},</if>
+            <if test="monthlyAward != null">#{monthlyAward},</if>
+            <if test="quarterAward != null">#{quarterAward},</if>
+            <if test="overtime150hours != null">#{overtime150hours},</if>
+            <if test="overtime200hours != null">#{overtime200hours},</if>
+            <if test="overtime300hours != null">#{overtime300hours},</if>
+            <if test="fullAttendanceDays != null">#{fullAttendanceDays},</if>
+            <if test="ealDays != null">#{ealDays},</if>
+            <if test="affairLeaveDays != null">#{affairLeaveDays},</if>
+            <if test="absentEeismDays != null">#{absentEeismDays},</if>
+            <if test="sickLeaveDays != null">#{sickLeaveDays},</if>
+            <if test="sickLeaveDeduction != null">#{sickLeaveDeduction},</if>
+            <if test="transportationFee != null">#{transportationFee},</if>
+            <if test="communicationFee != null">#{communicationFee},</if>
+            <if test="middleShiftDay != null">#{middleShiftDay},</if>
+            <if test="nightShiftDays != null">#{nightShiftDays},</if>
+            <if test="highTemperatureDays != null">#{highTemperatureDays},</if>
+            <if test="ohtFee != null">#{ohtFee},</if>
+            <if test="hotWorkingDays != null">#{hotWorkingDays},</if>
+            <if test="tahwDays != null">#{tahwDays},</if>
+            <if test="reissue != null">#{reissue},</if>
+            <if test="wageDeduction != null">#{wageDeduction},</if>
+            <if test="taxFreeIncome2 != null">#{taxFreeIncome2},</if>
+            <if test="taxCalculation != null">#{taxCalculation},</if>
+            <if test="companyTax2 != null">#{companyTax2},</if>
+            <if test="expense != null">#{expense},</if>
+            <if test="expense25 != null">#{expense25},</if>
+            <if test="afterTaxReissue != null">#{afterTaxReissue},</if>
+            <if test="afterTaxDeduction2 != null">#{afterTaxDeduction2},</if>
+            <if test="individualTaxAdjustment != null">#{individualTaxAdjustment},</if>
+            <if test="annualBonus != null">#{annualBonus},</if>
+            <if test="remarks2 != null">#{remarks2},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="groupIds != null">#{groupIds},</if>
+         </trim>
+    </insert>
+
+    <update id="updatePsBasicUnfixedInfoHis" parameterType="PsBasicUnfixedInfoHis">
+        update ps_basic_unfixed_info_his
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="duration != null">duration = #{duration},</if>
+            <if test="idNo != null">id_no = #{idNo},</if>
+            <if test="name != null">name = #{name},</if>
+            <if test="dailyAttendanceDays != null">daily_attendance_days = #{dailyAttendanceDays},</if>
+            <if test="monthlyAward != null">monthly_award = #{monthlyAward},</if>
+            <if test="quarterAward != null">quarter_award = #{quarterAward},</if>
+            <if test="overtime150hours != null">overtime_150hours = #{overtime150hours},</if>
+            <if test="overtime200hours != null">overtime_200hours = #{overtime200hours},</if>
+            <if test="overtime300hours != null">overtime_300hours = #{overtime300hours},</if>
+            <if test="fullAttendanceDays != null">full_attendance_days = #{fullAttendanceDays},</if>
+            <if test="ealDays != null">eal_days = #{ealDays},</if>
+            <if test="affairLeaveDays != null">affair_leave_days = #{affairLeaveDays},</if>
+            <if test="absentEeismDays != null">absent_eeism_days = #{absentEeismDays},</if>
+            <if test="sickLeaveDays != null">sick_leave_days = #{sickLeaveDays},</if>
+            <if test="sickLeaveDeduction != null">sick_leave_deduction = #{sickLeaveDeduction},</if>
+            <if test="transportationFee != null">transportation_fee = #{transportationFee},</if>
+            <if test="communicationFee != null">communication_fee = #{communicationFee},</if>
+            <if test="middleShiftDay != null">middle_shift_day = #{middleShiftDay},</if>
+            <if test="nightShiftDays != null">night_shift_days = #{nightShiftDays},</if>
+            <if test="highTemperatureDays != null">high_temperature_days = #{highTemperatureDays},</if>
+            <if test="ohtFee != null">oht_fee = #{ohtFee},</if>
+            <if test="hotWorkingDays != null">hot_working_days = #{hotWorkingDays},</if>
+            <if test="tahwDays != null">tahw_days = #{tahwDays},</if>
+            <if test="reissue != null">reissue = #{reissue},</if>
+            <if test="wageDeduction != null">wage_deduction = #{wageDeduction},</if>
+            <if test="taxFreeIncome2 != null">tax_free_income2 = #{taxFreeIncome2},</if>
+            <if test="taxCalculation != null">tax_calculation = #{taxCalculation},</if>
+            <if test="companyTax2 != null">company_tax2 = #{companyTax2},</if>
+            <if test="expense != null">expense = #{expense},</if>
+            <if test="expense25 != null">expense_25 = #{expense25},</if>
+            <if test="afterTaxReissue != null">after_tax_reissue = #{afterTaxReissue},</if>
+            <if test="afterTaxDeduction2 != null">after_tax_deduction2 = #{afterTaxDeduction2},</if>
+            <if test="individualTaxAdjustment != null">Individual_tax_adjustment = #{individualTaxAdjustment},</if>
+            <if test="annualBonus != null">annual_bonus = #{annualBonus},</if>
+            <if test="remarks2 != null">remarks2 = #{remarks2},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="groupIds != null">group_ids = #{groupIds},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+
+    <select id="selectPsBasicUnfixedInfoCheckList" parameterType="PsBasicUnfixedInfoHis" resultMap="PsBasicUnfixedInfoHisResult">
+        <include refid="selectPsBasicUnfixedInfoHisVo"/>
+        <where>
+            <if test="duration != null and duration != ''"> and duration = #{duration}</if>
+            <if test="idNo != null  and idNo != ''"> and id_no = #{idNo}</if>
+        </where>
+        order by p.duration desc,p.id_no
+    </select>
+
+</mapper>

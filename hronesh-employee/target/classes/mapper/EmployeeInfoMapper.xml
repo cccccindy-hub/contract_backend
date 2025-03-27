@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nnroad.employee.mapper.EmployeeInfoMapper">
+
+    <resultMap type="EmployeeInfo" id="EmployeeInfoResult">
+        <result property="id"    column="id"    />
+        <result property="employeeCode"    column="employee_code"    />
+        <result property="employeeId"    column="employee_id"    />
+        <result property="localName"    column="local_name"    />
+        <result property="extraData"    column="extra_data" typeHandler = "com.nnroad.framework.datasource.JsonTypeHandler"    />
+    </resultMap>
+
+    <resultMap type="VEmployeeInfo" id="VEmployeeInfoResult">
+        <result property="eeCode"    column="ee_code"    />
+        <result property="eeName"    column="ee_name"    />
+        <result property="clientCode"    column="client_code"    />
+        <result property="clientName"    column="client_name"    />
+        <result property="idNumber"    column="id_number"    />
+        <result property="email"    column="email"    />
+        <result property="mobile"    column="mobile"    />
+        <result property="status"    column="status"    />
+        <result property="idType"    column="id_type"    />
+        <result property="bankAccountNumber"    column="bank_account_number"    />
+        <result property="bankOfAccountSubbranch"    column="bank_of_account_subbranch"    />
+        <result property="accountHolder"    column="account_holder"    />
+        <result property="birthday"    column="birthday"    />
+        <result property="socialSecurityCity"    column="social_security_city"    />
+        <result property="socialSecurityStartingMonth"    column="social_security_starting_month"    />
+        <result property="entryDate"    column="entry_date"    />
+        <result property="salaryBeforeOrAfterTax"    column="salary_before_or_after_tax"    />
+        <result property="position"    column="position"    />
+        <result property="spouseInsurance"    column="spouse_insurance"    />
+        <result property="childrensInsurance"    column="childrens_insurance"    />
+        <result property="socialSecurityStatus"    column="social_security_status"    />
+        <result property="socialSecurityPersonalBase"    column="social_security_personal_base"    />
+        <result property="providentFundPersonalBase"    column="provident_fund_personal_base"    />
+        <result property="businessInsuranceLevels"    column="business_insurance_levels"    />
+        <result property="businessInsuranceStartingMonth"    column="business_insurance_starting_month"    />
+        <result property="employersLiabilityInsurance"    column="employers_liability_insurance"    />
+        <result property="unionFees"    column="union_fees"    />
+        <result property="personalTaxAccountAreaName"    column="personal_tax_account_area_name"    />
+        <result property="commercialInsuranceIsAdded"    column="commercial_insurance_is_added"    />
+        <result property="providentFundAccountNumber"    column="provident_fund_account_number"    />
+        <result property="vender"    column="vender"    />
+        <result property="isGreenAllowance"    column="is_green_allowance"    />
+    </resultMap>
+
+    <sql id="selectEmployeeInfoVo">
+        select id, employee_id, employee_code, extra_data from ${tableName}
+    </sql>
+
+    <sql id="selectVEmployeeInfoVo">
+        select ee_code, ee_name, client_code, client_name, id_number, email, mobile, status, id_type, bank_account_number, bank_of_account_subbranch, account_holder, birthday, social_security_city, social_security_starting_month, entry_date, salary_before_or_after_tax, position, spouse_insurance, childrens_insurance, social_security_status, social_security_personal_base, provident_fund_personal_base, business_insurance_levels, business_insurance_starting_month, employers_liability_insurance, union_fees, personal_tax_account_area_name, commercial_insurance_is_added, provident_fund_account_number, vender, is_green_allowance from v_employee_info
+    </sql>
+
+    <select id="selectEmployeeInfoList" parameterType="EmployeeInfo" resultMap="EmployeeInfoResult">
+        SELECT t.*, e.local_name
+        FROM ${tableName} t
+        JOIN sys_employee e ON t.employee_id = e.id
+        WHERE 1=1
+        <if test="employeeId != null"> and employee_id = #{employeeId}</if>
+        <if test="extraData != null and extraData != '' and extraData.size() > 0"> and extra_data = #{extraData}</if>
+    </select>
+
+    <select id="selectEmployeeInfoByCompanyCode" parameterType="EmployeeInfo" resultMap="EmployeeInfoResult">
+        SELECT *
+        FROM
+        ${tableName}
+        JOIN
+        sys_employee e
+        ON
+        ${tableName}.employee_code = e.employee_code
+        WHERE
+        e.company_code = #{companyCode}
+    </select>
+
+    <select id="selectEmployeeInfoById"  resultMap="EmployeeInfoResult">
+        <include refid="selectEmployeeInfoVo"/>
+        where id = #{id}
+    </select>
+
+    <select id="selectEmployeeInfoByCode"  resultMap="EmployeeInfoResult">
+        <include refid="selectEmployeeInfoVo"/>
+        where employee_code = #{code} LIMIT 1
+    </select>
+
+    <insert id="insertEmployeeInfo" parameterType="EmployeeInfo" useGeneratedKeys="true" keyProperty="id">
+        insert into ${tableName} (
+            employee_id,
+            employee_code,
+            extra_data,
+            create_by,
+            update_by
+            ) VALUES (
+            #{employeeId},
+            #{employeeCode},
+            #{extraData, typeHandler=com.nnroad.framework.datasource.JsonTypeHandler},
+            #{createBy},
+            #{updateBy}
+        );
+    </insert>
+
+    <update id="updateEmployeeInfo" parameterType="EmployeeInfo">
+        UPDATE ${tableName}
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="employeeId != null">employee_id = #{employeeId},</if>
+            <if test="employeeCode != null">employee_code = #{employeeCode},</if>
+            <if test="extraData != null">extra_data = #{extraData, typeHandler=com.nnroad.framework.datasource.JsonTypeHandler},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+        </trim>
+        WHERE employee_code = #{employeeCode}
+    </update>
+
+
+    <delete id="deleteEmployeeInfoById" parameterType="map">
+        DELETE FROM ${tableName} WHERE id = #{id}
+    </delete>
+
+    <delete id="deleteEmployeeInfoByIds" parameterType="map">
+        DELETE FROM ${tableName} WHERE id IN
+        <foreach collection="ids" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="selectVEmployeeInfoByEeCode" parameterType="String" resultMap="VEmployeeInfoResult">
+        <include refid="selectVEmployeeInfoVo"/>
+        where ee_code = #{eeCode}
+    </select>
+
+    <delete id="batchDeleteEmployeeInfoByIds">
+        DELETE FROM ${tableName} WHERE employee_id IN
+        <foreach collection="ids" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

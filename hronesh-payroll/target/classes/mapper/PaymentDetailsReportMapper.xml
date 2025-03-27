@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nnroad.payroll.mapper.PaymentDetailsReportMapper">
+    
+    <resultMap type="PaymentDetailsReport" id="PaymentDetailsReportResult">
+        <result property="payrollBelong"    column="payroll_belong"    />
+        <result property="hroneNo"    column="hrone_no"    />
+        <result property="bankAccount"    column="bank_account"    />
+        <result property="bankAccounName"    column="bank_accoun_name"    />
+        <result property="bank"    column="bank"    />
+        <result property="bankLocation"    column="bank_location"    />
+        <result property="netIncome"    column="net_income"    />
+        <result property="expense"    column="expense"    />
+        <result property="fsAllowance"    column="fs_allowance"    />
+        <result property="erName"    column="er_name"    />
+        <result property="duration"    column="duration"    />
+        <result property="clientType"    column="client_type"    />
+        <result property="payDay"    column="pay_day"    />
+    </resultMap>
+
+    <sql id="selectPaymentDetailsReportVo">
+        select DISTINCT p.payroll_belong, p.hrone_no, p.bank_account, p.bank_accoun_name, p.bank, p.bank_location, p.net_income, p.expense,
+        p.fs_allowance, p.er_name, p.duration, p.client_type, p.pay_day from payment_details_report p
+    </sql>
+
+    <select id="selectPaymentDetailsReportList" parameterType="PaymentDetailsReport" resultMap="PaymentDetailsReportResult">
+        <include refid="selectPaymentDetailsReportVo"/>
+        <where>
+            <if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
+                AND p.duration &gt;= #{params.beginTime}
+            </if>
+            <if test="params.endTime != null and params.endTime != ''"><!-- 结束时间检索 -->
+                AND p.duration &lt;= #{params.endTime}
+            </if>
+            <if test="hroneNo != null  and hroneNo != ''"> and p.hrone_no = #{hroneNo}</if>
+<!--            <if test="payDay != null  and payDay != ''"> and p.pay_day = #{payDay}</if>-->
+            <if test="payDay != null">
+             and p.pay_day in 
+             <foreach collection="payDayList" item="payDay" open="(" separator="," close=")">
+                 #{payDay}
+             </foreach>
+             </if>
+
+<!--            <if test="erName != null  and erName != ''">-->
+<!--             and p.er_name like concat('%', #{erName}, '%')-->
+<!--            </if>-->
+            <if test= "params.erNamelist != null">
+                and p.er_name in
+                <foreach collection="params.erNamelist" item="erName" open="(" separator="," close=")">
+                    #{erName}
+                </foreach>
+            </if>
+        </where>
+    </select>
+    
+    <select id="selectPaymentDetailsReportById" parameterType="String" resultMap="PaymentDetailsReportResult">
+        <include refid="selectPaymentDetailsReportVo"/>
+        where p.hrone_no = #{hroneNo}
+    </select>
+
+</mapper>

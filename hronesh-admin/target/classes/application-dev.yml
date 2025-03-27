@@ -1,0 +1,185 @@
+# 项目相关配置
+ruoyi:
+  # 名称
+  name: hronesh-abp
+  profile: /Users/chenmengku/desktop
+# 开发环境配置
+server:
+  # 服务器的HTTP端口，默认为8080
+  port: 8080
+# 数据源配置
+spring:
+  application:
+    name: hronesh-abp
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driverClassName: com.mysql.cj.jdbc.Driver
+    druid:
+      # 主库数据源
+      master:
+        url: jdbc:mysql://127.0.0.1:3306/hronesh?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=Asia/Shanghai
+        username: root
+        password: 'Cindyguo16!'
+      hronehk:
+        # 从数据源开关/默认关闭
+        enabled: false
+        url: jdbc:mysql://106.14.14.76:3306/hronehk?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=Asia/Shanghai
+        username: root
+        password: 'wqCqzKXXxTXrRbUUwFnBthRkDKbdR4y5'
+      slave:
+        # 从数据源开关/默认关闭
+        enabled: false
+        url:
+        username:
+        password:
+      cal:
+        enabled: false
+        url: jdbc:mysql://106.14.14.76:3306/payslip_cal?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=Asia/Shanghai
+        username: root
+        password: 'wqCqzKXXxTXrRbUUwFnBthRkDKbdR4y5'
+      hronesh:
+        # 从数据源开关/默认关闭
+        enabled: false
+        url: jdbc:mysql://106.14.14.76:3306/hronesh?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=Asia/Shanghai
+        username: root
+        password: 'wqCqzKXXxTXrRbUUwFnBthRkDKbdR4y5'
+      hronebj:
+        # 从数据源开关/默认关闭
+        enabled: false
+        url: jdbc:mysql://106.14.14.76:3306/hronesh?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=Asia/Shanghai
+        username: root
+        password: 'wqCqzKXXxTXrRbUUwFnBthRkDKbdR4y5'
+      fdi:
+        # 从数据源开关/默认关闭
+        enabled: false
+        url: jdbc:mysql://106.14.14.76:3306/fdi_china?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=Asia/Shanghai
+        username: root
+        password: 'wqCqzKXXxTXrRbUUwFnBthRkDKbdR4y5'
+      topfdihk:
+        # 从数据源开关/默认关闭
+        enabled: false
+        url: jdbc:mysql://106.14.14.76:3306/topfdi_hk?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=Asia/Shanghai
+        username: root
+        password: 'wqCqzKXXxTXrRbUUwFnBthRkDKbdR4y5'
+
+      # 初始连接数
+      initialSize: 5
+      # 最小连接池数量
+      minIdle: 10
+      # 最大连接池数量
+      maxActive: 20
+      # 配置获取连接等待超时的时间
+      maxWait: 60000
+      # 配置连接超时时间
+      connectTimeout: 30000
+      # 配置网络超时时间
+      socketTimeout: 60000
+      # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+      timeBetweenEvictionRunsMillis: 60000
+      # 配置一个连接在池中最小生存的时间，单位是毫秒
+      minEvictableIdleTimeMillis: 300000
+      # 配置一个连接在池中最大生存的时间，单位是毫秒
+      maxEvictableIdleTimeMillis: 900000
+      # 配置检测连接是否有效
+      validationQuery: SELECT 1 FROM DUAL
+      testWhileIdle: true
+      testOnBorrow: false
+      testOnReturn: false
+      webStatFilter:
+        enabled: true
+      statViewServlet:
+        enabled: true
+        # 设置白名单，不填则允许所有访问
+        allow:
+        url-pattern: /druid/*
+        # 控制台管理用户名和密码
+        login-username: ruoyi
+        login-password: 123456
+      filter:
+        stat:
+          enabled: true
+          # 慢SQL记录
+          log-slow-sql: true
+          slow-sql-millis: 1000
+          merge-sql: true
+        wall:
+          config:
+            multi-statement-allow: true
+  # redis 配置
+  redis:
+    # 地址
+    host: 127.0.0.1
+    # 端口，默认为6379
+    port: 6379
+    # 数据库索引
+    database: 0
+    # 密码
+    password:
+    # 连接超时时间
+    timeout: 3000
+    jedis:
+      pool:
+        max-active: 20
+        max-wait: 10000
+        max-idle: 20
+        min-idle: 20
+  rabbitmq:
+    host: 106.14.14.76
+    port: 5672
+    username: rabbit
+    password: HROne@699!
+    virtual-host: /
+    listener:
+      simple:
+        #手动回复消息
+        acknowledge-mode: manual
+        #预取消息数量
+        prefetch: 10
+        #最小并发数
+        concurrency: 2
+        #最大并发数
+        max-concurrency: 5
+    cache:
+      connection:
+        mode: connection
+        size: 10
+      channel:
+        size: 64
+    queue_name:
+      payroll:
+        confirm: payroll-hronesh-queue
+jasypt:
+  encryptor:
+    password: hronesh
+    algorithm: PBEWithMD5AndDES
+    iv-generator-classname: org.jasypt.iv.NoIvGenerator
+# MyBatis配置
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.nologging.NoLoggingImpl
+email:
+  from: contact@hrone.com
+  hrone: raven.wang@jljdata.com
+
+api:
+  url: "https://test.gongzige.com/policy/api/app/query"
+  appId: "18ee46515527477ba943777d7da71d71"
+  appKey: "e9e90af45fd2447bad5c9021d01c3c3b"
+  secretKey: "b537321f49c349ffbe47d0f14135490b"
+  surveyApiUrl: https://portal.cn.hrone.com/survey-api/api
+  questionHtml: https://hrone.com/wp-content/question_form/question_sh.html
+# 系统参数
+sys:
+  # 外网访问路径
+  registerPath: http://localhost:5173/
+  accessPath: https://hronesh.rolehr.com
+  company-name: HRSH
+  emailCompanyName: HROne SH
+  websiteUrl: https://hrone.com
+  company: HRSH,HRBJ
+  orgs: "HRSH, HRBJ"
+  companyCodePrefix: "HCN"
+
+employee:
+  employee_contracts: "HROne BJ, HROne SH"
+#  employee_contracts: "HROne HK"

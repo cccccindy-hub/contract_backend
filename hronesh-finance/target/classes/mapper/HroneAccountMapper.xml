@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nnroad.finance.mapper.HroneAccountMapper">
+
+    <resultMap type="com.nnroad.finance.domain.HroneAccount" id="BaseMap">
+        <result property="id" column="id"/>
+        <result property="date" column="date"/>
+        <result property="commercialInsuanceServiceFee" column="commercial_insuance_service_fee"/>
+        <result property="serviceFee" column="service_fee"/>
+        <result property="delayFee" column="delay_fee"/>
+        <result property="salaryAndOhter" column="salary_and_ohter"/>
+        <result property="salary" column="salary"/>
+        <result property="payrollIit" column="payroll_iit"/>
+        <result property="commercialInsurance" column="commercial_insurance"/>
+        <result property="otherPayment" column="other_payment"/>
+        <result property="deposit" column="deposit"/>
+        <result property="payrollServiceFee" column="payroll_service_fee"/>
+        <result property="payrollSocialInsurance" column="payroll_social_insurance"/>
+        <result property="healthCheck" column="health_check"/>
+        <result property="expenseClaim" column="expense_claim"/>
+        <result property="expenseIit" column="expense_iit"/>
+        <result property="taxForExpense" column="tax_for_expense"/>
+        <result property="currencyExchange" column="currency_exchange"/>
+        <result property="taxes" column="taxes"/>
+        <result property="eorServiceFee" column="eor_service_fee"/>
+        <result property="visahukouResidencePermit" column="visahukou_residence_permit"/>
+        <result property="serviceName" column="service_name"/>
+        <result property="expenseSocialInsurance" column="expense_social_insurance"/>
+        <result property="expenseClaimServiceFee" column="expense_claim_service_fee"/>
+        <result property="checkType" column="check_type"/>
+        <result property="socialInsuranceRepayment" column="social_insurance_repayment"/>
+        <result property="salaryOtherPayment" column="salary_other_payment"/>
+        <result property="unionFee" column="union_fee"/>
+        <result property="balance" column="balance"/>
+        <result property="recruitmentOther" column="recruitment_other"/>
+        <result property="taxForRecurringFee" column="tax_for_recurring_fee"/>
+        <result property="clientName" column="client_name"/>
+        <result property="expenseHousingFund" column="expense_housing_fund"/>
+        <result property="advancePayment" column="advance_payment"/>
+        <result property="payrollHousingFund" column="payroll_housing_fund"/>
+        <result property="employerLiability" column="employer_liability"/>
+        <result property="referenceCheck" column="reference_check"/>
+        <result property="bankFee" column="bank_fee"/>
+        <result property="clientCode" column="client_code"/>
+        <result property="interestsIncome" column="interests_income"/>
+        <result property="housingFundRepayment" column="housing_fund_repayment"/>
+        <result property="companyFormation" column="company_formation"/>
+        <result property="forPeriod" column="for_period"/>
+        <result property="disabilityInsurance" column="disability_insurance"/>
+        <result property="openAc" column="open_ac"/>
+        <result property="marketingBd" column="marketing_bd"/>
+        <result property="otherServiceOfficeSpace" column="other_service_office_space"/>
+        <result property="officeSupplies" column="office_supplies"/>
+        <result property="bank" column="bank"/>
+        <result property="disabilityInsuranceRepayment" column="disability_insurance_repayment"/>
+        <result property="bankAccount" column="bank_account"/>
+        <result property="onlinePolicybook" column="online_policybook"/>
+        <result property="payrollOther" column="payroll_other"/>
+        <result property="mailing" column="mailing"/>
+        <result property="wantedCurrency" column="wanted_currency"/>
+        <result property="otherServiceFee" column="other_service_fee"/>
+        <result property="expenseOfficeSpace" column="expense_office_space"/>
+        <result property="taxForOtherServiceFee" column="tax_for_other_service_fee"/>
+        <result property="inBankCurrency" column="in_bank_currency"/>
+        <result property="electricity" column="electricity"/>
+        <result property="phoneCalls" column="phone_calls"/>
+        <result property="inBankAmount" column="in_bank_amount"/>
+        <result property="businessTripLocalTaxi" column="business_trip_local_taxi"/>
+        <result property="itMaintenance" column="it_maintenance"/>
+        <result property="otClaim" column="ot_claim"/>
+        <result property="tax" column="tax"/>
+        <result property="bankTransfer" column="bank_transfer"/>
+        <result property="other" column="other"/>
+        <result property="fixedRemark" column="fixed_remark"/>
+        <result property="remark1" column="remark1"/>
+        <result property="numberOfPeople" column="number_of_people"/>
+        <result property="status" column="status"/>
+        <result property="sortKey" column="sort_key"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateTime" column="update_time"/>
+    </resultMap>
+
+    <select id="accountQuickImport" resultMap="BaseMap" parameterType="com.nnroad.finance.model.form.FinanceQueryForm">
+        select
+            NULL AS date,
+            temp.`service_name` AS service_name,
+            temp.`check_type` AS check_type,
+            temp.`main_client_name` AS client_name,
+            temp.`main_client_code` AS client_code,
+            temp.`main_for_period` AS for_period,
+            temp.`bank` AS bank,
+            temp.`bank_account` AS bank_account,
+            temp.`wanted_currency` AS wanted_currency,
+            temp.`in_bank_currency` AS in_bank_currency,
+            temp.`total` AS in_bank_amount,
+            NULL AS commercial_insuance_service_fee,
+            temp.`main_visahukou_residence_permit` AS visahukou_residence_permit,
+            temp.`main_expense_claim_service_fee` AS expense_claim_service_fee,
+            temp.`main_reference_check` AS reference_check,
+            temp.`main_company_formation` AS company_formation,
+            NULL AS open_ac,
+            temp.`office_space` AS other_service_office_space,
+            NULL AS online_policybook,
+            temp.`main_other_service_fee` AS other_service_fee,
+            temp.`main_tax_for_other_service_fee` AS tax_for_other_service_fee,
+            temp.`service_fee` AS service_fee,
+            temp.`taxes` AS taxes,
+            NULL AS recruitment_other,
+            temp.`delay_fee` AS delay_fee,
+            NULL AS currency_exchange,
+            temp.`balance` AS balance,
+            temp.`advance_payment` AS advance_payment,
+            NULL AS interests_income,
+            NULL AS salary_and_ohter,
+            NULL AS expense_iit,
+            NULL AS expense_social_insurance,
+            NULL AS expense_housing_fund,
+            NULL AS bank_fee,
+            NULL AS marketing_bd,
+            NULL AS office_supplies,
+            NULL AS mailing,
+            NULL AS expense_office_space,
+            NULL AS electricity,
+            NULL AS phone_calls,
+            NULL AS business_trip_local_taxi,
+            NULL AS it_maintenance,
+            NULL AS ot_claim,
+            NULL AS tax,
+            NULL AS bank_transfer,
+            NULL AS fixed_remark,
+            NULL AS remark1,
+            temp.`number_of_people` AS number_of_people,
+            temp.`main_salary` AS salary,
+            temp.`main_expense_claim` AS expense_claim,
+            temp.`main_salary_other_payment` AS salary_other_payment,
+            temp.`iit` AS payroll_iit,
+            temp.`social_insurance` AS payroll_social_insurance,
+            temp.`main_social_insurance_repayment` AS social_insurance_repayment,
+            temp.`housing_fund` AS payroll_housing_fund,
+            temp.`main_housing_fund_repayment` AS housing_fund_repayment,
+            temp.`main_disability_insurance` AS disability_insurance,
+            temp.`main_disability_insurance_repayment` AS disability_insurance_repayment,
+            NULL AS payroll_other,
+            temp.`main_commercial_insurance` AS commercial_insurance,
+            NULL AS health_check,
+            temp.`main_union_fee` AS union_fee,
+            temp.`main_employer_liability` AS employer_liability,
+            temp.`main_other_payment` AS other_payment,
+            temp.`main_tax_for_expense` AS tax_for_expense,
+            temp.`main_deposit` AS deposit,
+            temp.`main_payroll_service_fee` AS payroll_service_fee,
+            temp.`main_eor_service_fee` AS eor_service_fee,
+            temp.`main_tax_for_recurring_fee` AS tax_for_recurring_fee,
+            NULL AS other
+        from
+            dc_gv_finance_account_quick_import as temp
+        <where>
+            <if test="form.clientCode != null and form.clientCode != ''">
+                and main_client_code = #{form.clientCode}
+            </if>
+            <if test="form.startPeriod != null and form.startPeriod != '' and form.endPeriod != null and form.endPeriod != ''">
+                and main_for_period between #{form.startPeriod} and #{form.endPeriod}
+            </if>
+            <!--<if test="form.start != null and form.startPeriod != '' and form.endPeriod != null and form.endPeriod != ''">
+                and main_for_period between #{form.startPeriod} and #{form.endPeriod}
+            </if>-->
+        </where>
+        order by
+            main_for_period desc
+    </select>
+
+    <select id="vendorQuickImport" resultMap="BaseMap" parameterType="com.nnroad.finance.model.form.FinanceQueryForm">
+        SELECT
+            NULL AS date,
+            temp.`service_name` AS service_name,
+            temp.`check_type` AS check_type,
+            temp.`main_client_name` AS client_name,
+            temp.`main_client_code` AS client_code,
+            temp.`main_for_period` AS for_period,
+            temp.`bank` AS bank,
+            temp.`bank_account` AS bank_account,
+            temp.`wanted_currency` AS wanted_currency,
+            temp.`in_bank_currency` AS in_bank_currency,
+            temp.`total` AS in_bank_amount,
+            NULL AS commercial_insuance_service_fee,
+            NULL AS visahukou_residence_permit,
+            NULL AS expense_claim_service_fee,
+            NULL AS reference_check,
+            NULL AS company_formation,
+            NULL AS open_ac,
+            NULL AS other_service_office_space,
+            NULL AS online_policybook,
+            NULL AS other_service_fee,
+            NULL AS tax_for_other_service_fee,
+            NULL AS service_fee,
+            NULL AS taxes,
+            NULL AS recruitment_other,
+            temp.`delay_fee` AS delay_fee,
+            NULL AS currency_exchange,
+            temp.`balance` AS balance,
+            temp.`advance_payment` AS advance_payment,
+            NULL AS interests_income,
+            NULL AS salary_and_ohter,
+            NULL AS expense_iit,
+            NULL AS expense_social_insurance,
+            NULL AS expense_housing_fund,
+            NULL AS bank_fee,
+            NULL AS marketing_bd,
+            NULL AS office_supplies,
+            NULL AS mailing,
+            NULL AS expense_office_space,
+            NULL AS electricity,
+            NULL AS phone_calls,
+            NULL AS business_trip_local_taxi,
+            NULL AS it_maintenance,
+            NULL AS ot_claim,
+            NULL AS tax,
+            NULL AS bank_transfer,
+            NULL AS fixed_remark,
+            temp.`remark1` AS remark1,
+            temp.`number_of_people` AS number_of_people,
+            temp.`main_salary` AS salary,
+            temp.`main_expense_claim` AS expense_claim,
+            temp.`main_salary_other_payment` AS salary_other_payment,
+            temp.`iit` AS payroll_iit,
+            temp.`social_insurance` AS payroll_social_insurance,
+            temp.`main_social_insurance_repayment` AS social_insurance_repayment,
+            temp.`housing_fund` AS payroll_housing_fund,
+            temp.`main_housing_fund_repayment` AS housing_fund_repayment,
+            temp.`main_disability_insurance` AS disability_insurance,
+            temp.`main_disability_insurance_repayment` AS disability_insurance_repayment,
+            NULL AS payroll_other,
+            NULL AS commercial_insurance,
+            NULL AS health_check,
+            NULL AS union_fee,
+            temp.`main_employer_liability` AS employer_liability,
+            NULL AS other_payment,
+            NULL AS tax_for_expense,
+            NULL AS deposit,
+            NULL AS payroll_service_fee,
+            temp.`main_eor_service_fee` AS eor_service_fee,
+            temp.`main_tax_for_recurring_fee` AS tax_for_recurring_fee,
+            NULL AS other
+        FROM
+            dc_gv_finance_vendor_quick_import AS temp
+        <where>
+            <if test="form.clientCode != null and form.clientCode != ''">
+                and main_client_code = #{form.clientCode}
+            </if>
+            <if test="form.startPeriod != null and form.startPeriod != '' and form.endPeriod != null and form.endPeriod != ''">
+                and main_for_period between #{form.startPeriod} and #{form.endPeriod}
+            </if>
+            <!--<if test="form.start != null and form.startPeriod != '' and form.endPeriod != null and form.endPeriod != ''">
+                and main_for_period between #{form.startPeriod} and #{form.endPeriod}
+            </if>-->
+        </where>
+        order by
+            main_for_period desc
+    </select>
+</mapper>

@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nnroad.finance.mapper.deposit.DepositClientMapper">
+
+    <select id="getDepositTotal" resultType="java.math.BigDecimal">
+        SELECT IFNULL(SUM(ddr.amount), 0)
+        FROM dc_gv_finance_deposit_detail_report ddr
+        WHERE 1=1
+        <if test="clientCode != null and clientCode != ''">AND ddr.client_code = #{clientCode}</if>
+        <if test="monthSettleStart != null and monthSettleStart != ''">AND ddr.`date` &gt;= #{monthSettleStart}</if>
+        <if test="monthSettleEnd != null and monthSettleEnd != ''">AND ddr.`date` &lt;= #{monthSettleEnd}</if>
+    </select>
+
+    <select id="selectDepositClient" parameterType="java.lang.String" resultType="com.nnroad.finance.domain.DepositClient">
+        SELECT client_code AS clientCode
+              ,month_settle AS monthSettle
+              ,IFNULL(amount, 0) AS amount
+          FROM deposit_client
+         WHERE client_code = #{clientCode}
+    </select>
+
+    <select id="selectDepositClientList" parameterType="com.nnroad.finance.model.form.DepositClientCondition" resultType="com.nnroad.finance.domain.DepositClient">
+        SELECT
+            ddr.client_code AS clientCode,
+            max(ddr.client_name) AS clientName,
+            max(ddr.`date`) AS monthSettle,
+            max(ddr.currency) AS currency,
+            IFNULL(SUM(ddr.currency_amount), 0) AS currencyAmount,
+            IFNULL(SUM(ddr.amount), 0) AS amount
+        FROM
+            dc_gv_finance_deposit_detail_report ddr
+       WHERE 1 = 1
+            <if test="clientCodeList != null">
+                AND ddr.client_code IN
+                <foreach item="clientCode" collection="clientCodeList" open="(" separator="," close=")">
+                    #{clientCode}
+                </foreach>
+            </if>
+            <if test="monthSettleStart != null and monthSettleStart != ''">AND ddr.`date` &gt;= #{monthSettleStart}</if>
+            <if test="monthSettleEnd != null and monthSettleEnd != ''">AND ddr.`date` &lt;= #{monthSettleEnd}</if>
+        GROUP BY
+            ddr.client_code
+        HAVING
+            SUM(IFNULL(ddr.currency_amount, 0)) != 0 OR SUM(IFNULL(ddr.amount, 0)) != 0
+        ORDER BY
+            clientName, monthSettle
+        <!-- 数据范围过滤 -->
+        ${params.dataScope}
+    </select>
+
+    <insert id="insertDepositClient" parameterType="com.nnroad.finance.model.dto.DepositClientDetailDto">
+        INSERT INTO deposit_client (
+             create_by
+            ,create_time
+            ,update_by
+            ,update_time
+             <if test="clientCode != null">,client_code</if>
+             <if test="amount != null">,amount</if>
+             <if test="monthSettle != null">,month_settle</if>
+        ) VALUES (
+             #{createBy}
+            ,NOW()
+            ,#{updateBy}
+            ,NOW()
+             <if test="clientCode != null">,#{clientCode}</if>
+             <if test="amount != null">,#{amount}</if>
+             <if test="monthSettle != null">,#{monthSettle}</if>
+        )
+    </insert>
+
+    <update id="refreshDeposit" parameterType="com.nnroad.finance.model.dto.DepositClientDetailDto">
+        UPDATE deposit_client de
+     LEFT JOIN (SELECT client_code
+                      ,MAX(IF(type = '01' OR type = '11', DATE_FORMAT(date,'%Y%m'), null)) AS month
+                      ,SUM(amount) AS amount
+                  FROM deposit_client_detail
+                 WHERE client_code = #{clientCode}
+               ) dcd
+            ON de.client_code = dcd.client_code
+           SET de.amount = IFNULL(dcd.amount, 0)
+              ,de.month_settle = IFNULL(dcd.month, '')
+              ,update_by = #{updateBy}
+              ,update_time = NOW()
+         WHERE de.client_code = #{clientCode}
+    </update>
+
+</mapper>

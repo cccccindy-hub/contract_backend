@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nnroad.payroll.mapper.PsYearEndBonusMapper">
+    
+    <resultMap type="PsYearEndBonus" id="PsYearEndBonusResult">
+        <result property="id"    column="id"    />
+        <result property="idNo"    column="id_no"    />
+        <result property="duration"    column="duration"    />
+        <result property="erName"    column="er_name"    />
+        <result property="employmentNature"    column="employment_nature"    />
+        <result property="name"    column="name"    />
+        <result property="credentials"    column="credentials"    />
+        <result property="credentialsNumber"    column="credentials_number"    />
+        <result property="annualSum"    column="annual_sum"    />
+        <result property="taxFreeIncome"    column="tax_free_income"    />
+        <result property="annuity"    column="annuity"    />
+        <result property="commercialInsurance"    column="commercial_insurance"    />
+        <result property="taxPension"    column="tax_pension"    />
+        <result property="other"    column="other"    />
+        <result property="allowedDeductDonation"    column="allowed_deduct_donation"    />
+        <result property="taxSavings"    column="tax_savings"    />
+        <result property="taxWithheld"    column="tax_withheld"    />
+        <result property="remarks"    column="remarks"    />
+        <result property="annuityTax"    column="annuity_tax"    />
+        <result property="taxPaymentPlace"    column="tax_payment_place"    />
+        <result property="groupIds"    column="group_ids"    />
+        <result property="createBy"   column="create_by"   />
+        <result property="createTime" column="create_time" />
+        <result property="updateBy"   column="update_by"   />
+        <result property="updateTime" column="update_time" />
+    </resultMap>
+
+    <sql id="selectPsYearEndBonusVo">
+        select id, id_no, duration, er_name, employment_nature, name, credentials, credentials_number, annual_sum, tax_free_income, annuity, commercial_insurance, tax_pension, other, allowed_deduct_donation, tax_savings, tax_withheld, remarks, annuity_tax, tax_payment_place, group_ids, create_by, create_time, update_by, update_time from ps_year_end_bonus
+    </sql>
+
+    <delete id="deletePsYearEndBonusByKey" parameterType="PsYearEndBonus">
+        DELETE FROM ps_year_end_bonus WHERE duration = #{duration} AND id_no = #{idNo}
+    </delete>
+
+</mapper>

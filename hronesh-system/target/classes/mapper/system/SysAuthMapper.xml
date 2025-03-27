@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nnroad.system.mapper.SysAuthMapper">
+
+    <select id="selectTableList" parameterType="com.nnroad.system.domain.SysTable" resultType="com.nnroad.system.domain.SysTable">
+        SELECT
+        ist.table_schema AS tableSchema,
+        ist.table_name AS tableName,
+        ist.table_comment AS tableComment
+        FROM information_schema.tables ist
+        WHERE ist.TABLE_TYPE = 'BASE TABLE'
+        AND ist.table_schema LIKE 'hrone_%'
+        <if test="tableSchema != null and tableSchema != ''">AND ist.table_schema LIKE '%${tableSchema}%'</if>
+        <if test="tableName != null and tableName != ''">AND (ist.table_name LIKE '%${tableName}%' OR ist.table_name LIKE '%${tableName}%')</if>
+        <if test="tableComment != null and tableComment != ''">AND (ist.tableComment LIKE '%${tableComment}%' OR ist.table_comment LIKE '%${tableComment}%')</if>
+    </select>
+
+    <select id="selectTableFieldList" parameterType="Map" resultType="com.nnroad.system.domain.SysTableField">
+        SELECT column_name AS columnName
+             ,column_comment AS columnComment
+             ,column_key AS columnKey
+        FROM information_schema.columns
+        WHERE table_schema = #{params.tableSchema}
+          AND table_name = #{params.tableName}
+        ORDER BY ordinal_position
+    </select>
+
+    <select id="getDataList" parameterType="String" resultType="Map">
+        ${sql}
+    </select>
+
+    <select id="getDataCount" parameterType="String" resultType="Long">
+        ${sql}
+    </select>
+
+    <update id="updateGroupIds" parameterType="String">
+        ${sql}
+    </update>
+
+    <!--	引用这个条件一定要把主表命名成t -->
+    <sql id="authCriterionAliasT">
+        <if test="params.userId != null and params.userId != 1">
+            AND CASE
+            WHEN t.read_ids = '-1' THEN 1=1
+            ELSE
+            FIND_IN_SET(${params.userId}, t.read_ids)
+            END
+        </if>
+    </sql>
+
+    <sql id="authCriterionAliasTor">
+        <if test="params.userId != null and params.userId != 1">
+            OR CASE
+            WHEN t.read_ids = '-1' THEN 1=1
+            ELSE
+            FIND_IN_SET(${params.userId}, t.read_ids)
+            END
+        </if>
+    </sql>
+
+</mapper>

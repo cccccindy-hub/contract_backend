@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nnroad.payroll.mapper.UnionFeesReportMapper">
+    
+    <resultMap type="UnionFeesReport" id="UnionFeesReportResult">
+        <result property="clientCode"    column="client_code"    />
+        <result property="employeeCode"    column="employee_code"    />
+        <result property="clients"    column="clients"    />
+        <result property="employeeName"    column="employee_name"    />
+        <result property="idOrPassport"    column="id_or_passport"    />
+        <result property="birthday"    column="birthday"    />
+        <result property="phoneOrMobile"    column="phone_or_mobile"    />
+        <result property="mailbox"    column="mailbox"    />
+        <result property="birthdayMonth"    column="birthday_month"    />
+        <result property="isLeave"    column="is_leave"    />
+        <result property="allowanceType"    column="allowance_type"    />
+    </resultMap>
+
+    <sql id="selectUnionFeesReportVo">
+        select client_code, employee_code, clients, employee_name, id_or_passport, birthday, phone_or_mobile, mailbox, birthday_month, is_leave, allowance_type from union_fees_report
+    </sql>
+
+    <select id="selectUnionFeesReportList" parameterType="UnionFeesReport" resultMap="UnionFeesReportResult">
+        <include refid="selectUnionFeesReportVo"/>
+        <where>  
+            <if test="clientCode != null  and clientCode != ''"> and client_code = #{clientCode}</if>
+            <if test="employeeCode != null  and employeeCode != ''"> and employee_code = #{employeeCode}</if>
+            <if test="clients != null  and clients != ''"> and clients = #{clients}</if>
+            <if test="employeeName != null  and employeeName != ''"> and employee_name like concat('%', #{employeeName}, '%')</if>
+            <if test="idOrPassport != null  and idOrPassport != ''"> and id_or_passport = #{idOrPassport}</if>
+            <if test="birthday != null and birthday != ''"> and birthday = #{birthday}</if>
+            <if test="phoneOrMobile != null  and phoneOrMobile != ''"> and phone_or_mobile = #{phoneOrMobile}</if>
+            <if test="mailbox != null  and mailbox != ''"> and mailbox = #{mailbox}</if>
+            <if test="birthdayMonth != null and birthdayMonth != ''"> and birthday_month = #{birthdayMonth}</if>
+            <if test="isLeave != null  and isLeave != ''"> and is_leave = #{isLeave}</if>
+            <if test="allowanceType != null  and allowanceType != ''"> and allowance_type = #{allowanceType}</if>
+        </where>
+    </select>
+    
+    <select id="selectUnionFeesReportById" parameterType="String" resultMap="UnionFeesReportResult">
+        <include refid="selectUnionFeesReportVo"/>
+        where client_code = #{clientCode}
+    </select>
+</mapper>

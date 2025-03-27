@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nnroad.finance.mapper.ReportMapper">
+
+    <resultMap type="com.nnroad.finance.model.vo.FinMonthlyStatisticsVo" id="StatisticsMap">
+        <result property="commercialInsuanceServiceFee" column="commercial_insuance_service_fee"/>
+        <result property="serviceFee" column="service_fee"/>
+        <result property="delayFee" column="delay_fee"/>
+        <result property="salaryAndOhter" column="salary_and_ohter"/>
+        <result property="salary" column="salary"/>
+        <result property="payrollIit" column="payroll_iit"/>
+        <result property="commercialInsurance" column="commercial_insurance"/>
+        <result property="otherPayment" column="other_payment"/>
+        <result property="deposit" column="deposit"/>
+        <result property="payrollServiceFee" column="payroll_service_fee"/>
+        <result property="payrollSocialInsurance" column="payroll_social_insurance"/>
+        <result property="healthCheck" column="health_check"/>
+        <result property="expenseClaim" column="expense_claim"/>
+        <result property="expenseIit" column="expense_iit"/>
+        <result property="taxForExpense" column="tax_for_expense"/>
+        <result property="currencyExchange" column="currency_exchange"/>
+        <result property="taxes" column="taxes"/>
+        <result property="eorServiceFee" column="eor_service_fee"/>
+        <result property="visahukouResidencePermit" column="visahukou_residence_permit"/>
+        <result property="serviceName" column="service_name"/>
+        <result property="expenseSocialInsurance" column="expense_social_insurance"/>
+        <result property="expenseClaimServiceFee" column="expense_claim_service_fee"/>
+        <result property="checkType" column="check_type"/>
+        <result property="socialInsuranceRepayment" column="social_insurance_repayment"/>
+        <result property="salaryOtherPayment" column="salary_other_payment"/>
+        <result property="unionFee" column="union_fee"/>
+        <result property="balance" column="balance"/>
+        <result property="recruitmentOther" column="recruitment_other"/>
+        <result property="taxForRecurringFee" column="tax_for_recurring_fee"/>
+        <result property="clientName" column="client_name"/>
+        <result property="expenseHousingFund" column="expense_housing_fund"/>
+        <result property="advancePayment" column="advance_payment"/>
+        <result property="payrollHousingFund" column="payroll_housing_fund"/>
+        <result property="employerLiability" column="employer_liability"/>
+        <result property="referenceCheck" column="reference_check"/>
+        <result property="bankFee" column="bank_fee"/>
+        <result property="clientCode" column="client_code"/>
+        <result property="interestsIncome" column="interests_income"/>
+        <result property="housingFundRepayment" column="housing_fund_repayment"/>
+        <result property="companyFormation" column="company_formation"/>
+        <result property="forPeriod" column="for_period"/>
+        <result property="disabilityInsurance" column="disability_insurance"/>
+        <result property="openAc" column="open_ac"/>
+        <result property="marketingBd" column="marketing_bd"/>
+        <result property="otherServiceOfficeSpace" column="other_service_office_space"/>
+        <result property="officeSupplies" column="office_supplies"/>
+        <result property="bank" column="bank"/>
+        <result property="disabilityInsuranceRepayment" column="disability_insurance_repayment"/>
+        <result property="bankAccount" column="bank_account"/>
+        <result property="onlinePolicybook" column="online_policybook"/>
+        <result property="payrollOther" column="payroll_other"/>
+        <result property="mailing" column="mailing"/>
+        <result property="wantedCurrency" column="wanted_currency"/>
+        <result property="otherServiceFee" column="other_service_fee"/>
+        <result property="expenseOfficeSpace" column="expense_office_space"/>
+        <result property="taxForOtherServiceFee" column="tax_for_other_service_fee"/>
+        <result property="inBankCurrency" column="in_bank_currency"/>
+        <result property="electricity" column="electricity"/>
+        <result property="phoneCalls" column="phone_calls"/>
+        <result property="inBankAmount" column="in_bank_amount"/>
+        <result property="businessTripLocalTaxi" column="business_trip_local_taxi"/>
+        <result property="itMaintenance" column="it_maintenance"/>
+        <result property="otClaim" column="ot_claim"/>
+        <result property="tax" column="tax"/>
+        <result property="bankTransfer" column="bank_transfer"/>
+        <result property="other" column="other"/>
+        <result property="numberOfPeople" column="number_of_people"/>
+        <result property="actualDate" column="actual_date"/>
+        <result property="serviceType" column="service_type"/>
+    </resultMap>
+
+    <sql id="monthlyReportSql">
+        select
+            period as period,
+            main_bank as bank,
+            main_bank_account as bankAccount,
+            in_bank_currency as currency,
+            monthly_debit as monthlyDebit,
+            monthly_credit as monthlyCredit,
+            balance
+        from
+            dc_gv_finance_bank_balance
+    </sql>
+
+    <select id="monthlyReports" resultType="com.nnroad.finance.model.dto.BankMonthlyReportDto"
+            parameterType="com.nnroad.finance.model.form.BankMonthlyReportForm">
+        <include refid="monthlyReportSql"/>
+        <where>
+            <if test="beginPeriod != null and beginPeriod != '' and endPeriod != null and endPeriod != ''">
+                and period between #{beginPeriod} and #{endPeriod}
+            </if>
+            <if test="bank != null and bank != ''">
+                and main_bank = #{bank}
+            </if>
+            <if test="bankAccount != null and bankAccount != ''">
+                and main_bank_account = #{bankAccount}
+            </if>
+        </where>
+        order by
+            period desc
+    </select>
+
+    <select id="finMonthlyStatistics" resultMap="StatisticsMap">
+        select
+            msr.*,
+            JSON_UNQUOTE(JSON_EXTRACT(cbs.extra_data, '$.\"${serviceTypeId}\"')) as service_type
+        from
+            dc_gv_finance_monthly_statistics_report msr
+                left join
+            sys_client c on msr.client_code=c.company_code
+                left join
+            client_billing_status cbs on c.id = cbs.client_id
+        <where>
+            <if test="form.clientCode != null and form.clientCode != ''">
+                msr.client_code = #{form.clientCode}
+            </if>
+            <if test="form.serviceType != null and form.serviceType !=''">
+                and JSON_UNQUOTE(JSON_EXTRACT(cbs.extra_data, '$.\"${serviceTypeId}\"')) = #{form.serviceType}
+            </if>
+            <if test="form.beginPeriod != null and form.beginPeriod !='' and form.endPeriod != null and form.endPeriod !=''">
+                and msr.for_period between #{form.beginPeriod} and #{form.endPeriod}
+            </if>
+            <if test="form.beginActualDate != null and form.beginActualDate !='' and form.endActualDate != null and form.endActualDate !=''">
+                and msr.actual_date between #{form.beginActualDate} and #{form.endActualDate}
+            </if>
+        </where>
+        order by
+            msr.for_period desc
+    </select>
+</mapper>

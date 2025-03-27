@@ -1,0 +1,13 @@
+com/nnroad/generator/config/GenConfig.class
+com/nnroad/generator/domain/GenTable.class
+com/nnroad/generator/service/IGenTableService.class
+com/nnroad/generator/mapper/GenTableColumnMapper.class
+com/nnroad/generator/mapper/GenTableMapper.class
+com/nnroad/generator/service/GenTableColumnServiceImpl.class
+com/nnroad/generator/controller/GenController.class
+com/nnroad/generator/util/VelocityUtils.class
+com/nnroad/generator/domain/GenTableColumn.class
+com/nnroad/generator/util/VelocityInitializer.class
+com/nnroad/generator/util/GenUtils.class
+com/nnroad/generator/service/IGenTableColumnService.class
+com/nnroad/generator/service/GenTableServiceImpl.class

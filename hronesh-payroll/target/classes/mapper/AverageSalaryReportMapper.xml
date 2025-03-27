@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nnroad.payroll.mapper.AverageSalaryReportMapper">
+    <resultMap type="AverageSalaryReport" id="AverageSalaryReportResult">
+        <result property="duration"    column="duration"    />
+        <result property="erNo"    column="er_no"    />
+        <result property="erName"    column="er_name"    />
+        <result property="eeNo"    column="ee_no"    />
+        <result property="eeName"    column="ee_name"    />
+        <result property="eeNameEn"    column="ee_name_en"    />
+        <result property="workAddress"    column="work_address"    />
+        <result property="certificateNumber"    column="certificate_number"    />
+        <result property="contractStarttime"    column="contract_starttime"    />
+        <result property="leaveDate"    column="leave_date"    />
+        <result property="preAfterTax"    column="pre_after_tax"    />
+        <result property="basicSalary"    column="basic_salary"    />
+        <result property="basicSalaryResult"    column="basic_salary_result"    />
+        <result property="transportationPayment"    column="transportation_payment"    />
+        <result property="communicationPayment"    column="communication_payment"    />
+        <result property="otherBenefits"    column="other_benefits"    />
+        <result property="overtimeAwardSum"    column="overtime_award_sum"    />
+        <result property="slDeduction"    column="sl_deduction"    />
+        <result property="alDeduction"    column="al_deduction"    />
+        <result property="absenteeismDeduction"    column="absenteeism_deduction"    />
+        <result property="monthlyAward"    column="monthly_award"    />
+        <result property="quarterAward"    column="quarter_award"    />
+        <result property="reissue"    column="reissue"    />
+        <result property="otherPretaxDeduction"    column="other_pretax_deduction"    />
+        <result property="pretaxIncomeSum"    column="pretax_income_sum"    />
+        <result property="taxCalculation"    column="tax_calculation"    />
+        <result property="taxNotIssued"    column="tax_not_issued"    />
+        <result property="pension"    column="pension"    />
+        <result property="medical"    column="medical"    />
+        <result property="unemployment"    column="unemployment"    />
+        <result property="socialBenefitsAdjustment"    column="social_benefits_adjustment"    />
+        <result property="housingFund"    column="housing_fund"    />
+        <result property="steHousingFund"    column="ste_housing_fund"    />
+        <result property="housingFundAdjustment"    column="housing_fund_adjustment"    />
+        <result property="companyTax"    column="company_tax"    />
+        <result property="annualBonus"    column="annual_bonus"    />
+        <result property="fsAllowance"    column="fs_allowance"    />
+        <result property="netIncome"    column="net_income"    />
+        <result property="ealaDeduction"    column="eala_deduction"    />
+        <result property="socialWage"    column="social_wage"    />
+        <result property="sbAddress"    column="sb_address"    />
+        <result property="employmentNature"    column="employment_nature"    />
+        <result property="certificateType"    column="certificate_type"    />
+        <result property="groupIds"    column="group_ids"    />
+        <result property="otherBonus"    column="other_bonus"    />
+        <result property="preTaxAdjustment"    column="pre_tax_adjustment"    />
+        <result property="highTemperaturePayment"    column="high_temperature_payment"    />
+    </resultMap>
+
+    <sql id="selectAverageSalaryReportVo">
+        select duration, er_no, er_name, ee_no, ee_name, ee_name_en, work_address , certificate_number, contract_starttime, leave_date, pre_after_tax,
+        basic_salary, basic_salary_result, transportation_payment, communication_payment, other_benefits, overtime_award_sum,
+        sl_deduction, al_deduction, absenteeism_deduction, monthly_award, quarter_award, reissue, other_pretax_deduction,
+        pretax_income_sum, tax_calculation, tax_not_issued, pension, medical, unemployment, social_benefits_adjustment, housing_fund,
+        ste_housing_fund, housing_fund_adjustment, company_tax, annual_bonus, fs_allowance, eala_deduction, net_income, social_wage,
+        sb_address,employment_nature,certificate_type,other_bonus,pre_tax_adjustment,high_temperature_payment from average_salary_report p
+    </sql>
+
+    <select id="selectAverageSalaryReportList" parameterType="AverageSalaryReport" resultMap="AverageSalaryReportResult">
+        <include refid="selectAverageSalaryReportVo"/>
+        <where>
+            <if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
+                AND p.duration &gt;= #{params.beginTime}
+            </if>
+            <if test="params.endTime != null and params.endTime != ''"><!-- 结束时间检索 -->
+                AND p.duration &lt;= #{params.endTime}
+            </if>
+            <if test="erNo != null  and erNo != ''"> and er_no = #{erNo}</if>
+            <if test="erName != null  and erName != ''"> and er_name like concat('%', #{erName}, '%')</if>
+            <if test="eeNo != null  and eeNo != ''"> and ee_no = #{eeNo}</if>
+            <if test="eeName != null  and eeName != ''"> and ee_name like concat('%', #{eeName}, '%')</if>
+            <if test="eeNameEn != null  and eeNameEn != ''"> and ee_name_en = #{eeNameEn}</if>
+            <if test="workAddress != null  and workAddress != ''"> and work_address = #{workAddress}</if>
+            <if test="certificateNumber != null  and certificateNumber != ''"> and certificate_number = #{certificateNumber}</if>
+            <if test="params.certificateNumbers != null  and params.certificateNumbers.size() > 0"> and certificate_number in
+                <foreach collection="params.certificateNumbers" item="item" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="ealaDeduction != null "> and eala_deduction = #{ealaDeduction}</if>
+            <if test="groupIds != null  and groupIds != ''"> and group_ids = #{groupIds}</if>
+        </where>
+    </select>
+
+    <select id="selectAverageSalaryReportById" parameterType="String" resultMap="AverageSalaryReportResult">
+        <include refid="selectAverageSalaryReportVo"/>
+        where duration = #{duration}
+    </select>
+
+    <insert id="insertAverageSalaryReport" parameterType="AverageSalaryReport">
+        insert into average_salary_report
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="duration != null">duration,</if>
+            <if test="erNo != null">er_no,</if>
+            <if test="erName != null">er_name,</if>
+            <if test="eeNo != null">ee_no,</if>
+            <if test="eeName != null">ee_name,</if>
+            <if test="eeNameEn != null">ee_name_en,</if>
+            <if test="workAddress != null">work_address,</if>
+            <if test="certificateNumber != null">certificate_number,</if>
+            <if test="contractStarttime != null">contract_starttime,</if>
+            <if test="leaveDate != null">leave_date,</if>
+            <if test="preAfterTax != null">pre_after_tax,</if>
+            <if test="basicSalary != null">basic_salary,</if>
+            <if test="basicSalaryResult != null">basic_salary_result,</if>
+            <if test="transportationPayment != null">transportation_payment,</if>
+            <if test="communicationPayment != null">communication_payment,</if>
+            <if test="otherBenefits != null">other_benefits,</if>
+            <if test="overtimeAwardSum != null">overtime_award_sum,</if>
+            <if test="slDeduction != null">sl_deduction,</if>
+            <if test="alDeduction != null">al_deduction,</if>
+            <if test="absenteeismDeduction != null">absenteeism_deduction,</if>
+            <if test="monthlyAward != null">monthly_award,</if>
+            <if test="quarterAward != null">quarter_award,</if>
+            <if test="reissue != null">reissue,</if>
+            <if test="otherPretaxDeduction != null">other_pretax_deduction,</if>
+            <if test="pretaxIncomeSum != null">pretax_income_sum,</if>
+            <if test="taxCalculation != null">tax_calculation,</if>
+            <if test="taxNotIssued != null">tax_not_issued,</if>
+            <if test="pension != null">pension,</if>
+            <if test="medical != null">medical,</if>
+            <if test="unemployment != null">unemployment,</if>
+            <if test="socialBenefitsAdjustment != null">social_benefits_adjustment,</if>
+            <if test="housingFund != null">housing_fund,</if>
+            <if test="steHousingFund != null">ste_housing_fund,</if>
+            <if test="housingFundAdjustment != null">housing_fund_adjustment,</if>
+            <if test="companyTax != null">company_tax,</if>
+            <if test="annualBonus != null">annual_bonus,</if>
+            <if test="fsAllowance != null">fs_allowance,</if>
+            <if test="netIncome != null">net_income,</if>
+            <if test="ealaDeduction != null">eala_deduction,</if>
+            <if test="socialWage != null">social_wage,</if>
+            <if test="groupIds != null">group_ids,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="duration != null">#{duration},</if>
+            <if test="erNo != null">#{erNo},</if>
+            <if test="erName != null">#{erName},</if>
+            <if test="eeNo != null">#{eeNo},</if>
+            <if test="eeName != null">#{eeName},</if>
+            <if test="eeNameEn != null">#{eeNameEn},</if>
+            <if test="workAddress != null">#{workAddress},</if>
+            <if test="certificateNumber != null">#{certificateNumber},</if>
+            <if test="contractStarttime != null">#{contractStarttime},</if>
+            <if test="leaveDate != null">#{leaveDate},</if>
+            <if test="preAfterTax != null">#{preAfterTax},</if>
+            <if test="basicSalary != null">#{basicSalary},</if>
+            <if test="basicSalaryResult != null">#{basicSalaryResult},</if>
+            <if test="transportationPayment != null">#{transportationPayment},</if>
+            <if test="communicationPayment != null">#{communicationPayment},</if>
+            <if test="otherBenefits != null">#{otherBenefits},</if>
+            <if test="overtimeAwardSum != null">#{overtimeAwardSum},</if>
+            <if test="slDeduction != null">#{slDeduction},</if>
+            <if test="alDeduction != null">#{alDeduction},</if>
+            <if test="absenteeismDeduction != null">#{absenteeismDeduction},</if>
+            <if test="monthlyAward != null">#{monthlyAward},</if>
+            <if test="quarterAward != null">#{quarterAward},</if>
+            <if test="reissue != null">#{reissue},</if>
+            <if test="otherPretaxDeduction != null">#{otherPretaxDeduction},</if>
+            <if test="pretaxIncomeSum != null">#{pretaxIncomeSum},</if>
+            <if test="taxCalculation != null">#{taxCalculation},</if>
+            <if test="taxNotIssued != null">#{taxNotIssued},</if>
+            <if test="pension != null">#{pension},</if>
+            <if test="medical != null">#{medical},</if>
+            <if test="unemployment != null">#{unemployment},</if>
+            <if test="socialBenefitsAdjustment != null">#{socialBenefitsAdjustment},</if>
+            <if test="housingFund != null">#{housingFund},</if>
+            <if test="steHousingFund != null">#{steHousingFund},</if>
+            <if test="housingFundAdjustment != null">#{housingFundAdjustment},</if>
+            <if test="companyTax != null">#{companyTax},</if>
+            <if test="annualBonus != null">#{annualBonus},</if>
+            <if test="fsAllowance != null">#{fsAllowance},</if>
+            <if test="netIncome != null">#{netIncome},</if>
+            <if test="ealaDeduction != null">#{ealaDeduction},</if>
+            <if test="socialWage != null">#{socialWage},</if>
+            <if test="groupIds != null">#{groupIds},</if>
+        </trim>
+    </insert>
+
+    <update id="updateAverageSalaryReport" parameterType="AverageSalaryReport">
+        update average_salary_report
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="erNo != null">er_no = #{erNo},</if>
+            <if test="erName != null">er_name = #{erName},</if>
+            <if test="eeNo != null">ee_no = #{eeNo},</if>
+            <if test="eeName != null">ee_name = #{eeName},</if>
+            <if test="eeNameEn != null">ee_name_en = #{eeNameEn},</if>
+            <if test="workAddress != null">work_address = #{workAddress},</if>
+            <if test="certificateNumber != null">certificate_number = #{certificateNumber},</if>
+            <if test="contractStarttime != null">contract_starttime = #{contractStarttime},</if>
+            <if test="leaveDate != null">leave_date = #{leaveDate},</if>
+            <if test="preAfterTax != null">pre_after_tax = #{preAfterTax},</if>
+            <if test="basicSalary != null">basic_salary = #{basicSalary},</if>
+            <if test="basicSalaryResult != null">basic_salary_result = #{basicSalaryResult},</if>
+            <if test="transportationPayment != null">transportation_payment = #{transportationPayment},</if>
+            <if test="communicationPayment != null">communication_payment = #{communicationPayment},</if>
+            <if test="otherBenefits != null">other_benefits = #{otherBenefits},</if>
+            <if test="overtimeAwardSum != null">overtime_award_sum = #{overtimeAwardSum},</if>
+            <if test="slDeduction != null">sl_deduction = #{slDeduction},</if>
+            <if test="alDeduction != null">al_deduction = #{alDeduction},</if>
+            <if test="absenteeismDeduction != null">absenteeism_deduction = #{absenteeismDeduction},</if>
+            <if test="monthlyAward != null">monthly_award = #{monthlyAward},</if>
+            <if test="quarterAward != null">quarter_award = #{quarterAward},</if>
+            <if test="reissue != null">reissue = #{reissue},</if>
+            <if test="otherPretaxDeduction != null">other_pretax_deduction = #{otherPretaxDeduction},</if>
+            <if test="pretaxIncomeSum != null">pretax_income_sum = #{pretaxIncomeSum},</if>
+            <if test="taxCalculation != null">tax_calculation = #{taxCalculation},</if>
+            <if test="taxNotIssued != null">tax_not_issued = #{taxNotIssued},</if>
+            <if test="pension != null">pension = #{pension},</if>
+            <if test="medical != null">medical = #{medical},</if>
+            <if test="unemployment != null">unemployment = #{unemployment},</if>
+            <if test="socialBenefitsAdjustment != null">social_benefits_adjustment = #{socialBenefitsAdjustment},</if>
+            <if test="housingFund != null">housing_fund = #{housingFund},</if>
+            <if test="steHousingFund != null">ste_housing_fund = #{steHousingFund},</if>
+            <if test="housingFundAdjustment != null">housing_fund_adjustment = #{housingFundAdjustment},</if>
+            <if test="companyTax != null">company_tax = #{companyTax},</if>
+            <if test="annualBonus != null">annual_bonus = #{annualBonus},</if>
+            <if test="fsAllowance != null">fs_allowance = #{fsAllowance},</if>
+            <if test="netIncome != null">net_income = #{netIncome},</if>
+            <if test="ealaDeduction != null">eala_deduction = #{ealaDeduction},</if>
+            <if test="socialWage != null">social_wage = #{socialWage},</if>
+            <if test="groupIds != null">group_ids = #{groupIds},</if>
+        </trim>
+        where duration = #{duration}
+    </update>
+
+    <delete id="deleteAverageSalaryReportById" parameterType="String">
+        delete from average_salary_report where duration = #{duration}
+    </delete>
+
+    <delete id="deleteAverageSalaryReportByIds" parameterType="String">
+        delete from average_salary_report where duration in
+        <foreach item="duration" collection="array" open="(" separator="," close=")">
+            #{duration}
+        </foreach>
+    </delete>
+
+</mapper>

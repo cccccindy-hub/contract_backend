@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nnroad.payroll.mapper.InsuranceAndFeesMapper">
+
+    <resultMap type="InsuranceAndFees" id="InsuranceAndFeesResult">
+        <result property="duration" column="duration"/>
+        <result property="idNo" column="id_no"/>
+        <result property="name" column="name"/>
+        <result property="clientCode" column="client_code"/>
+        <result property="erName" column="er_name"/>
+        <result property="epUnionFee" column="ep_union_fee"/>
+        <result property="commercialInsurance" column="commercial_insurance"/>
+        <result property="employerLiability" column="employer_liability"/>
+    </resultMap>
+
+    <sql id="selectInsuranceAndFeesVo">
+        select duration, id_no, name, client_code, er_name, ep_union_fee, commercial_insurance, employer_liability from
+        v_union_commercial_liability_report
+    </sql>
+
+    <select id="selectInsuranceAndFeesList" parameterType="InsuranceAndFees"
+            resultMap="InsuranceAndFeesResult">
+        <include refid="selectInsuranceAndFeesVo"/>
+        <where>
+            <if test="clientCodeList != null">
+                and client_code in
+                <foreach item="clientCode" collection="clientCodeList" open="(" separator="," close=")">
+                    #{clientCode}
+                </foreach>
+            </if>
+            <if test="eeCodeList != null">
+                and id_no in
+                <foreach item="idNo" collection="eeCodeList" open="(" separator="," close=")">
+                    #{idNo}
+                </foreach>
+            </if>
+            <if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
+                AND duration &gt;= #{params.beginTime}
+            </if>
+            <if test="params.endTime != null and params.endTime != ''"><!-- 结束时间检索 -->
+                AND duration &lt;= #{params.endTime}
+            </if>
+            <if test="name != null  and name != ''">and name like concat('%', #{name}, '%')</if>
+            <if test="erName != null  and erName != ''">and er_name like concat('%', #{erName}, '%')</if>
+            <if test="epUnionFee != null ">and ep_union_fee = #{epUnionFee}</if>
+            <if test="commercialInsurance != null ">and commercial_insurance = #{commercialInsurance}</if>
+            <if test="employerLiability != null ">and employer_liability = #{employerLiability}</if>
+        </where>
+    </select>
+
+    <select id="selectInsuranceAndFeesById" parameterType="String" resultMap="InsuranceAndFeesResult">
+        <include refid="selectInsuranceAndFeesVo"/>
+        where duration = #{duration}
+    </select>
+
+    <select id="selectInsuranceAndFeesNotBlankList" parameterType="InsuranceAndFees"
+            resultMap="InsuranceAndFeesResult">
+        select
+        duration,
+        id_no,
+        name,
+        client_code,
+        er_name,
+        <if test="params.insuranceType != null">
+            <if test="params.insuranceType == 1">
+                ep_union_fee
+            </if>
+            <if test="params.insuranceType == 2">
+                commercial_insurance
+            </if>
+            <if test="params.insuranceType == 3">
+                employer_liability
+            </if>
+            <if test="params.insuranceType == 0">
+                ep_union_fee, commercial_insurance, employer_liability
+            </if>
+        </if>
+        from
+        v_union_commercial_liability_report
+        <where>
+            <if test="clientCodeList != null">
+                and client_code in
+                <foreach item="clientCode" collection="clientCodeList" open="(" separator="," close=")">
+                    #{clientCode}
+                </foreach>
+            </if>
+            <if test="eeCodeList != null">
+                and id_no in
+                <foreach item="idNo" collection="eeCodeList" open="(" separator="," close=")">
+                    #{idNo}
+                </foreach>
+            </if>
+            <if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
+                AND duration &gt;= #{params.beginTime}
+            </if>
+            <if test="params.endTime != null and params.endTime != ''"><!-- 结束时间检索 -->
+                AND duration &lt;= #{params.endTime}
+            </if>
+            <if test="name != null  and name != ''">and name like concat('%', #{name}, '%')</if>
+            <if test="erName != null  and erName != ''">and er_name like concat('%', #{erName}, '%')</if>
+        </where>
+    </select>
+
+
+</mapper>

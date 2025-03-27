@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nnroad.payroll.mapper.PsLeaveMapper">
+    
+    <resultMap type="PsLeave" id="PsLeaveResult">
+        <result property="id"    column="id"    />
+        <result property="eeNo"    column="ee_no"    />
+        <result property="eeName"    column="ee_name"    />
+        <result property="leaveName"    column="leave_name"    />
+        <result property="total"    column="total"    />
+        <result property="used"    column="used"    />
+        <result property="remaining"    column="remaining"    />
+        <result property="remarks"    column="remarks"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectPsLeaveVo">
+        select id, ee_no, ee_name, leave_name, total, used, remaining, remarks, create_by, create_time, update_by, update_time from ps_leave
+    </sql>
+
+    <select id="selectPsLeaveList" parameterType="PsLeave" resultMap="PsLeaveResult">
+        <include refid="selectPsLeaveVo"/>
+        <where>  
+            <if test="eeNo != null  and eeNo != ''"> and ee_no = #{eeNo}</if>
+            <if test="eeName != null  and eeName != ''"> and ee_name like concat('%', #{eeName}, '%')</if>
+            <if test="leaveName != null  and leaveName != ''"> and leave_name like concat('%', #{leaveName}, '%')</if>
+            <if test="used != null "> and used = #{used}</if>
+            <if test="remarks != null  and remarks != ''"> and remarks = #{remarks}</if>
+        </where>
+    </select>
+
+    <insert id="insertPsLeave" parameterType="PsLeave" useGeneratedKeys="true" keyProperty="id">
+        insert into ps_leave
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="eeNo != null and eeNo != ''">ee_no,</if>
+            <if test="eeName != null and eeName != ''">ee_name,</if>
+            <if test="leaveName != null">leave_name,</if>
+            <if test="total != null">total,</if>
+            <if test="used != null">used,</if>
+            <if test="remaining != null">remaining,</if>
+            <if test="remarks != null">remarks,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="eeNo != null and eeNo != ''">#{eeNo},</if>
+            <if test="eeName != null and eeName != ''">#{eeName},</if>
+            <if test="leaveName != null">#{leaveName},</if>
+            <if test="total != null">#{total},</if>
+            <if test="used != null">#{used},</if>
+            <if test="remaining != null">#{remaining},</if>
+            <if test="remarks != null">#{remarks},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+    <delete id="deletePsLeaveByIds" parameterType="String">
+        delete from ps_leave where id in 
+        <foreach item="id" collection="list" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>
