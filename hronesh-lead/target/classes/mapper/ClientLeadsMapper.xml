@@ -1,0 +1,629 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nnroad.lead.mapper.ClientLeadsMapper">
+
+    <resultMap type="ClientLeads" id="ClientLeadsResult">
+        <result property="id"    column="id"    />
+        <result property="leadCode"    column="lead_code"    />
+        <result property="inquiryReceivedDate"    column="inquiry_received_date"    />
+        <result property="companyName"    column="company_name"    />
+        <result property="industry"    column="industry"    />
+        <result property="channel"    column="channel"    />
+        <result property="location"    column="location"    />
+        <result property="memberCode"    column="member_code"    />
+        <result property="serviceLocation"    column="service_location"    />
+        <result property="cityLocation"    column="city_location"    />
+        <result property="service"    column="service"    />
+        <result property="bdOwner"    column="bd_owner"    />
+        <result property="bdConsultant"    column="bd_consultant"    />
+        <result property="bdId"    column="bd_id"    />
+        <result property="qualifiedLeads"    column="qualified_leads"    />
+        <result property="leadStatus"    column="lead_status"    />
+        <result property="proposalSentDate"    column="proposal_sent_date"    />
+        <result property="contractSentDate"    column="contract_sent_date"    />
+        <result property="contractSignedDate"    column="contract_signed_date"    />
+        <result property="archivedDate" column="archived_date"/>
+        <result property="archiveCategory"    column="archive_category"    />
+        <result property="archiveReason"    column="archive_reason"    />
+        <result property="convertedDate"    column="converted_date"    />
+        <result property="contactTitle"    column="contact_title"    />
+        <result property="contactName"    column="contact_name"    />
+        <result property="contactEmail"    column="contact_email"    />
+        <result property="contactNumber"    column="contact_number"    />
+        <result property="remark"    column="remark"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="nextFollowupTime"    column="next_followup_time"    />
+        <result property="operationIds"    column="operation_ids"    />
+        <result property="position"    column="position"    />
+        <result property="serviceLocationCount"    column="service_location_count"    />
+        <result property="locationCount"    column="location_count"    />
+    </resultMap>
+
+    <sql id="selectClientLeadsVo">
+        select id, lead_code, inquiry_received_date, company_name, member_code, industry, channel,
+               location, service_location, city_location, service, bd_owner, bd_consultant, bd_id,
+               qualified_leads, lead_status, proposal_sent_date, contract_sent_date, contract_signed_date,
+               archived_date, archive_category, archive_reason, converted_date, contact_title,contact_name,
+               contact_email, contact_number, remark, create_by, create_time, update_by, update_time,
+               next_followup_time, operation_ids
+        from cmgt_leads
+    </sql>
+
+    <select id="selectClient3" parameterType="ClientLeads" resultMap="ClientLeadsResult">
+        <include refid="selectClientLeadsVo"/>
+        where status=3 and contact_email is not null
+    </select>
+
+
+    <select id="selectClientLeadsList" parameterType="ClientLeads" resultMap="ClientLeadsResult">
+        <include refid="selectClientLeadsVo"/>
+        <where>
+            delete_flag = "0"
+            <if test="params.entryDateBegin != null and params.entryDateBegin != ''"><!-- 开始时间检索 -->
+                AND inquiry_received_date &gt;= #{params.entryDateBegin}
+            </if>
+            <if test="params.entryDateEnd != null and params.entryDateEnd != ''"><!-- 结束时间检索 -->
+                AND inquiry_received_date &lt;= #{params.entryDateEnd}
+            </if>
+            <if test="leadCode != null  and leadCode != ''"> AND lead_code LIKE concat('%', #{leadCode}, '%')</if>
+            <if test="companyName != null  and companyName != ''"> AND company_name LIKE concat('%', #{companyName}, '%')</if>
+            <if test="channel != null  and channel != ''"> AND channel = #{channel}</if>
+            <if test="memberCode !=null and memberCode !=''">
+                AND member_code in
+                <foreach collection="memberCode.split(',')" item="memberCode" open="(" separator="," close=")">
+                    #{memberCode}
+                </foreach>
+            </if>
+            <if test="location != null  and location != ''"> AND location = #{location}</if>
+            <if test="serviceLocation != null  and serviceLocation != ''"> AND service_location in
+                <foreach collection="serviceLocation.split(',')" item="item" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="serviceLocation==null and serviceLocation==''"> AND (service_location IS NULL OR service_location = '') </if>
+            <if test="service != null and service != ''">
+                AND
+                <choose>
+                    <!-- IsOnly: 0, Includes: 1 -->
+                    <when test="params.servicesIsOnly != null and params.servicesIsOnly == 1">
+                        <foreach item="type" collection="service.split(',')" open="(" separator="or" close=")">
+                            FIND_IN_SET( #{type}, service)
+                        </foreach>
+                    </when>
+                    <otherwise>
+                        service = #{service}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="params.excludeServices != null and params.excludeServices != ''">
+                AND (service IS NULL OR
+                <choose>
+                    <!-- IsOnly: 0, Includes: 1 -->
+                    <when test="params.excludeServicesIsOnly != null and params.excludeServicesIsOnly == 1">
+                        <foreach item="type" collection="params.excludeServices.split(',')" open="(" separator="or"
+                                 close=")">
+                            NOT FIND_IN_SET( #{type}, service)
+                        </foreach>
+                    </when>
+                    <otherwise>
+                        service != #{params.excludeServices}
+                    </otherwise>
+                </choose>
+                )
+            </if>
+            <if test="bdOwner != null  and bdOwner != ''"> AND bd_owner = #{bdOwner}</if>
+            <if test="bdConsultant != null  and bdConsultant != ''"> AND bd_consultant LIKE CONCAT('%', #{bdConsultant}, '%')</if>
+            <if test="bdId != null  and bdId != ''"> AND bd_id = #{bdId}</if>
+            <if test="qualifiedLeads != null  and qualifiedLeads != ''"> AND qualified_leads = #{qualifiedLeads}</if>
+            <if test="leadStatus != null  and leadStatus != ''"> AND lead_status = #{leadStatus}</if>
+            <if test="params.convertedDateBegin != null and params.convertedDateBegin != ''"><!-- 开始时间检索 -->
+                AND converted_date &gt;= #{params.convertedDateBegin}
+            </if>
+            <if test="params.convertedDateEnd != null and params.convertedDateEnd != ''"><!-- 结束时间检索 -->
+                AND converted_date &lt;= #{params.convertedDateEnd}
+            </if>
+            <if test="params.nextFollowupTimeBegin != null and params.nextFollowupTimeBegin != ''"><!-- 开始时间检索 -->
+                AND next_followup_time &gt;= #{params.nextFollowupTimeEnd}
+            </if>
+            <if test="params.nextFollowupTimeEnd != null and params.nextFollowupTimeEnd != ''"><!-- 结束时间检索 -->
+                AND next_followup_time &lt;= #{params.nextFollowupTimeEnd}
+            </if>
+            <if test="params.contractSignedDateBegin != null and params.contractSignedDateBegin != ''"><!-- 开始时间检索 -->
+                AND contract_signed_date &gt;= #{params.contractSignedDateBegin}
+            </if>
+            <if test="params.contractSignedDateEnd != null and params.contractSignedDateEnd != ''"><!-- 结束时间检索 -->
+                AND contract_signed_date &lt;= #{params.contractSignedDateEnd}
+            </if>
+            <if test="archivedDate !=null and archivedDate !=''">AND archived_date=#{archivedDate}</if>
+            <if test="contactName != null  and contactName != ''"> AND contact_name LIKE concat('%', #{contactName}, '%')</if>
+            <if test="contactEmail != null  and contactEmail != ''"> AND contact_email = #{contactEmail}</if>
+            <if test="contactTitle != null  and contactTitle != ''"> AND contact_title = #{contactTitle}</if>
+            <if test="contactNumber != null and contactNumber != ''"> AND contact_number = #{contactNumber}</if>
+            <if test="remark != null and remark != ''"> AND remark LIKE CONCAT('%', #{remark}, '%')</if>
+            <if test="operationIds != null and operationIds != ''"> AND
+                <foreach item="type" collection="operationIds.split(',')" open="(" separator="or" close=")">
+                    FIND_IN_SET( #{type}, operation_ids)
+                </foreach>
+            </if>
+            <if test="params.companyNameOrCode != null and params.companyNameOrCode != ''">
+                AND company_name LIKE CONCAT('%', #{params.companyNameOrCode}, '%')
+                OR lead_code LIKE CONCAT('%', #{params.companyNameOrCode}, '%')
+            </if>
+        </where>
+    </select>
+
+    <select id="selectClientLeadsById" parameterType="Long" resultMap="ClientLeadsResult">
+        <include refid="selectClientLeadsVo"/>
+        where id = #{id}
+    </select>
+
+    <select id="getMonthlyReportByYears" resultType="Map">
+        SELECT
+        #{rowName} AS 'Row Name',
+        SUM(CASE WHEN DATE_FORMAT(${calculatedColumn}, '%m') = '01' THEN 1 ELSE 0 END) AS 'January',
+        SUM(CASE WHEN DATE_FORMAT(${calculatedColumn}, '%m') = '02' THEN 1 ELSE 0 END) AS 'February',
+        SUM(CASE WHEN DATE_FORMAT(${calculatedColumn}, '%m') = '03' THEN 1 ELSE 0 END) AS 'March',
+        SUM(CASE WHEN DATE_FORMAT(${calculatedColumn}, '%m') = '04' THEN 1 ELSE 0 END) AS 'April',
+        SUM(CASE WHEN DATE_FORMAT(${calculatedColumn}, '%m') = '05' THEN 1 ELSE 0 END) AS 'May',
+        SUM(CASE WHEN DATE_FORMAT(${calculatedColumn}, '%m') = '06' THEN 1 ELSE 0 END) AS 'June',
+        SUM(CASE WHEN DATE_FORMAT(${calculatedColumn}, '%m') = '07' THEN 1 ELSE 0 END) AS 'July',
+        SUM(CASE WHEN DATE_FORMAT(${calculatedColumn}, '%m') = '08' THEN 1 ELSE 0 END) AS 'August',
+        SUM(CASE WHEN DATE_FORMAT(${calculatedColumn}, '%m') = '09' THEN 1 ELSE 0 END) AS 'September',
+        SUM(CASE WHEN DATE_FORMAT(${calculatedColumn}, '%m') = '10' THEN 1 ELSE 0 END) AS 'October',
+        SUM(CASE WHEN DATE_FORMAT(${calculatedColumn}, '%m') = '11' THEN 1 ELSE 0 END) AS 'November',
+        SUM(CASE WHEN DATE_FORMAT(${calculatedColumn}, '%m') = '12' THEN 1 ELSE 0 END) AS 'December',
+        SUM(CASE WHEN DATE_FORMAT(${calculatedColumn}, '%m') > '0' THEN 1 ELSE 0 END) as 'Total',
+        DATE_FORMAT(${calculatedColumn}, '%Y') AS 'Year'
+        FROM cmgt_leads
+        <include refid="whereForMonthlyReport"/>
+        GROUP BY Year
+    </select>
+
+    <select id="getHistoricalMonthlyReport" resultType="Map">
+        SELECT
+        #{rowName} AS 'Row Name',
+        SUM(CASE WHEN DATE_FORMAT(${calculatedColumn}, '%m') = '01' THEN 1 ELSE 0 END) AS 'January',
+        SUM(CASE WHEN DATE_FORMAT(${calculatedColumn}, '%m') = '02' THEN 1 ELSE 0 END) AS 'February',
+        SUM(CASE WHEN DATE_FORMAT(${calculatedColumn}, '%m') = '03' THEN 1 ELSE 0 END) AS 'March',
+        SUM(CASE WHEN DATE_FORMAT(${calculatedColumn}, '%m') = '04' THEN 1 ELSE 0 END) AS 'April',
+        SUM(CASE WHEN DATE_FORMAT(${calculatedColumn}, '%m') = '05' THEN 1 ELSE 0 END) AS 'May',
+        SUM(CASE WHEN DATE_FORMAT(${calculatedColumn}, '%m') = '06' THEN 1 ELSE 0 END) AS 'June',
+        SUM(CASE WHEN DATE_FORMAT(${calculatedColumn}, '%m') = '07' THEN 1 ELSE 0 END) AS 'July',
+        SUM(CASE WHEN DATE_FORMAT(${calculatedColumn}, '%m') = '08' THEN 1 ELSE 0 END) AS 'August',
+        SUM(CASE WHEN DATE_FORMAT(${calculatedColumn}, '%m') = '09' THEN 1 ELSE 0 END) AS 'September',
+        SUM(CASE WHEN DATE_FORMAT(${calculatedColumn}, '%m') = '10' THEN 1 ELSE 0 END) AS 'October',
+        SUM(CASE WHEN DATE_FORMAT(${calculatedColumn}, '%m') = '11' THEN 1 ELSE 0 END) AS 'November',
+        SUM(CASE WHEN DATE_FORMAT(${calculatedColumn}, '%m') = '12' THEN 1 ELSE 0 END) AS 'December',
+        SUM(CASE WHEN DATE_FORMAT(${calculatedColumn}, '%m') > '0' THEN 1 ELSE 0 END) as 'Total',
+        'All' AS 'Year'
+        FROM cmgt_leads
+        <include refid="whereForMonthlyReport"/>
+        GROUP BY Year
+    </select>
+
+    <sql id="whereForMonthlyReport">
+        <where>
+            delete_flag = "0"
+            <if test="lead.params.entryDateBegin != null and lead.params.entryDateBegin != ''"><!-- 开始时间检索 -->
+                AND inquiry_received_date &gt;= #{lead.params.entryDateBegin}
+            </if>
+            <if test="lead.params.entryDateEnd != null and lead.params.entryDateEnd != ''"><!-- 结束时间检索 -->
+                AND inquiry_received_date &lt;= #{lead.params.entryDateEnd}
+            </if>
+            <if test="lead.companyName != null  and lead.companyName != ''"> AND company_name LIKE CONCAT('%', #{lead.companyName}, '%')</if>
+            <if test="lead.memberCode != null and lead.memberCode != ''">
+                AND (
+                <foreach collection="lead.memberCode.split(',')" item="memberCode" separator=" OR ">
+                    member_code = #{memberCode}
+                </foreach>
+                )
+            </if>
+            <if test="lead.channel != null  and lead.channel != ''"> AND channel = #{lead.channel}</if>
+            <if test="lead.location != null  and lead.location != ''"> AND location = #{lead.location}</if>
+            <if test="lead.serviceLocation != null  and lead.serviceLocation != ''"> AND service_location in
+                <foreach collection="lead.serviceLocation.split(',')" item="item" open="(" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="lead.service != null and lead.service != ''">
+                AND
+                <choose>
+                    <!-- IsOnly: 0, Includes: 1 -->
+                    <when test="lead.params.servicesIsOnly != null and lead.params.servicesIsOnly == 1">
+                        <foreach item="type" collection="lead.service.split(',')" open="(" separator="or" close=")">
+                            FIND_IN_SET( #{type}, service)
+                        </foreach>
+                    </when>
+                    <otherwise>
+                        service = #{lead.service}
+                    </otherwise>
+                </choose>
+            </if>
+            <if test="lead.params.excludeServices != null and lead.params.excludeServices != ''">
+                AND (service IS NULL OR
+                <choose>
+                    <!-- IsOnly: 0, Includes: 1 -->
+                    <when test="lead.params.excludeServicesIsOnly != null and lead.params.excludeServicesIsOnly == 1">
+                        <foreach item="type" collection="lead.params.excludeServices.split(',')" open="(" separator="or"
+                                 close=")">
+                            NOT FIND_IN_SET( #{type}, service)
+                        </foreach>
+                    </when>
+                    <otherwise>
+                        service != #{lead.params.excludeServices}
+                    </otherwise>
+                </choose>
+                )
+            </if>
+            <if test="lead.bdOwner != null  and lead.bdOwner != ''"> AND bd_owner = #{lead.bdOwner}</if>
+            <if test="lead.bdConsultant != null  and lead.bdConsultant != ''"> AND bd_consultant LIKE CONCAT('%',#{lead.bdConsultant},'%')</if>
+            <if test="lead.bdId != null  and lead.bdId != ''"> AND bd_id = #{lead.bdId}</if>
+            <if test="lead.qualifiedLeads != null  and lead.qualifiedLeads != ''"> AND qualified_leads = #{lead.qualifiedLeads}</if>
+            <if test="lead.leadStatus != null  and lead.leadStatus != ''"> AND lead_status = #{lead.leadStatus}</if>
+            <if test="lead.params.convertedDateBegin != null and lead.params.convertedDateBegin != ''"><!-- 开始时间检索 -->
+                AND converted_date &gt;= #{lead.params.convertedDateBegin}
+            </if>
+            <if test="lead.params.convertedDateEnd != null and lead.params.convertedDateEnd != ''"><!-- 结束时间检索 -->
+                AND converted_date &lt;= #{lead.params.convertedDateEnd}
+            </if>
+            <if test="lead.params.contractSignedDateBegin != null and lead.params.contractSignedDateBegin != ''"><!-- 结束时间检索 -->
+                AND contract_signed_date &gt;= #{lead.params.contractSignedDateBegin}
+            </if>
+            <if test="lead.params.contractSignedDateEnd != null and lead.params.contractSignedDateEnd != ''"><!-- 结束时间检索 -->
+                AND contract_signed_date &lt;= #{lead.params.contractSignedDateEnd}
+            </if>
+            <if test="lead.params.nextFollowupTimeBegin != null and lead.params.nextFollowupTimeBegin != ''"><!-- 开始时间检索 -->
+                AND next_followup_time &gt;= #{lead.params.nextFollowupTimeEnd}
+            </if>
+            <if test="lead.params.nextFollowupTimeEnd != null and lead.params.nextFollowupTimeEnd != ''"><!-- 结束时间检索 -->
+                AND next_followup_time &lt;= #{lead.params.nextFollowupTimeEnd}
+            </if>
+            <if test="lead.contactName != null  and lead.contactName != ''"> AND contact_name LIKE CONCAT('%', #{lead.contactName}, '%')</if>
+            <if test="lead.contactEmail != null  and lead.contactEmail != ''"> AND contact_email = #{lead.contactEmail}</if>
+            <if test="lead.contactTitle != null  and lead.contactTitle != ''"> AND contact_title = #{lead.contactTitle}</if>
+            <if test="lead.contactNumber != null and lead.contactNumber != ''"> AND contact_number = #{lead.contactNumber}</if>
+            <if test="lead.remark != null and lead.remark != ''"> AND remark LIKE CONCAT('%', #{lead.remark}, '%')</if>
+            <if test="lead.operationIds != null and lead.operationIds != ''"> AND
+                <foreach item="type" collection="lead.operationIds.split(',')" open="(" separator="or" close=")">
+                    FIND_IN_SET( #{type}, operation_ids)
+                </foreach>
+            </if>
+        </where>
+    </sql>
+
+    <select id="getFromSQL" parameterType="String" resultType="Map">
+        ${sql}
+    </select>
+
+    <select id="selectExactLeadsList" parameterType="ClientLeads" resultMap="ClientLeadsResult">
+        <include refid="selectClientLeadsVo"/>
+        <where>
+            <choose>
+                <when test="deleteFlag != null and deleteFlag != ''"> AND delete_flag = #{deleteFlag}</when>
+                <otherwise> AND delete_flag = "0"</otherwise>
+            </choose>
+            <if test="params.entryDateBegin != null and params.entryDateBegin != ''"><!-- 开始时间检索 -->
+                AND inquiry_received_date &gt;= #{params.entryDateBegin}
+            </if>
+            <if test="params.entryDateEnd != null and params.entryDateEnd != ''"><!-- 结束时间检索 -->
+                AND inquiry_received_date &lt;= #{params.entryDateEnd}
+            </if>
+            <if test="leadCode != null  and leadCode != ''"> AND lead_code = #{leadCode}</if>
+            <if test="companyName != null  and companyName != ''"> AND company_name = #{companyName}</if>
+            <if test="channel != null  and channel != ''"> AND channel = #{channel}</if>
+            <if test="memberCode != null  and memberCode != ''"> AND member_code = #{memberCode}</if>
+            <if test="location != null  and location != ''"> AND location = #{location}</if>
+            <if test="serviceLocation != null  and serviceLocation != ''"> AND service_location = #{serviceLocation}</if>
+            <if test="service != null and service != ''"> AND
+                <foreach item="type" collection="service.split(',')" open="(" separator="or" close=")">
+                    FIND_IN_SET( #{type}, service)
+                </foreach>
+            </if>
+            <if test="bdOwner != null  and bdOwner != ''"> AND bd_owner = #{bdOwner}</if>
+            <if test="bdConsultant != null  and bdConsultant != ''"> AND bd_consultant = #{bdConsultant}</if>
+            <if test="bdId != null  and bdId != ''"> AND bd_id = #{bdId}</if>
+            <if test="qualifiedLeads != null  and qualifiedLeads != ''"> AND qualified_leads = #{qualifiedLeads}</if>
+            <if test="leadStatus != null  and leadStatus != ''"> AND lead_status = #{leadStatus}</if>
+            <if test="params.convertedDateBegin != null and params.convertedDateBegin != ''"><!-- 开始时间检索 -->
+                AND converted_date &gt;= #{params.convertedDateBegin}
+            </if>
+            <if test="params.convertedDateEnd != null and params.convertedDateEnd != ''"><!-- 结束时间检索 -->
+                AND converted_date &lt;= #{params.convertedDateEnd}
+            </if>
+            <if test="params.contractSignedDateBegin != null and params.contractSignedDateBegin != ''"><!-- 结束时间检索 -->
+                AND contract_signed_date &gt;= #{params.contractSignedDateBegin}
+            </if>
+            <if test="params.contractSignedDateEnd != null and params.contractSignedDateEnd != ''"><!-- 结束时间检索 -->
+                AND contract_signed_date &lt;= #{params.contractSignedDateEnd}
+            </if>
+            <if test="params.nextFollowupTimeBegin != null and params.nextFollowupTimeBegin != ''"><!-- 开始时间检索 -->
+                AND next_followup_time &gt;= #{params.nextFollowupTimeEnd}
+            </if>
+            <if test="params.nextFollowupTimeEnd != null and params.nextFollowupTimeEnd != ''"><!-- 结束时间检索 -->
+                AND next_followup_time &lt;= #{params.nextFollowupTimeEnd}
+            </if>
+            <if test="contactName != null  and contactName != ''"> AND contact_name = #{contactName}</if>
+            <if test="contactTitle != null  and contactTitle != ''"> AND contact_title = #{contactTitle}</if>
+            <if test="contactEmail != null  and contactEmail != ''"> AND contact_email = #{contactEmail}</if>
+            <if test="contactNumber != null and contactNumber != ''"> AND contact_number = #{contactNumber}</if>
+            <if test="remark != null and remark != ''"> AND remark = #{remark}</if>
+            <if test="operationIds != null and operationIds != ''"> AND
+                <foreach item="type" collection="operationIds.split(',')" open="(" separator="or" close=")">
+                    FIND_IN_SET( #{type}, operation_ids)
+                </foreach>
+            </if>
+        </where>
+    </select>
+
+    <insert id="insertClientLeads" parameterType="ClientLeads">
+        insert into cmgt_leads
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="inquiryReceivedDate != null">inquiry_received_date,</if>
+            <if test="leadCode != null">lead_code,</if>
+            <if test="companyName != null">company_name,</if>
+            <if test="memberCode != null">member_code,</if>
+            <if test="location != null">location,</if>
+            <if test="industry != null">industry,</if>
+            <if test="channel != null">channel,</if>
+            <if test="serviceLocation != null">service_location,</if>
+            <if test="cityLocation != null">city_location,</if>
+            <if test="service != null">service,</if>
+            <if test="bdOwner != null">bd_owner,</if>
+            <if test="bdConsultant != null">bd_consultant,</if>
+            <if test="bdId != null">bd_id,</if>
+            <if test="qualifiedLeads != null">qualified_leads,</if>
+            <if test="leadStatus != null">lead_status,</if>
+            <if test="archivedDate!=null">archived_date,</if>
+            <if test="archiveCategory != null">archive_category,</if>
+            <if test="archiveReason != null">archive_reason,</if>
+            <if test="convertedDate != null">converted_date,</if>
+            <if test="contractSentDate != null">contract_sent_date,</if>
+            <if test="contactTitle != null">contact_title,</if>
+            <if test="contactName != null">contact_name,</if>
+            <if test="contactEmail != null">contact_email,</if>
+            <if test="contactNumber != null">contact_number,</if>
+            <if test="remark != null">remark,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="nextFollowupTime != null">next_followup_time,</if>
+            <if test="operationIds != null">operation_ids,</if>
+            delete_flag,
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="inquiryReceivedDate != null">#{inquiryReceivedDate},</if>
+            <if test="leadCode != null">#{leadCode},</if>
+            <if test="companyName != null">#{companyName},</if>
+            <if test="memberCode != null">#{memberCode},</if>
+            <if test="location != null">#{location},</if>
+            <if test="industry != null">#{industry},</if>
+            <if test="channel != null">#{channel},</if>
+            <if test="serviceLocation != null">#{serviceLocation},</if>
+            <if test="cityLocation != null">#{cityLocation},</if>
+            <if test="service != null">#{service},</if>
+            <if test="bdOwner != null">#{bdOwner},</if>
+            <if test="bdConsultant != null">#{bdConsultant},</if>
+            <if test="bdId != null">#{bdId},</if>
+            <if test="qualifiedLeads != null">#{qualifiedLeads},</if>
+            <if test="leadStatus != null">#{leadStatus},</if>
+            <if test="archivedDate!=null">#{archivedDate}</if>
+            <if test="archiveCategory != null">#{archiveCategory},</if>
+            <if test="archiveReason != null">#{archiveReason},</if>
+            <if test="convertedDate != null">#{convertedDate},</if>
+            <if test="contractSentDate != null">#{contractSentDate},</if>
+            <if test="contactTitle != null">#{contactTitle},</if>
+            <if test="contactName != null">#{contactName},</if>
+            <if test="contactEmail != null">#{contactEmail},</if>
+            <if test="contactNumber != null">#{contactNumber},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="nextFollowupTime != null">#{nextFollowupTime},</if>
+            <if test="operationIds != null">#{operationIds},</if>
+            "0",
+        </trim>
+    </insert>
+
+    <update id="updateClientLeads" parameterType="ClientLeads">
+        update cmgt_leads
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="inquiryReceivedDate != null">inquiry_received_date = #{inquiryReceivedDate},</if>
+            <if test="leadCode != null">lead_code = #{leadCode},</if>
+            <if test="companyName != null">company_name = #{companyName},</if>
+            <if test="memberCode != null">member_code = #{memberCode},</if>
+            <if test="location != null">location = #{location},</if>
+            <if test="industry != null">industry = #{industry},</if>
+            <if test="channel != null">channel = #{channel},</if>
+            <if test="serviceLocation != null">service_location = #{serviceLocation},</if>
+            <if test="cityLocation != null">city_location = #{cityLocation},</if>
+            <if test="service != null">service = #{service},</if>
+            <if test="bdOwner != null">bd_owner = #{bdOwner},</if>
+            <if test="bdConsultant != null">bd_consultant = #{bdConsultant},</if>
+            <if test="bdId != null">bd_id = #{bdId},</if>
+            <if test="qualifiedLeads != null">qualified_leads = #{qualifiedLeads},</if>
+            <if test="leadStatus != null">lead_status = #{leadStatus},</if>
+            <if test="holdDate !=null">hold_date=#{holdDate},</if>
+            <if test="archivedDate !=null">archived_date=#{archivedDate},</if>
+            <if test="archiveCategory != null">archive_category = #{archiveCategory},</if>
+            <if test="archiveReason != null">archive_reason = #{archiveReason},</if>
+            <if test="convertedDate != null">converted_date = #{convertedDate},</if>
+            <if test="contactTitle != null">contact_title = #{contactTitle},</if>
+            <if test="contactName != null">contact_name = #{contactName},</if>
+            <if test="contactEmail != null">contact_email = #{contactEmail},</if>
+            <if test="contactNumber != null">contact_number = #{contactNumber},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            update_time = NOW(),
+            <if test="nextFollowupTime != null">next_followup_time = #{nextFollowupTime},</if>
+            <if test="proposalSentDate != null">proposal_sent_date = #{proposalSentDate},</if>
+            <if test="contractSentDate != null">contract_sent_date = #{contractSentDate},</if>
+            <if test="contractSignedDate != null">contract_signed_date = #{contractSignedDate},</if>
+            <if test="operationIds != null">operation_ids = #{operationIds},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteClientLeadsById" parameterType="Long">
+        update cmgt_leads set delete_flag = "2" where id = #{id}
+    </delete>
+
+    <delete id="deleteClientLeadsByIds" parameterType="String">
+        update cmgt_leads set delete_flag = "2" where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="getQualifiedLeads" resultType="int">
+        SELECT COUNT(*)
+        FROM cmgt_leads
+        WHERE 1=1
+        AND member_code IN
+        <foreach item="code" collection="memberCode" open="(" separator="," close=")">
+            #{code}
+        </foreach>
+        <if test="bdConsultant != null and bdConsultant != ''">
+            AND bd_consultant = #{bdConsultant}
+        </if>
+        AND qualified_leads = #{YesID}
+        AND inquiry_received_date &lt;= #{endDate}
+    </select>
+
+    <!-- 获取转化的 leads 数量 -->
+    <select id="getConvertedLeads" resultType="int">
+        SELECT COUNT(*)
+        FROM cmgt_leads
+        WHERE 1=1
+        AND member_code IN
+        <foreach item="code" collection="memberCode" open="(" separator="," close=")">
+            #{code}
+        </foreach>
+        <if test="bdConsultant != null and bdConsultant != ''">
+            AND bd_consultant = #{bdConsultant}
+        </if>
+        AND lead_status = "1"
+        AND inquiry_received_date &lt;= #{endDate}
+
+    </select>
+
+    <select id="getConvertedLeadsByServiceType" resultType="int">
+        SELECT COUNT(*)
+        FROM cmgt_leads
+        WHERE 1=1
+        AND member_code IN
+        <foreach item="code" collection="memberCode" open="(" separator="," close=")">
+            #{code}
+        </foreach>
+        <if test="bdConsultant != null and bdConsultant != ''">
+            AND bd_consultant = #{bdConsultant}
+        </if>
+        AND lead_status = "1"
+        AND inquiry_received_date &lt;= #{endDate}
+        AND service LIKE CONCAT('%', #{convertedServiceType}, '%')
+
+    </select>
+
+    <select id="getLeadsBetweenDates" resultType="int">
+        SELECT COUNT(*)
+        FROM cmgt_leads
+        <where>
+            delete_flag = '0'
+            AND inquiry_received_date >= #{start}
+            AND inquiry_received_date &lt; #{end}
+            <if test="memberCode != null and memberCode.size > 0">
+                AND member_code IN
+                <foreach item="code" collection="memberCode" open="(" separator="," close=")">
+                    #{code}
+                </foreach>
+            </if>
+            <if test="type != null and type != ''">
+                AND qualified_leads = #{type}
+            </if>
+        </where>
+    </select>
+    <select id="getBDNames" resultType="java.lang.String">
+        select DISTINCT bd_consultant
+        from cmgt_leads;
+    </select>
+    <select id="getLatestMonthForBD" resultType="java.time.LocalDateTime">
+        SELECT
+            MAX(GREATEST(converted_date, inquiry_received_date)) AS latest_date
+        FROM
+            cmgt_leads
+        where bd_consultant = #{bdConsultant}
+    </select>
+    <select id="nnroadTopLocations"  resultMap="ClientLeadsResult">
+        SELECT
+        ROW_NUMBER() OVER (ORDER BY a.record_count DESC, COALESCE(b.record_count, 0) DESC) AS position,
+        a.service_location,
+        a.record_count AS service_location_count,
+        COALESCE(b.record_count, 0) AS location_count
+        FROM (
+        SELECT service_location, COUNT(*) AS record_count
+        FROM cmgt_leads
+        <where>
+            delete_flag = "0" AND
+            member_code IN
+            <foreach item="code" collection="memberCode" open="(" separator="," close=")">
+                #{code}
+            </foreach>
+            <if test="clientLead.entryDateBegin != null and clientLead.entryDateBegin != ''">
+                AND inquiry_received_date &gt;= #{clientLead.entryDateBegin}
+            </if>
+            <if test="clientLead.entryDateEnd != null and clientLead.entryDateEnd != ''">
+                AND inquiry_received_date &lt;= #{clientLead.entryDateEnd}
+            </if>
+        </where>
+        GROUP BY service_location
+        ) AS a
+        LEFT JOIN (
+        SELECT location AS location, COUNT(*) AS record_count
+        FROM cmgt_leads
+        <where>
+            delete_flag = "0" AND
+            member_code IN
+            <foreach item="code" collection="memberCode" open="(" separator="," close=")">
+                #{code}
+            </foreach>
+            <if test="clientLead.entryDateBegin != null and clientLead.entryDateBegin != ''">
+                AND inquiry_received_date &gt;= #{clientLead.entryDateBegin}
+            </if>
+            <if test="clientLead.entryDateEnd != null and clientLead.entryDateEnd != ''">
+                AND inquiry_received_date &lt;= #{clientLead.entryDateEnd}
+            </if>
+        </where>
+        GROUP BY location
+        ) AS b
+        ON a.service_location = b.location
+        ORDER BY a.record_count DESC, COALESCE(b.record_count, 0) DESC
+    </select>
+
+    <select id="selectBD" resultType="java.lang.String">
+        select fid from t_survey where ftype='bd'
+    </select>
+
+    <select id="selectBDTitle" resultType="java.lang.String">
+        select ftitle from t_survey where ftype='bd'
+    </select>
+
+    <select id="checkMaxCodeClient" resultType="integer" parameterType="com.nnroad.lead.domain.ClientLeads">
+        select count(1) from cmgt_leads where lead_code >= #{clientCode}  and lead_code like concat(#{params.keyPrefix}, '%')
+    </select>
+
+    <select id="getMaxCodeClient" resultType="string" parameterType="string">
+        select max(lead_code) from cmgt_leads where  lead_code  like concat(#{keyPrefix}, '%')
+    </select>
+
+</mapper>

@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nnroad.client.mapper.ContractUserformMapper">
+    
+    <resultMap type="ContractUserform" id="ContractUserformResult">
+        <result property="userId"    column="user_id"    />
+        <result property="userName"    column="user_name"    />
+        <result property="eorsStr"    column="eors_str"    />
+        <result property="eorsNum"    column="eors_num"    />
+        <result property="rsStr"    column="rs_str"    />
+        <result property="rsNum"    column="rs_num"    />
+        <result property="cisStr"    column="cis_str"    />
+        <result property="cisNum"    column="cis_num"    />
+        <result property="trsStr"    column="trs_str"    />
+        <result property="trsNum"    column="trs_num"    />
+        <result property="hrsStr"    column="hrs_str"    />
+        <result property="hrsNum"    column="hrs_num"    />
+        <result property="irsStr"    column="irs_str"    />
+        <result property="irsNum"    column="irs_num"    />
+    </resultMap>
+
+    <sql id="selectContractUserformVo">
+        select user_id, user_name, eors_str, eors_num, rs_str, rs_num, cis_str, cis_num, trs_str, trs_num, hrs_str, hrs_num, irs_str, irs_num from contract_userform
+    </sql>
+
+    <select id="selectContractUserformList" parameterType="ContractUserform" resultMap="ContractUserformResult">
+        <include refid="selectContractUserformVo"/>
+        <where>  
+            <if test="userName != null  and userName != ''"> and user_name like concat('%', #{userName}, '%')</if>
+            <if test="eorsStr != null  and eorsStr != ''"> and eors_str = #{eorsStr}</if>
+            <if test="eorsNum != null "> and eors_num = #{eorsNum}</if>
+            <if test="rsStr != null  and rsStr != ''"> and rs_str = #{rsStr}</if>
+            <if test="rsNum != null "> and rs_num = #{rsNum}</if>
+            <if test="cisStr != null  and cisStr != ''"> and cis_str = #{cisStr}</if>
+            <if test="cisNum != null "> and cis_num = #{cisNum}</if>
+            <if test="trsStr != null  and trsStr != ''"> and trs_str = #{trsStr}</if>
+            <if test="trsNum != null "> and trs_num = #{trsNum}</if>
+            <if test="hrsStr != null  and hrsStr != ''"> and hrs_str = #{hrsStr}</if>
+            <if test="hrsNum != null "> and hrs_num = #{hrsNum}</if>
+            <if test="irsStr != null  and irsStr != ''"> and irs_str = #{irsStr}</if>
+            <if test="irsNum != null "> and irs_num = #{irsNum}</if>
+        </where>
+    </select>
+    
+    <select id="selectContractUserformByUserId" parameterType="String" resultMap="ContractUserformResult">
+        <include refid="selectContractUserformVo"/>
+        where user_id = #{userId}
+    </select>
+
+    <insert id="insertContractUserform" parameterType="ContractUserform">
+        insert into contract_userform
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null">user_id,</if>
+            <if test="userName != null and userName != ''">user_name,</if>
+            <if test="eorsStr != null">eors_str,</if>
+            <if test="eorsNum != null">eors_num,</if>
+            <if test="rsStr != null">rs_str,</if>
+            <if test="rsNum != null">rs_num,</if>
+            <if test="cisStr != null">cis_str,</if>
+            <if test="cisNum != null">cis_num,</if>
+            <if test="trsStr != null">trs_str,</if>
+            <if test="trsNum != null">trs_num,</if>
+            <if test="hrsStr != null">hrs_str,</if>
+            <if test="hrsNum != null">hrs_num,</if>
+            <if test="irsStr != null">irs_str,</if>
+            <if test="irsNum != null">irs_num,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId != null">#{userId},</if>
+            <if test="userName != null and userName != ''">#{userName},</if>
+            <if test="eorsStr != null">#{eorsStr},</if>
+            <if test="eorsNum != null">#{eorsNum},</if>
+            <if test="rsStr != null">#{rsStr},</if>
+            <if test="rsNum != null">#{rsNum},</if>
+            <if test="cisStr != null">#{cisStr},</if>
+            <if test="cisNum != null">#{cisNum},</if>
+            <if test="trsStr != null">#{trsStr},</if>
+            <if test="trsNum != null">#{trsNum},</if>
+            <if test="hrsStr != null">#{hrsStr},</if>
+            <if test="hrsNum != null">#{hrsNum},</if>
+            <if test="irsStr != null">#{irsStr},</if>
+            <if test="irsNum != null">#{irsNum},</if>
+         </trim>
+    </insert>
+
+    <update id="updateContractUserform" parameterType="ContractUserform">
+        update contract_userform
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="userName != null and userName != ''">user_name = #{userName},</if>
+            <if test="eorsStr != null">eors_str = #{eorsStr},</if>
+            <if test="eorsNum != null">eors_num = #{eorsNum},</if>
+            <if test="rsStr != null">rs_str = #{rsStr},</if>
+            <if test="rsNum != null">rs_num = #{rsNum},</if>
+            <if test="cisStr != null">cis_str = #{cisStr},</if>
+            <if test="cisNum != null">cis_num = #{cisNum},</if>
+            <if test="trsStr != null">trs_str = #{trsStr},</if>
+            <if test="trsNum != null">trs_num = #{trsNum},</if>
+            <if test="hrsStr != null">hrs_str = #{hrsStr},</if>
+            <if test="hrsNum != null">hrs_num = #{hrsNum},</if>
+            <if test="irsStr != null">irs_str = #{irsStr},</if>
+            <if test="irsNum != null">irs_num = #{irsNum},</if>
+        </trim>
+        where user_id = #{userId}
+    </update>
+
+    <delete id="deleteContractUserformByUserId" parameterType="String">
+        delete from contract_userform where user_id = #{userId}
+    </delete>
+
+    <delete id="deleteContractUserformByUserIds" parameterType="String">
+        delete from contract_userform where user_id in 
+        <foreach item="userId" collection="array" open="(" separator="," close=")">
+            #{userId}
+        </foreach>
+    </delete>
+</mapper>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nnroad.system.mapper.ContractGeneralClausesMapper">
+    
+    <resultMap type="ContractGeneralClauses" id="ContractGeneralClausesResult">
+        <result property="C1"    column="C1"    />
+        <result property="C21"    column="C21"    />
+        <result property="C22"    column="C22"    />
+        <result property="C3"    column="C3"    />
+        <result property="userid"    column="userid"    />
+    </resultMap>
+
+    <sql id="selectContractGeneralClausesVo">
+        select C1, C21, C22, C3, userid from contract_general_clauses
+    </sql>
+
+    <select id="selectContractGeneralClausesList" parameterType="ContractGeneralClauses" resultMap="ContractGeneralClausesResult">
+        <include refid="selectContractGeneralClausesVo"/>
+        <where>  
+            <if test="C1 != null "> and C1 = #{C1}</if>
+            <if test="C21 != null "> and C21 = #{C21}</if>
+            <if test="C22 != null "> and C22 = #{C22}</if>
+            <if test="C3 != null  and C3 != ''"> and C3 = #{C3}</if>
+        </where>
+    </select>
+    
+    <select id="selectContractGeneralClausesByUserid" parameterType="String" resultMap="ContractGeneralClausesResult">
+        <include refid="selectContractGeneralClausesVo"/>
+        where userid = #{userid}
+    </select>
+
+    <insert id="insertContractGeneralClauses" parameterType="ContractGeneralClauses">
+        insert into contract_general_clauses
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="C1 != null">C1,</if>
+            <if test="C21 != null">C21,</if>
+            <if test="C22 != null">C22,</if>
+            <if test="C3 != null">C3,</if>
+            <if test="userid != null">userid,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="C1 != null">#{C1},</if>
+            <if test="C21 != null">#{C21},</if>
+            <if test="C22 != null">#{C22},</if>
+            <if test="C3 != null">#{C3},</if>
+            <if test="userid != null">#{userid},</if>
+         </trim>
+    </insert>
+
+    <update id="updateContractGeneralClauses" parameterType="ContractGeneralClauses">
+        update contract_general_clauses
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="C1 != null">C1 = #{C1},</if>
+            <if test="C21 != null">C21 = #{C21},</if>
+            <if test="C22 != null">C22 = #{C22},</if>
+            <if test="C3 != null">C3 = #{C3},</if>
+        </trim>
+        where userid = #{userid}
+    </update>
+
+    <delete id="deleteContractGeneralClausesByUserid" parameterType="String">
+        delete from contract_general_clauses where userid = #{userid}
+    </delete>
+
+    <delete id="deleteContractGeneralClausesByUserids" parameterType="String">
+        delete from contract_general_clauses where userid in 
+        <foreach item="userid" collection="array" open="(" separator="," close=")">
+            #{userid}
+        </foreach>
+    </delete>
+</mapper>

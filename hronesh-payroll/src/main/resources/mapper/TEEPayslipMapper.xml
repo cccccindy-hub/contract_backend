@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nnroad.payroll.mapper.TEEPayslipMapper">
+    <insert id="insertAll">
+        INSERT INTO t_ee_payslip(femp_no,fcert_name, fcert_no, femployer_name, fperiod, femployer, fdata,fgenerated_at,fphone,femail)
+        VALUES
+        <foreach collection="list" item="item" separator=",">
+            <if test="item != null" >
+                (#{item.idNo},#{item.fcertName}, #{item.fcertNo}, #{item.femployerName}, #{item.fperiod}, #{item.femployer}, CAST(#{item.fdata} AS JSON),#{item.fconfirmedAt},#{item.phone},#{item.femail})
+            </if>
+        </foreach>
+    </insert>
+</mapper>

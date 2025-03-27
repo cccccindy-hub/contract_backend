@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nnroad.payroll.mapper.IITReportMapper">
+
+    <resultMap type="IitReport" id="IitReportResult">
+        <result property="employmentNature"    column="employment_nature"    />
+        <result property="taxPaymentPlace"    column="tax_payment_place"    />
+        <result property="erName"    column="er_name"    />
+        <result property="idNo"    column="id_no"    />
+        <result property="name"    column="name"    />
+        <result property="certificateType"    column="certificate_type"    />
+        <result property="certificateNumber"    column="certificate_number"    />
+        <result property="income"    column="income"    />
+        <result property="fsAllowance"    column="fs_allowance"    />
+        <result property="pension"    column="pension"    />
+        <result property="medical"    column="medical"    />
+        <result property="unemployment"    column="unemployment"    />
+        <result property="housingFund"    column="housing_fund"    />
+        <result property="accumulatedChildEducation"    column="accumulated_child_education"    />
+        <result property="accumulatedContinuingEducation"    column="accumulated_continuing_education"    />
+        <result property="accumulatedHli"    column="accumulated_hli"    />
+        <result property="accumulatedHousingRent"    column="accumulated_housing_rent"    />
+        <result property="accumulatedSfte"    column="accumulated_sfte"    />
+        <result property="accumulatedChildCare"    column="accumulated_child_care"    />
+        <result property="annuity"    column="annuity"    />
+        <result property="commercialHealthInsurance"    column="commercial_health_insurance"    />
+        <result property="tdpInsurance"    column="tdp_insurance"    />
+        <result property="otherIit"    column="other_iit"    />
+        <result property="otherTaxFreeDeductions"    column="other_tax_free_deductions"    />
+        <result property="taxSavings"    column="tax_savings"    />
+        <result property="remarkIit"    column="remark_iit"    />
+        <result property="sumPayrollTax"    column="sum_payroll_tax"    />
+        <result property="annualBonus"    column="annual_bonus"    />
+        <result property="annualBonusLlt"    column="annual_bonus_llt"    />
+        <result property="afterTaxReissue"    column="after_tax_reissue"    />
+        <result property="indemnity"    column="indemnity"    />
+        <result property="indemnityTax"    column="indemnity_tax"    />
+        <result property="shareIncentives"    column="share_incentives"    />
+        <result property="shareIncentivesTax"    column="share_incentives_tax"    />
+        <result property="sumIit"    column="sum_iit"    />
+        <result property="duration"    column="duration"    />
+        <result property="currentTaxAgent"    column="current_tax_agent"    />
+    </resultMap>
+
+    <resultMap type="StefaniniIITReport" id="StefaniniIITReportResult">
+        <result property="employmentNature"    column="employment_nature"    />
+        <result property="erName"    column="er_name"    />
+        <result property="idNo"    column="id_no"    />
+        <result property="name"    column="name"    />
+        <result property="certificateType"    column="certificate_type"    />
+        <result property="certificateNumber"    column="certificate_number"    />
+        <result property="income"    column="income"    />
+        <result property="fsAllowance"    column="fs_allowance"    />
+        <result property="pension"    column="pension"    />
+        <result property="medical"    column="medical"    />
+        <result property="unemployment"    column="unemployment"    />
+        <result property="housingFund"    column="housing_fund"    />
+        <result property="accumulatedChildEducation"    column="accumulated_child_education"    />
+        <result property="accumulatedContinuingEducation"    column="accumulated_continuing_education"    />
+        <result property="accumulatedHli"    column="accumulated_hli"    />
+        <result property="accumulatedHousingRent"    column="accumulated_housing_rent"    />
+        <result property="accumulatedSfte"    column="accumulated_sfte"    />
+        <result property="accumulatedChildCare"    column="accumulated_child_care"    />
+        <result property="annuity"    column="annuity"    />
+        <result property="commercialHealthInsurance"    column="commercial_health_insurance"    />
+        <result property="tdpInsurance"    column="tdp_insurance"    />
+        <result property="otherIit"    column="other_iit"    />
+        <result property="otherTaxFreeDeductions"    column="other_tax_free_deductions"    />
+        <result property="taxSavings"    column="tax_savings"    />
+        <result property="remarkIit"    column="remark_iit"    />
+        <result property="sumPayrollTax"    column="sum_payroll_tax"    />
+        <result property="annualBonus"    column="annual_bonus"    />
+        <result property="annualBonusLlt"    column="annual_bonus_llt"    />
+        <result property="afterTaxReissue"    column="after_tax_reissue"    />
+        <result property="indemnity"    column="indemnity"    />
+        <result property="indemnityTax"    column="indemnity_tax"    />
+        <result property="shareIncentives"    column="share_incentives"    />
+        <result property="shareIncentivesTax"    column="share_incentives_tax"    />
+        <result property="sumIit"    column="sum_iit"    />
+        <result property="duration"    column="duration"    />
+        <result property="currentTaxAgent"    column="current_tax_agent"    />
+    </resultMap>
+
+    <sql id="selectIitReportVo">
+        select DISTINCT p.employment_nature, p.tax_payment_place, p.er_name, p.id_no, p.name, p.certificate_type, p.certificate_number, p.income,
+                        p.fs_allowance, p.pension, p.medical, p.unemployment, p.housing_fund, p.accumulated_child_education, p.accumulated_continuing_education,
+                        p.accumulated_hli, p.accumulated_housing_rent,p.accumulated_sfte, p.annuity, p.commercial_health_insurance, p.tdp_insurance,
+                        p.other_iit, p.other_tax_free_deductions, p.tax_savings, p.remark_iit, p.sum_payroll_tax, p.annual_bonus, p.annual_bonus_llt, p.after_tax_reissue,
+                        p.indemnity,p.indemnity_tax,p.share_incentives,p.share_incentives_tax,p.sum_iit, p.duration, p.current_tax_agent,p.accumulated_child_care from iit_report p
+    </sql>
+
+    <select id="selectIitReportList" parameterType="IitReport" resultMap="IitReportResult">
+        <include refid="selectIitReportVo"/>
+
+        <where>
+            <if test="erName != null  and erName != ''"> and p.er_name like concat('%', #{erName}, '%')</if>
+            <if test="name != null  and name != ''"> and p.name like concat('%', #{name}, '%')</if>
+            <if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
+                AND p.duration &gt;= #{params.beginTime}
+            </if>
+            <if test="params.endTime != null and params.endTime != ''"><!-- 结束时间检索 -->
+                AND p.duration &lt;= #{params.endTime}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectStefaniniIitReportList" parameterType="StefaniniIITReport" resultMap="StefaniniIITReportResult">
+        select p.employment_nature,p.er_name, p.id_no, p.name, p.certificate_type, p.certificate_number, p.income,
+        p.fs_allowance, p.pension, p.medical, p.unemployment, p.housing_fund, p.accumulated_child_education, p.accumulated_continuing_education,
+        p.accumulated_hli, p.accumulated_housing_rent,p. accumulated_sfte, p.annuity, p.commercial_health_insurance, p.tdp_insurance,
+        p.other_iit, p.other_tax_free_deductions, p.tax_savings, p.remark_iit, p.sum_payroll_tax, p.annual_bonus, p.annual_bonus_llt,
+        p.indemnity, p.sum_iit, p.duration, p.current_tax_agent,p.accumulated_child_care from iit_report p
+        <where>
+            <if test="params.duration != null and params.duration != ''">
+                AND p.duration = #{params.duration}
+            </if>
+            <if test="params.erNo != null and params.erNo != ''">
+                AND p.client_code = #{params.erNo}
+            </if>
+            <if test="params.idNo != null and params.idNo != ''">
+                AND p.id_no in (${params.idNo})
+            </if>
+        </where>
+    </select>
+
+    <select id="selectIitReportById" parameterType="String" resultMap="IitReportResult">
+        <include refid="selectIitReportVo"/>
+        where p.employment_nature = #{employmentNature}
+    </select>
+
+    <insert id="insertIitReport" parameterType="IitReport">
+        insert into iit_report
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="employmentNature != null">employment_nature,</if>
+            <if test="taxPaymentPlace != null">tax_payment_place,</if>
+            <if test="erName != null">er_name,</if>
+            <if test="idNo != null">id_no,</if>
+            <if test="name != null">name,</if>
+            <if test="certificateType != null and certificateType != ''">certificate_type,</if>
+            <if test="certificateNumber != null">certificate_number,</if>
+            <if test="income != null">income,</if>
+            <if test="fsAllowance != null">fs_allowance,</if>
+            <if test="pension != null">pension,</if>
+            <if test="medical != null">medical,</if>
+            <if test="unemployment != null">unemployment,</if>
+            <if test="housingFund != null">housing_fund,</if>
+            <if test="accumulatedChildEducation != null">accumulated_child_education,</if>
+            <if test="accumulatedContinuingEducation != null">accumulated_continuing_education,</if>
+            <if test="accumulatedHli != null">accumulated_hli,</if>
+            <if test="accumulatedHousingRent != null">accumulated_housing_rent,</if>
+            <if test="accumulatedSfte != null">accumulated_sfte,</if>
+            <if test="annuity != null">annuity,</if>
+            <if test="commercialHealthInsurance != null">commercial_health_insurance,</if>
+            <if test="tdpInsurance != null">tdp_insurance,</if>
+            <if test="otherIit != null">other_iit,</if>
+            <if test="otherTaxFreeDeductions != null">other_tax_free_deductions,</if>
+            <if test="taxSavings != null">tax_savings,</if>
+            <if test="remarkIit != null and remarkIit != ''">remark_iit,</if>
+            <if test="sumIit != null">sum_iit,</if>
+            <if test="annualBonus != null">annual_bonus,</if>
+            <if test="annualBonusLlt != null">annual_bonus_llt,</if>
+            <if test="afterTaxReissue != null">after_tax_reissue,</if>
+            <if test="duration != null">duration,</if>
+            <if test="currentTaxAgent != null">current_tax_agent,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="employmentNature != null">#{employmentNature},</if>
+            <if test="taxPaymentPlace != null">#{taxPaymentPlace},</if>
+            <if test="erName != null">#{erName},</if>
+            <if test="idNo != null">#{idNo},</if>
+            <if test="name != null">#{name},</if>
+            <if test="certificateType != null and certificateType != ''">#{certificateType},</if>
+            <if test="certificateNumber != null">#{certificateNumber},</if>
+            <if test="income != null">#{income},</if>
+            <if test="fsAllowance != null">#{fsAllowance},</if>
+            <if test="pension != null">#{pension},</if>
+            <if test="medical != null">#{medical},</if>
+            <if test="unemployment != null">#{unemployment},</if>
+            <if test="housingFund != null">#{housingFund},</if>
+            <if test="accumulatedChildEducation != null">#{accumulatedChildEducation},</if>
+            <if test="accumulatedContinuingEducation != null">#{accumulatedContinuingEducation},</if>
+            <if test="accumulatedHli != null">#{accumulatedHli},</if>
+            <if test="accumulatedHousingRent != null">#{accumulatedHousingRent},</if>
+            <if test="accumulatedSfte != null">#{accumulatedSfte},</if>
+            <if test="annuity != null">#{annuity},</if>
+            <if test="commercialHealthInsurance != null">#{commercialHealthInsurance},</if>
+            <if test="tdpInsurance != null">#{tdpInsurance},</if>
+            <if test="otherIit != null">#{otherIit},</if>
+            <if test="otherTaxFreeDeductions != null">#{otherTaxFreeDeductions},</if>
+            <if test="taxSavings != null">#{taxSavings},</if>
+            <if test="remarkIit != null and remarkIit != ''">#{remarkIit},</if>
+            <if test="sumIit != null">#{sumIit},</if>
+            <if test="annualBonus != null">#{annualBonus},</if>
+            <if test="annualBonusLlt != null">#{annualBonusLlt},</if>
+            <if test="afterTaxReissue != null">#{afterTaxReissue},</if>
+            <if test="duration != null">#{duration},</if>
+            <if test="currentTaxAgent != null">#{currentTaxAgent},</if>
+        </trim>
+    </insert>
+
+    <update id="updateIitReport" parameterType="IitReport">
+        update iit_report
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="taxPaymentPlace != null">tax_payment_place = #{taxPaymentPlace},</if>
+            <if test="erName != null">er_name = #{erName},</if>
+            <if test="idNo != null">id_no = #{idNo},</if>
+            <if test="name != null">name = #{name},</if>
+            <if test="certificateType != null and certificateType != ''">certificate_type = #{certificateType},</if>
+            <if test="certificateNumber != null">certificate_number = #{certificateNumber},</if>
+            <if test="income != null">income = #{income},</if>
+            <if test="fsAllowance != null">fs_allowance = #{fsAllowance},</if>
+            <if test="pension != null">pension = #{pension},</if>
+            <if test="medical != null">medical = #{medical},</if>
+            <if test="unemployment != null">unemployment = #{unemployment},</if>
+            <if test="housingFund != null">housing_fund = #{housingFund},</if>
+            <if test="accumulatedChildEducation != null">accumulated_child_education = #{accumulatedChildEducation},</if>
+            <if test="accumulatedContinuingEducation != null">accumulated_continuing_education = #{accumulatedContinuingEducation},</if>
+            <if test="accumulatedHli != null">accumulated_hli = #{accumulatedHli},</if>
+            <if test="accumulatedHousingRent != null">accumulated_housing_rent = #{accumulatedHousingRent},</if>
+            <if test="accumulatedSfte != null">accumulated_sfte = #{accumulatedSfte},</if>
+            <if test="annuity != null">annuity = #{annuity},</if>
+            <if test="commercialHealthInsurance != null">commercial_health_insurance = #{commercialHealthInsurance},</if>
+            <if test="tdpInsurance != null">tdp_insurance = #{tdpInsurance},</if>
+            <if test="otherIit != null">other_iit = #{otherIit},</if>
+            <if test="otherTaxFreeDeductions != null">other_tax_free_deductions = #{otherTaxFreeDeductions},</if>
+            <if test="taxSavings != null">tax_savings = #{taxSavings},</if>
+            <if test="remarkIit != null and remarkIit != ''">remark_iit = #{remarkIit},</if>
+            <if test="sumIit != null">sum_iit = #{sumIit},</if>
+            <if test="annualBonus != null">annual_bonus = #{annualBonus},</if>
+            <if test="annualBonusLlt != null">annual_bonus_llt = #{annualBonusLlt},</if>
+            <if test="afterTaxReissue != null">after_tax_reissue = #{afterTaxReissue},</if>
+            <if test="duration != null">duration = #{duration},</if>
+            <if test="currentTaxAgent != null">current_tax_agent = #{currentTaxAgent},</if>
+        </trim>
+        where employment_nature = #{employmentNature}
+    </update>
+
+    <delete id="deleteIitReportById" parameterType="String">
+        delete from iit_report where employment_nature = #{employmentNature}
+    </delete>
+
+    <delete id="deleteIitReportByIds" parameterType="String">
+        delete from iit_report where employment_nature in
+        <foreach item="employmentNature" collection="array" open="(" separator="," close=")">
+            #{employmentNature}
+        </foreach>
+    </delete>
+
+</mapper>

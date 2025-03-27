@@ -1,0 +1,12 @@
+com/nnroad/member/mapper/MemberEmployeeOtherinfoMapper.class
+com/nnroad/member/domain/MemberEmployeeOffboard.class
+com/nnroad/member/service/IMemberEmployeeOtherinfoService.class
+com/nnroad/member/service/IMemberEmployeeOffboardService.class
+com/nnroad/member/service/impl/MemberEmployeeOtherInfoServiceImpl.class
+com/nnroad/member/domain/MemberEmployeeOtherinfo.class
+com/nnroad/member/mapper/MemberEmployeeOffboardMapper.class
+com/nnroad/member/service/IMemberEmployeeBaseinfoService.class
+com/nnroad/member/service/impl/MemberEmployeeOffboardServiceImpl.class
+com/nnroad/member/domain/MemberEmployeeBaseinfo.class
+com/nnroad/member/mapper/MemberEmployeeBaseinfoMapper.class
+com/nnroad/member/service/impl/MemberEmployeeBaseinfoServiceImpl.class

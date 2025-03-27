@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nnroad.payroll.mapper.ClientEmployeeCalculateMapper">
+    <resultMap id="ClientEmployeeCalculateResult" type="ClientEmployeeCalculate">
+        <result property="eeCode" column="ee_code" />
+        <result property="clientCode" column="client_code"/>
+       <result property="serviceFeeType" column="service_fee_type"/>
+       <result property="serviceFeeValue" column="service_fee_value"/>
+       <result property="serviceFeeCurrency" column="service_fee_currency"/>
+        <result property="minValue" column="min_value"/>
+        <result property="maxValue" column="max_value"/>
+    </resultMap>
+
+
+    <select id="selectCalculate" resultMap="ClientEmployeeCalculateResult">
+        select ee_code,client_code,service_fee_type,service_fee_value,service_fee_currency,min_value,max_value from v_client_employee_calculate
+        where ee_code=#{eeCode}
+    </select>
+
+
+</mapper>

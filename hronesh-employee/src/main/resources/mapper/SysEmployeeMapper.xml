@@ -1,0 +1,574 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nnroad.employee.mapper.SysEmployeeMapper">
+
+    <resultMap type="SysEmployee" id="SysEmployeeResult">
+        <result property="id" column="id"/>
+        <result property="employeeCode" column="employee_code"/>
+        <result property="employeeUuid" column="employee_uuid"/>
+        <result property="companyCode" column="company_code"/>
+        <result property="status" column="status"/>
+        <result property="clientId" column="client_id"/>
+        <result property="employeeName" column="employee_name"/>
+        <result property="employeeEmail" column="employee_email"/>
+        <result property="employeePhone" column="employee_phone"/>
+        <result property="vendorId" column="vendor_id"/>
+        <result property="vendorName" column="vendor_name"/>
+        <result property="clientName" column="client_name"/>
+        <result property="location" column="location"/>
+        <result property="localName" column="local_name"/>
+        <result property="sex" column="sex"/>
+        <result property="idType" column="id_type"/>
+        <result property="idNumber" column="id_number"/>
+        <result property="nationality" column="nationality"/>
+        <result property="contractStartDate" column="contract_start_date"/>
+        <result property="contractEndDate" column="contract_end_date"/>
+        <result property="remark" column="remark"/>
+        <result property="basicFilesJson" column="basic_files"/>
+        <result property="businessType" column="business_type"/>
+        <result property="extraData" column="extra_data" typeHandler="com.nnroad.framework.datasource.JsonTypeHandler"/>
+        <result property="contractData" column="contract_data"
+                typeHandler="com.nnroad.framework.datasource.JsonTypeHandler"/>
+        <result property="payrollCrmData" column="payroll_crm_data"
+                typeHandler="com.nnroad.framework.datasource.JsonTypeHandler"/>
+        <result property="payrollDcData" column="payroll_dc_data"
+                typeHandler="com.nnroad.framework.datasource.JsonTypeHandler"/>
+        <result property="offBoardInfoData" column="off_board_info_data"
+                typeHandler="com.nnroad.framework.datasource.JsonTypeHandler"/>
+        <result property="createdAt" column="created_at"/>
+        <result property="modifiedAt" column="modified_at"/>
+        <result property="createBy" column="create_by"/>
+        <result property="updateBy" column="update_by"/>
+    </resultMap>
+
+    <sql id="selectSysEmployeeVo">
+        select id, employee_code, employee_uuid, company_code, status, client_id, employee_name, employee_email,
+        employee_phone, vendor_id, location, contract_start_date, contract_end_date, remark, basic_files, local_name,
+        id_type, id_number, nationality, sex, org, extra_data, created_at, modified_at, create_by, update_by from
+        sys_employee
+    </sql>
+
+    <select id="selectSysEmployeeList" parameterType="SysEmployee" resultMap="SysEmployeeResult">
+        SELECT e.*, c.client_name, v.vendor_name
+        FROM sys_employee e
+        INNER JOIN sys_client c ON e.client_id = c.id
+        LEFT JOIN sys_vendor v ON e.vendor_id = v.id
+        <where>
+            <if test="employeeCode!= null">e.employee_code = #{employeeCode}</if>
+            <if test="companyCode!= null">AND e.company_code = #{companyCode}</if>
+            <if test="clientId != null">AND e.client_id = #{clientId}</if>
+            <if test="status != null and status != ''">AND e.status=#{status}</if>
+            <if test="employeeName != null and employeeName != ''">AND e.employee_name LIKE CONCAT('%', #{employeeName},
+                '%')
+            </if>
+            <if test="localName != null and localName != ''">AND e.local_name LIKE CONCAT('%', #{localName}, '%')</if>
+            <if test="status != null">AND e.status LIKE CONCAT('%', #{status}, '%')</if>
+            <if test="employeeEmail != null and employeeEmail != ''">AND e.employee_email = #{employeeEmail}</if>
+            <if test="employeePhone != null and employeePhone != ''">AND e.employee_phone = #{employeePhone}</if>
+            <if test="vendorId != null">AND e.vendor_id = #{vendorId}</if>
+            <if test="location != null and location != ''">AND e.location = #{location}</if>
+            <if test="contractStartDate != null">AND e.contract_start_date = #{contractStartDate, jdbcType=DATE}</if>
+            <if test="contractEndDate != null">AND e.contract_end_date = #{contractEndDate, jdbcType=DATE}</if>
+            <if test="createdAt != null">AND e.created_at = #{createdAt}</if>
+            <if test="modifiedAt != null">AND e.modified_at = #{modifiedAt}</if>
+            <if test="extraData != null and extraData.size() > 0">
+                <!-- Loop over the extraData map -->
+                <foreach collection="extraData.entrySet()" index="key" item="element">
+                    <if test="element.type == 'nested'">
+                        <foreach collection="element.value" index="childKey" item="childElement">
+                            <if test="childElement != null and childElement != ''">
+                                AND JSON_UNQUOTE(JSON_EXTRACT(e.extra_data, '$.\"${key}\".\"${childKey}\"')) =
+                                #{childElement}
+                            </if>
+                        </foreach>
+                    </if>
+                    <if test="element.type == 'regular'">
+                        <if test="element.value != null and element.value != ''">
+                            AND JSON_UNQUOTE(JSON_EXTRACT(e.extra_data, '$.\"${key}\"')) = #{element.value}
+                        </if>
+                    </if>
+                </foreach>
+            </if>
+            <if test="params.localNames != null and params.localNames.length() > 0">
+                AND
+                <foreach item="name" collection="params.localNames.split(',')" open="(" separator="OR" close=")">
+                    local_name LIKE CONCAT('%', #{name}, '%')
+                </foreach>
+            </if>
+        </where>
+        order by created_at desc
+    </select>
+
+
+    <select id="selectEmployeeAllInfoList" parameterType="SysEmployee" resultMap="SysEmployeeResult">
+        SELECT e.*, c.client_name,
+        ec.extra_data AS contract_data,
+        epc.extra_data AS payroll_crm_data,
+        epd.extra_data AS payroll_dc_data,
+        eobi.extra_data AS off_board_info_data
+        FROM sys_employee e
+        INNER JOIN sys_client c ON e.client_id = c.id
+        LEFT JOIN employee_contract ec ON ec.employee_code = e.employee_code
+        LEFT JOIN employee_payroll_crm epc ON epc.employee_code = e.employee_code
+        LEFT JOIN employee_payroll_dc epd ON epd.employee_code = e.employee_code
+        LEFT JOIN employee_off_board_info eobi ON eobi.employee_code = e.employee_code
+        <where>
+            <if test="employeeCode != null">e.employee_code = #{employeeCode}</if>
+            <if test="companyCode != null">AND e.company_code = #{companyCode}</if>
+            <if test="clientId != null">AND e.client_id = #{clientId}</if>
+            <if test="status != null and status != ''">AND e.status = #{status}</if>
+            <if test="employeeName != null and employeeName != ''">AND e.employee_name LIKE CONCAT('%', #{employeeName},
+                '%')
+            </if>
+            <if test="localName != null and localName != ''">AND e.local_name LIKE CONCAT('%', #{localName}, '%')</if>
+            <if test="employeeEmail != null and employeeEmail != ''">AND e.employee_email = #{employeeEmail}</if>
+            <if test="employeePhone != null and employeePhone != ''">AND e.employee_phone = #{employeePhone}</if>
+            <if test="vendorId != null">AND e.vendor_id = #{vendorId}</if>
+            <if test="location != null and location != ''">AND e.location = #{location}</if>
+            <if test="contractStartDate != null">AND e.contract_start_date = #{contractStartDate, jdbcType=DATE}</if>
+            <if test="contractEndDate != null">AND e.contract_end_date = #{contractEndDate, jdbcType=DATE}</if>
+            <if test="createdAt != null">AND e.created_at = #{createdAt}</if>
+            <if test="modifiedAt != null">AND e.modified_at = #{modifiedAt}</if>
+
+            <!-- Handle extraData map conditionally -->
+            <if test="extraData != null and extraData.size() > 0">
+                <foreach collection="extraData.entrySet()" index="key" item="element">
+                    <!-- Handle nested extraData -->
+                    <if test="element.type == 'nested'">
+                        <foreach collection="element.value" index="childKey" item="childElement">
+                            <if test="childElement != null and childElement != ''">
+                                AND JSON_UNQUOTE(JSON_EXTRACT(e.extra_data, '$.\"${key}\".\"${childKey}\"')) =
+                                #{childElement}
+                            </if>
+                        </foreach>
+                    </if>
+                    <!-- Handle regular extraData -->
+                    <if test="element.type == 'regular'">
+                        <if test="element.value != null and element.value != ''">
+                            AND JSON_UNQUOTE(JSON_EXTRACT(e.extra_data, '$.\"${key}\"')) = #{element.value}
+                        </if>
+                    </if>
+                </foreach>
+            </if>
+            <if test="params.localNames != null and params.localNames.length() > 0">
+                AND
+                <foreach item="name" collection="params.localNames.split(',')" open="(" separator="OR" close=")">
+                    local_name LIKE CONCAT('%', #{name}, '%')
+                </foreach>
+            </if>
+        </where>
+    </select>
+
+
+    <select id="selectSysEmployeeById" parameterType="Long" resultMap="SysEmployeeResult">
+        SELECT
+        e.*,
+        c.client_name AS client_name,
+        v.vendor_name AS vendor_name
+        FROM
+        sys_employee e
+        JOIN
+        sys_client c ON e.client_id = c.id
+        LEFT JOIN
+        sys_vendor v ON e.vendor_id = v.id
+        WHERE
+        e.id = #{id};
+    </select>
+
+    <select id="selectSysEmployeeByUUID" parameterType="String" resultMap="SysEmployeeResult">
+        SELECT
+        e.*,
+        c.client_name AS client_name
+        FROM
+        sys_employee e
+        JOIN
+        sys_client c ON e.company_code = c.company_code
+        WHERE
+        e.employee_uuid = #{uuid}
+    </select>
+
+    <insert id="insertSysEmployee" parameterType="SysEmployee" useGeneratedKeys="true" keyProperty="id">
+        <selectKey resultType="long" keyProperty="clientId" order="BEFORE">
+            SELECT id
+            FROM sys_client
+            WHERE company_code = #{companyCode}
+        </selectKey>
+        INSERT INTO sys_employee (
+        employee_code,
+        employee_uuid,
+        client_id,
+        company_code,
+        `status`,
+        employee_name,
+        employee_email,
+        employee_phone,
+        vendor_id,
+        location,
+        contract_start_date,
+        contract_end_date,
+        remark,
+        local_name,
+        id_type,
+        id_number,
+        nationality,
+        sex,
+        org,
+        extra_data,
+        create_by,
+        update_by
+        ) VALUES (
+        #{employeeCode},
+        #{employeeUuid},
+        #{clientId},
+        #{companyCode},
+        #{status},
+        #{employeeName},
+        #{employeeEmail},
+        #{employeePhone},
+        #{vendorId},
+        #{location},
+        #{contractStartDate},
+        #{contractEndDate},
+        #{remark},
+        #{localName},
+        #{idType},
+        #{idNumber},
+        #{nationality},
+        #{sex},
+        #{org},
+        #{extraData, typeHandler=com.nnroad.framework.datasource.JsonTypeHandler},
+        #{createBy},
+        #{updateBy}
+        );
+    </insert>
+
+    <update id="updateSysEmployee" parameterType="SysEmployee">
+        UPDATE sys_employee
+        SET
+        client_id = #{clientId},
+        employee_code = #{employeeCode},
+        employee_uuid = #{employeeUuid},
+        company_code = #{companyCode},
+        status = #{status},
+        employee_name = #{employeeName},
+        employee_email = #{employeeEmail},
+        employee_phone = #{employeePhone},
+        vendor_id = #{vendorId},
+        location = #{location},
+        contract_start_date = #{contractStartDate},
+        contract_end_date = #{contractEndDate},
+        remark = #{remark},
+        basic_files = #{basicFilesJson},
+        local_name = #{localName},
+        id_type = #{idType},
+        id_number = #{idNumber},
+        nationality = #{nationality},
+        sex = #{sex},
+        org = #{org},
+        created_at = #{createdAt},
+        modified_at = #{modifiedAt},
+        create_by = #{createBy},
+        update_by = #{updateBy},
+        extra_data = #{extraData, typeHandler=com.nnroad.framework.datasource.JsonTypeHandler}
+        WHERE employee_code = #{employeeCode};
+    </update>
+
+    <delete id="deleteSysEmployeeById" parameterType="Long">
+        delete from sys_employee where id = #{id}
+    </delete>
+
+    <delete id="deleteSysEmployeeByIds" parameterType="String">
+        delete from sys_employee where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <update id="removeEmployeeFromClient">
+        UPDATE sys_employee
+        SET client_id = NULL
+        WHERE id = #{employeeId} AND client_id = #{clientId}
+    </update>
+
+    <update id="removeEmployeeFromVendor">
+        UPDATE sys_employee
+        SET vendor_id = NULL
+        WHERE id = #{employeeId} AND vendor_id = #{vendorId}
+    </update>
+
+    <select id="queryBaseByClientCode" resultType="com.nnroad.employee.model.dto.EEBaseDTO">
+        select
+        employee_code as code,
+        employee_name as name,
+        local_name as localName
+        from
+        sys_employee
+        where
+        company_code = #{clientCode}
+        <if test="statusList != null and statusList.size > 0">
+            <foreach collection="statusList" item="status" open="and status in(" close=")" separator=",">
+                #{status}
+            </foreach>
+        </if>
+    </select>
+
+    <select id="getEmployeesByClientId" parameterType="Long" resultMap="SysEmployeeResult">
+        SELECT
+        e.*,
+        c.client_name AS client_name,
+        v.vendor_name AS vendor_name
+        FROM
+        sys_employee e
+        JOIN
+        sys_client c ON e.client_id = c.id
+        LEFT JOIN
+        sys_vendor v ON e.vendor_id = v.id
+        WHERE
+        e.client_id = #{clientId}
+    </select>
+
+    <select id="getEmployeesByVendorId" parameterType="Long" resultMap="SysEmployeeResult">
+        SELECT * FROM sys_employee WHERE vendor_id = #{vendorId}
+    </select>
+
+    <select id="checkMaxCodeEmployee" resultType="integer" parameterType="SysEmployee">
+        select count(1) from sys_employee where employee_code >= #{employeeCode} and employee_code like
+        concat(#{params.keyPrefix}, '%')
+    </select>
+
+    <select id="getMaxCodeEmployee" resultType="string">
+        select max(employee_code) from sys_employee where employee_code like concat(#{params.keyPrefix}, '%')
+    </select>
+
+    <select id="selectClientEmployeeByCode" resultMap="SysEmployeeResult" parameterType="string">
+        select * from sys_employee where employee_code = #{employeeCode} LIMIT 1;
+    </select>
+
+    <select id="selectEEByCode" resultMap="SysEmployeeResult">
+        <include refid="selectSysEmployeeVo"/>
+        where
+        company_code = #{clientCode}
+        and employee_code = #{eeCode}
+    </select>
+
+    <select id="selectClientEE" resultMap="SysEmployeeResult">
+        <include refid="selectSysEmployeeVo"/>
+        where
+        company_code = #{clientCode}
+        and employee_name = #{eeName}
+        and id_number = #{idNumber}
+    </select>
+
+    <select id="selectEmploymentContract" resultType="java.lang.String">
+        select extra_data->>'$."424"' AS employmentContract from employee_contract
+        where employee_code=#{eeCode}
+
+    </select>
+
+    <select id="selectTotalCommericalInsurance" resultType="java.lang.String">
+        select Total_commercial_insurance from v_employee_info
+        where ee_code=#{eeCode}
+    </select>
+
+    <select id="selectTotalExistingEmployee" resultType="java.lang.Integer">
+        <include refid="eestatistic"/>
+        WHERE
+        (f.entry_date &lt;= #{startDate})
+        AND (f.offboard_date > #{startDate} OR f.offboard_date IS NULL)
+        AND f.org IN
+        <foreach item="org" collection="orgs.split(',')" open="(" separator="," close=")">
+            #{org}
+        </foreach>
+
+    </select>
+
+    <select id="selectTotalNewEmployee" resultType="java.lang.Integer">
+        <include refid="eestatistic"/>
+        WHERE
+        f.entry_date BETWEEN #{startDate} AND #{endDate}
+        AND f.org IN
+        <foreach item="org" collection="orgs.split(',')" open="(" separator="," close=")">
+            #{org}
+        </foreach>
+    </select>
+
+    <select id="selectTotalExitEmployee" resultType="java.lang.Integer">
+        <include refid="eestatistic"/>
+        WHERE
+        f.offboard_date BETWEEN #{estartDate} AND #{eendDate}
+        AND f.org IN
+        <foreach item="org" collection="orgs.split(',')" open="(" separator="," close=")">
+            #{org}
+        </foreach>
+    </select>
+
+
+    <sql id="eestatistic">
+        SELECT count(*)
+        FROM (
+            SELECT DISTINCT
+                c.`employee_code`,
+                c.`employee_name`,
+                c.`status`,
+                c.org,
+                c.contract_start_date,
+                -- off board date
+                STR_TO_DATE(
+                    CASE
+                        WHEN JSON_UNQUOTE(JSON_EXTRACT(c.extra_data, '$."230"')) IS NULL
+                        OR JSON_UNQUOTE(JSON_EXTRACT(c.extra_data, '$."230"')) = 'null'
+                        OR JSON_UNQUOTE(JSON_EXTRACT(c.extra_data, '$."230"')) = 'Offboard'
+                        THEN NULL
+                        ELSE JSON_UNQUOTE(JSON_EXTRACT(c.extra_data, '$."230"'))
+                        END, '%Y-%m-%d') AS offboard_date,
+                c.id_number,
+                -- entry date
+                STR_TO_DATE(
+                    CASE
+                        WHEN JSON_UNQUOTE(JSON_EXTRACT(d.extra_data, '$."54"')) IS NULL
+                        OR JSON_UNQUOTE(JSON_EXTRACT(d.extra_data, '$."54"')) = 'null'
+                        THEN NULL
+                        ELSE JSON_UNQUOTE(JSON_EXTRACT(d.extra_data, '$."54"'))
+                    END, '%Y-%m-%d') AS entry_date
+        FROM sys_employee c
+            LEFT JOIN employee_contract d ON c.`employee_code` = d.employee_code
+            LEFT JOIN employee_payroll_crm dci ON c.`employee_code` = dci.employee_code
+        WHERE
+
+            c.`status` != 'To Be Sent'
+            -- 员工服务类型
+            AND JSON_UNQUOTE(JSON_EXTRACT(dci.extra_data, '$."224"')) IS NOT NULL
+            AND JSON_UNQUOTE(JSON_EXTRACT(dci.extra_data, '$."224"')) != 'null'
+            AND JSON_UNQUOTE(JSON_EXTRACT(dci.extra_data, '$."224"')) != ''
+            AND JSON_UNQUOTE(JSON_EXTRACT(dci.extra_data, '$."224"')) NOT IN (
+                'Agency',
+                'Advanced Agency',
+                '高级代理',
+                '代理',
+                '代理-Channel',
+                'Agency-Channel'
+                )
+            -- 排除 entry_date 为空的记录
+            AND NOT EXISTS (
+                SELECT 1
+                FROM sys_employee c2
+                LEFT JOIN employee_contract d2 ON c2.`employee_code` = d2.employee_code
+                WHERE
+                    c2.id_number = c.id_number
+                    -- offboard date
+                    AND STR_TO_DATE(
+                        CASE
+                            WHEN JSON_UNQUOTE(JSON_EXTRACT(c2.extra_data, '$."230"')) IS NULL
+                            OR JSON_UNQUOTE(JSON_EXTRACT(c2.extra_data, '$."230"')) = 'null'
+                            OR JSON_UNQUOTE(JSON_EXTRACT(c.extra_data, '$."230"')) = 'Offboard'
+                            THEN NULL
+                            ELSE JSON_UNQUOTE(JSON_EXTRACT(c2.extra_data, '$."230"'))
+                        END, '%Y-%m-%d') =
+                    STR_TO_DATE(
+                        CASE
+                            WHEN JSON_UNQUOTE(JSON_EXTRACT(c.extra_data, '$."230"')) IS NULL
+                            OR JSON_UNQUOTE(JSON_EXTRACT(c.extra_data, '$."230"')) = 'null'
+                            OR JSON_UNQUOTE(JSON_EXTRACT(c.extra_data, '$."230"')) = 'Offboard'
+                            THEN NULL
+                            ELSE JSON_UNQUOTE(JSON_EXTRACT(c.extra_data, '$."230"'))
+                        END, '%Y-%m-%d')
+                    AND STR_TO_DATE(
+                    CASE
+                        WHEN JSON_UNQUOTE(JSON_EXTRACT(d2.extra_data, '$."54"')) IS NULL
+                        OR JSON_UNQUOTE(JSON_EXTRACT(d2.extra_data, '$."54"')) = 'null'
+                        THEN NULL
+                        ELSE JSON_UNQUOTE(JSON_EXTRACT(d2.extra_data, '$."54"'))
+                        END, '%Y-%m-%d') IS NULL
+                    )
+                    AND (
+                        -- offboard date
+                        STR_TO_DATE(
+                            CASE
+                                WHEN JSON_UNQUOTE(JSON_EXTRACT(c.extra_data, '$."230"')) IS NULL
+                                OR JSON_UNQUOTE(JSON_EXTRACT(c.extra_data, '$."230"')) = 'null'
+                                OR JSON_UNQUOTE(JSON_EXTRACT(c.extra_data, '$."230"')) = 'Offboard'
+                                THEN NULL
+                                ELSE JSON_UNQUOTE(JSON_EXTRACT(c.extra_data, '$."230"'))
+                            END, '%Y-%m-%d') IS NULL
+                    OR NOT EXISTS (
+                    -- Only compare valid records, ignore status = 'To Be Sent'
+                        SELECT 1
+                        FROM sys_employee c2
+                        LEFT JOIN employee_contract d2 ON c2.`employee_code` = d2.employee_code
+                        WHERE
+                        c2.id_number = c.id_number
+                        -- compare entry date
+                        AND STR_TO_DATE(
+                            CASE
+                                WHEN JSON_UNQUOTE(JSON_EXTRACT(d2.extra_data, '$."54"')) IS NULL
+                                OR JSON_UNQUOTE(JSON_EXTRACT(d2.extra_data, '$."54"')) = 'null'
+                                THEN NULL
+                                ELSE JSON_UNQUOTE(JSON_EXTRACT(d2.extra_data, '$."54"'))
+                            END, '%Y-%m-%d') =
+                            STR_TO_DATE(
+                                CASE
+                                    WHEN JSON_UNQUOTE(JSON_EXTRACT(d.extra_data, '$."54"')) IS NULL
+                                    OR JSON_UNQUOTE(JSON_EXTRACT(d.extra_data, '$."54"')) = 'null'
+                                    THEN NULL
+                                    ELSE JSON_UNQUOTE(JSON_EXTRACT(d.extra_data, '$."54"'))
+                                END, '%Y-%m-%d')
+                        AND c2.`status` != 'To Be Sent'
+                        AND (
+                            -- offboard date
+                            STR_TO_DATE(
+                                CASE
+                                    WHEN JSON_UNQUOTE(JSON_EXTRACT(c2.extra_data, '$."230"')) IS NULL
+                                    OR JSON_UNQUOTE(JSON_EXTRACT(c2.extra_data, '$."230"')) = 'null'
+                                    OR JSON_UNQUOTE(JSON_EXTRACT(c.extra_data, '$."230"')) = 'Offboard'
+                                    THEN NULL
+                                    ELSE JSON_UNQUOTE(JSON_EXTRACT(c2.extra_data, '$."230"'))
+                                END, '%Y-%m-%d') IS NULL
+                        OR (
+                            -- off board date
+                            STR_TO_DATE(
+                            CASE
+                                WHEN JSON_UNQUOTE(JSON_EXTRACT(c.extra_data, '$."230"')) IS NULL
+                                OR JSON_UNQUOTE(JSON_EXTRACT(c.extra_data, '$."230"')) = 'null'
+                                OR JSON_UNQUOTE(JSON_EXTRACT(c.extra_data, '$."230"')) = 'Offboard'
+                                THEN NULL
+                                ELSE JSON_UNQUOTE(JSON_EXTRACT(c.extra_data, '$."230"'))
+                                END, '%Y-%m-%d') IS NOT NULL
+                        AND STR_TO_DATE(
+                            -- off board date
+                            CASE
+                                WHEN JSON_UNQUOTE(JSON_EXTRACT(c2.extra_data, '$."230"')) IS NULL
+                                OR JSON_UNQUOTE(JSON_EXTRACT(c2.extra_data, '$."230"')) = 'null'
+                                OR JSON_UNQUOTE(JSON_EXTRACT(c.extra_data, '$."230"')) = 'Offboard'
+                                THEN NULL
+                                ELSE JSON_UNQUOTE(JSON_EXTRACT(c2.extra_data, '$."230"'))
+                                END, '%Y-%m-%d') >
+                            -- off board date
+                            STR_TO_DATE(
+                                CASE
+                                    WHEN JSON_UNQUOTE(JSON_EXTRACT(c.extra_data, '$."230"')) IS NULL
+                                    OR JSON_UNQUOTE(JSON_EXTRACT(c.extra_data, '$."230"')) = 'null'
+                                    OR JSON_UNQUOTE(JSON_EXTRACT(c.extra_data, '$."230"')) = 'Offboard'
+                                    THEN NULL
+                                    ELSE JSON_UNQUOTE(JSON_EXTRACT(c.extra_data, '$."230"'))
+                                END, '%Y-%m-%d')
+                        )
+                    )
+                )
+            )
+        ) AS f
+    </sql>
+
+
+    <select id="getEmployeeList" resultMap="SysEmployeeResult">
+        SELECT `main`.`employee_code`,
+        ( CASE WHEN (( `main`.`local_name` IS NOT NULL )
+        AND ( `main`.`local_name` != '' )) THEN
+        `main`.`local_name`
+        ELSE `main`.`employee_name`
+        END ) AS employee_name
+        FROM `sys_employee` `main`
+    </select>
+
+</mapper>

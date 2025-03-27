@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nnroad.employee.mapper.getDataSyncFromHRHKMapper">
+
+    <resultMap type="SysEmployee" id="SysEmployeeResult">
+        <result property="id"    column="id"    />
+        <result property="employeeCode"    column="employee_code"    />
+        <result property="employeeUuid"    column="employee_uuid"    />
+        <result property="companyCode"    column="company_code"    />
+        <result property="status" column="status"/>
+        <result property="clientId"    column="client_id"    />
+        <result property="employeeName"    column="employee_name"    />
+        <result property="employeeEmail"    column="employee_email"    />
+        <result property="employeePhone"    column="employee_phone"    />
+        <result property="vendorId"    column="vendor_id"    />
+        <result property="vendorName" column="vendor_name" />
+        <result property="clientName" column="client_name" />
+        <result property="location"    column="location"    />
+        <result property="localName"    column="local_name"    />
+        <result property="sex"    column="sex"    />
+        <result property="idType"    column="id_type"    />
+        <result property="idNumber"    column="id_number"    />
+        <result property="nationality"    column="nationality"    />
+        <result property="contractStartDate"    column="contract_start_date"    />
+        <result property="contractEndDate"    column="contract_end_date"    />
+        <result property="remark"    column="remark"    />
+        <result property="basicFilesJson"    column="basic_files"    />
+        <result property="businessType"    column="business_type"    />
+        <result property="extraData"    column="extra_data"  typeHandler = "com.nnroad.framework.datasource.JsonTypeHandler"  />
+        <result property="createdAt"    column="created_at"    />
+        <result property="modifiedAt"    column="modified_at"    />
+    </resultMap>
+
+    <sql id="selectSysEmployeeVo">
+        select id, employee_code, employee_uuid, company_code, status, client_id, employee_name, employee_email, employee_phone, vendor_id, location, contract_start_date, contract_end_date, remark, basic_files, local_name, id_type, id_number, nationality, sex, org, extra_data, created_at, modified_at from sys_employee
+    </sql>
+
+    <select id="getEmployeeInfoByCode" parameterType="string" resultMap="SysEmployeeResult">
+        select * from sys_employee where employee_code = #{employeeCode}
+    </select>
+
+
+</mapper>
+
+

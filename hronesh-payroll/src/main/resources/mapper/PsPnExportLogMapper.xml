@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nnroad.payroll.mapper.PsPnExportLogMapper">
+    
+    <resultMap type="PsPnExportLog" id="PsPnExportLogResult">
+        <result property="id"    column="id"    />
+        <result property="duration"    column="duration"    />
+        <result property="erNo"    column="er_no"    />
+        <result property="erName"    column="er_name"    />
+        <result property="fileName"    column="file_name"    />
+        <result property="fileStatus"    column="file_status"    />
+        <result property="fileAddress"    column="file_address"    />
+        <result property="fileSource" column="file_source"/>
+        <result property="delFlag"    column="del_flag"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+        <result property="groupIds"    column="group_ids"    />
+    </resultMap>
+
+    <sql id="selectPsPnExportLogVo">
+        select id, duration, er_no, er_name, file_name, file_status, file_address,file_source, del_flag, create_by, create_time, update_by, update_time, remark, group_ids from ps_pn_export_log
+    </sql>
+
+    <select id="selectPsPnExportLogList" parameterType="PsPnExportLog" resultMap="PsPnExportLogResult">
+        <include refid="selectPsPnExportLogVo"/>
+        <where>
+            <choose>
+                <when test="params.beginTime != null and params.beginTime != '' and params.endTime !=null and params.endTime != ''">
+                    and duration >= #{params.beginTime}
+                    and duration &lt;= #{params.endTime}
+                </when>
+                <when test="duration != null  and duration != ''">
+                    and duration = #{duration}
+                </when>
+            </choose>
+            <if test="erNo != null  and erNo != ''"> and er_no = #{erNo}</if>
+            <if test="erName != null  and erName != ''"> and er_name like concat('%', #{erName}, '%')</if>
+            <if test="fileName != null  and fileName != ''"> and file_name like concat('%', #{fileName}, '%')</if>
+            <if test="fileStatus != null"> and file_status = #{fileStatus}</if>
+            <if test="fileSource !=null">and file_source = #{fileSource}</if>
+<!--            <if test="groupIds != null  and groupIds != ''"> and group_ids = #{groupIds}</if>-->
+            <if test="delFlag != null  and delFlag != ''"> and del_flag = #{delFlag}</if>
+        </where>
+        ORDER BY id DESC
+    </select>
+    
+    <select id="selectPsPnExportLogById" parameterType="Long" resultMap="PsPnExportLogResult">
+        <include refid="selectPsPnExportLogVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertPsPnExportLog" parameterType="PsPnExportLog" useGeneratedKeys="true" keyProperty="id">
+        insert into ps_pn_export_log
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="duration != null">duration,</if>
+            <if test="erNo != null">er_no,</if>
+            <if test="erName != null">er_name,</if>
+            <if test="fileName != null">file_name,</if>
+            <if test="fileStatus != null">file_status,</if>
+            <if test="fileAddress != null">file_address,</if>
+            <if test="fileSource != null">file_source,</if>
+            <if test="delFlag != null">del_flag,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null">remark,</if>
+            <if test="groupIds != null">group_ids,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="duration != null">#{duration},</if>
+            <if test="erNo != null">#{erNo},</if>
+            <if test="erName != null">#{erName},</if>
+            <if test="fileName != null">#{fileName},</if>
+            <if test="fileStatus != null">#{fileStatus},</if>
+            <if test="fileAddress != null">#{fileAddress},</if>
+            <if test="fileSource !=null">#{fileSource},</if>
+            <if test="delFlag != null">#{delFlag},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="groupIds != null">#{groupIds},</if>
+         </trim>
+    </insert>
+
+    <update id="updatePsPnExportLog" parameterType="PsPnExportLog">
+        update ps_pn_export_log
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="duration != null">duration = #{duration},</if>
+            <if test="erNo != null">er_no = #{erNo},</if>
+            <if test="erName != null">er_name = #{erName},</if>
+            <if test="fileName != null">file_name = #{fileName},</if>
+            <if test="fileStatus != null">file_status = #{fileStatus},</if>
+            <if test="fileAddress != null">file_address = #{fileAddress},</if>
+            <if test="fileSource !=null">file_source =#{fileSource},</if>
+            <if test="delFlag != null">del_flag = #{delFlag},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="groupIds != null">group_ids = #{groupIds},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deletePsPnExportLogByIds" parameterType="String">
+        delete from ps_pn_export_log where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

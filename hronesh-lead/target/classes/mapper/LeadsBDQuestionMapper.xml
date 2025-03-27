@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nnroad.lead.mapper.LeadsBDQuestionMapper">
+
+    <resultMap type="com.nnroad.lead.domain.ClientDBQuestion" id="ClientDBQuestionResult">
+        <result property="fid" column="fid" />
+        <result property="fsurvey" column="fsurvey" />
+        <result property="freciverId" column="freciver_id" />
+        <result property="freciverName" column="freciver_name" />
+        <result property="fother" column="fother" />
+        <result property="bdConsultant" column="bd_consultant" />
+        <result property="fsubmitAt" column="fsubmit_at" />
+        <result property="fsendAt" column="fsend_at" />
+        <result property="fresult" column="fresult" />
+        <result property="freciverEmail" column="freciver_email" />
+        <result property="status" column="status" />
+        <result property="score" column="score" />
+        <result property="ffollowedAt" column="ffollowed_at"/>
+        <result property="ffollowedBy" column="ffollowed_by"/>
+    </resultMap>
+
+    <sql id="selectLeadsBDQuestion">
+        SELECT
+            dgsrb.fid,
+            dgsrb.fsurvey,
+            dgsrb.freciver_id,
+            dgsrb.freciver_name,
+            dgsrb.fother,
+            dgsrb.bd_consultant,
+            dgsrb.fsubmit_at,
+            dgsrb.fsend_at,
+            dgsrb.fresult,
+            dgsrb.freciver_email,
+            dgsrb.status,
+            CAST(JSON_UNQUOTE(JSON_EXTRACT(fresult, '$[0].value')) AS UNSIGNED) AS score,
+            dgsrb.ffollowed_at,
+            su.user_name as ffollowed_by
+        FROM
+            dc_gv_survey_result_bd AS dgsrb
+        LEFT JOIN sys_user su ON su.user_id = dgsrb.ffollowed_by
+    </sql>
+
+    <select id="selectLeadsQuestion" parameterType="com.nnroad.lead.domain.ClientDBQuestion" resultMap="ClientDBQuestionResult">
+        <include refid="selectLeadsBDQuestion"/>
+        <where>
+            <if test="ffollowedBy != null and ffollowedBy != ''">
+                AND su.user_id = dgsrb.ffollowed_by
+            </if>
+
+            <if test="freciverId != null and freciverId != ''">
+                and dgsrb.freciver_id = #{freciverId}
+            </if>
+            <if test="freciverName != null and freciverName != ''">
+                and dgsrb.freciver_name = #{freciverName}
+            </if>
+            <if test="status != null and status != ''">
+                and dgsrb.status = #{status}
+            </if>
+            <if test="fresult != null and fresult != ''">
+                <choose>
+                    <when test="fresult == 1">
+                        and dgsrb.fsubmit_at is not null
+                    </when>
+                    <when test="fresult == 0">
+                        and dgsrb.fsubmit_at is null
+                    </when>
+                </choose>
+            </if>
+            <if test="remarkStatus != null and remarkStatus != ''">
+                <choose>
+                    <when test="remarkStatus == 0">
+                        and (dgsrb.fresult->'$[1].value' is null or dgsrb.fresult->'$[1].value' = '')
+                    </when>
+                    <when test="remarkStatus == 1">
+                        and (dgsrb.fresult->'$[1].value' is not null and dgsrb.fresult->'$[1].value' != '')
+                    </when>
+                </choose>
+            </if>
+            <if test="scores != null and !scores.isEmpty()">
+                and CAST(JSON_UNQUOTE(JSON_EXTRACT(dgsrb.fresult, '$[0].value')) AS UNSIGNED) in
+                <foreach item="score" collection="scores" open="(" separator="," close=")">
+                    #{score}
+                </foreach>
+            </if>
+            <if test="sendAtStart != null and sendAtStart != '' and sendAtEnd != null and sendAtEnd != ''">
+                and dgsrb.fsend_at between UNIX_TIMESTAMP(STR_TO_DATE(#{sendAtStart},'%Y-%m-%d %H:%i:%s'))*1000 and UNIX_TIMESTAMP(STR_TO_DATE(#{sendAtEnd},'%Y-%m-%d %H:%i:%s'))*1000
+            </if>
+        </where>
+        ORDER BY dgsrb.fid DESC
+    </select>
+
+    <select id="selectBDQuestion" resultType="java.lang.String">
+        select fquestions from t_survey where ftype='bd'
+    </select>
+
+    <select id="selectBDQuery" resultType="java.lang.String">
+        SELECT fresult
+        FROM dc_gv_survey_result_bd
+        WHERE fsend_at BETWEEN #{sendStartDate} AND #{sendEndDate}
+            AND fsubmit_at is not null
+    </select>
+
+    <select id="selectBDstatus" resultType="java.lang.Integer">
+        SELECT COUNT(*) AS count
+        FROM dc_gv_survey_result_bd
+        WHERE fsurvey = 'de3ef33d4a3543a6b242cc1d10894b70'
+          AND status = #{status}
+          AND fsend_at BETWEEN #{sendStartDate} AND #{sendEndDate}
+    </select>
+
+    <select id="countBDQuery" resultType="java.lang.Integer">
+        SELECT COUNT(*) AS count
+        FROM dc_gv_survey_result_bd
+        WHERE fsend_at BETWEEN #{sendStartDate} AND #{sendEndDate}
+    </select>
+
+    <select id="countBDScores" resultType="java.lang.Integer">
+        SELECT COALESCE(SUM(CAST(JSON_UNQUOTE(JSON_EXTRACT(fresult, '$[0].value')) AS UNSIGNED)), 0) AS sumScore
+        FROM dc_gv_survey_result_bd
+        WHERE fsurvey = 'de3ef33d4a3543a6b242cc1d10894b70'
+          AND status = #{status}
+          AND fsend_at BETWEEN #{sendStartDate} AND #{sendEndDate}
+          AND fsubmit_at is not null
+    </select>
+
+    <select id="countBDSubmit" resultType="java.lang.Integer">
+        SELECT COUNT(*) AS count
+        FROM dc_gv_survey_result_bd
+        WHERE fsurvey = 'de3ef33d4a3543a6b242cc1d10894b70'
+          AND status = #{status}
+          AND fsend_at BETWEEN #{sendStartDate} AND #{sendEndDate}
+          AND fsubmit_at is not null
+    </select>
+
+    <update id="updateDBQuestionFollowStatus">
+        update t_survey_result set ffollowed_at = #{ffollowedAt}, ffollowed_by = #{ffollowedBy} where fid = #{fid}
+    </update>
+
+</mapper>

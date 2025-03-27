@@ -1,0 +1,613 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nnroad.payroll.mapper.PsPayrollMapper">
+
+    <resultMap type="PsPayroll" id="PsPayrollResult">
+        <result property="id"    column="id"    />
+        <result property="department"    column="department"    />
+        <result property="clientCode" column="client_code"/>
+        <result property="clientName" column="client_name"/>
+        <result property="duration"    column="duration"    />
+        <result property="idNo"    column="id_no"    />
+        <result property="name"    column="name"    />
+        <result property="netIncome"    column="net_income"    />
+        <result property="expense"    column="expense"    />
+        <result property="foreignerAllowance"    column="foreigner_allowance"    />
+        <result property="ipPension"    column="ip_pension"    />
+        <result property="ipMedical"    column="ip_medical"    />
+        <result property="ipUnemployment"    column="ip_unemployment"    />
+        <result property="ipHousingFund"    column="ip_housing_fund"    />
+        <result property="ipAnnuity"    column="ip_annuity"    />
+        <result property="ipUnionFee"    column="ip_union_fee"    />
+        <result property="IIT"    column="IIT"    />
+        <result property="balanceCharge"    column="balance_charge"    />
+        <result property="epPension"    column="ep_pension"    />
+        <result property="epMedical"    column="ep_medical"    />
+        <result property="epUnemployment"    column="ep_unemployment"    />
+        <result property="maternity"    column="maternity"    />
+        <result property="workRelatedInjury"    column="work_related_Injury"    />
+        <result property="disability"    column="disability"    />
+        <result property="epHousingFund"    column="ep_housing_fund"    />
+        <result property="epAnnuity"    column="ep_annuity"    />
+        <result property="epUnionFee"    column="ep_union_fee"    />
+        <result property="epHeatingFee"    column="ep_heating_fee"    />
+        <result property="commercialInsurance"    column="commercial_insurance"    />
+        <result property="otherBenefits"    column="other_benefits"    />
+        <result property="serviceFee"    column="service_fee"    />
+        <result property="businessTax"    column="business_tax"    />
+        <result property="deposit"    column="deposit"    />
+        <result property="employerLiability"    column="employer_liability"    />
+        <result property="officeSeat"    column="office_seat"    />
+        <result property="others"    column="others"    />
+        <result property="serviceFeeTax"    column="service_fee_tax"    />
+        <result property="valueAddedTax"    column="value_added_tax"    />
+        <result property="totalCost"    column="total_cost"    />
+        <result property="taxFreeItem"    column="tax_free_item"    />
+        <result property="remarks"    column="remarks"    />
+        <result property="groupIds"    column="group_ids"    />
+        <result property="payrollSource" column="payroll_source"/>
+        <result property="createBy"   column="create_by"   />
+        <result property="createTime" column="create_time" />
+        <result property="updateBy"   column="update_by"   />
+        <result property="updateTime" column="update_time" />
+    </resultMap>
+
+    <sql id="selectPsPayrollVo">
+        select id, department, duration, id_no, name, net_income, expense, foreigner_allowance, ip_pension, ip_medical, ip_unemployment, ip_housing_fund, ip_annuity, ip_union_fee, IIT, balance_charge, ep_pension, ep_medical, ep_unemployment, ep_heating_fee, maternity, work_related_Injury, disability, ep_housing_fund, ep_annuity, ep_union_fee, commercial_insurance, other_benefits, service_fee, business_tax, deposit, employer_liability, office_seat, others, service_fee_tax, value_added_tax, total_cost, tax_free_item, remarks, group_ids, payroll_source,create_by, create_time, update_by, update_time from ps_payroll
+    </sql>
+
+    <sql id="selectVendorPsPayrollVo">
+        select id, department, duration, id_no, name, net_income, expense, foreigner_allowance, ip_pension, ip_medical, ip_unemployment, ip_housing_fund, ip_annuity, ip_union_fee, IIT, balance_charge, ep_pension, ep_medical, ep_unemployment, ep_heating_fee, maternity, work_related_Injury, disability, ep_housing_fund, ep_annuity, ep_union_fee, commercial_insurance, other_benefits, service_fee, business_tax, deposit, employer_liability, office_seat, others, service_fee_tax, value_added_tax, total_cost, tax_free_item, remarks, group_ids, payroll_source,create_by, create_time, update_by, update_time from vendor_ps_payroll
+    </sql>
+
+
+    <select id="selectPsPayrollList" parameterType="PsPayroll" resultMap="PsPayrollResult">
+        <include refid="selectPsPayrollVo"/>
+        <where>
+            <if test="department != null  and department != ''"> and department = #{department}</if>
+            <if test="duration != null  and duration != ''"> and duration = #{duration}</if>
+            <if test="idNo != null  and idNo != ''"> and id_no = #{idNo}</if>
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="netIncome != null "> and net_income = #{netIncome}</if>
+            <if test="expense != null "> and expense = #{expense}</if>
+            <if test="foreignerAllowance != null "> and foreigner_allowance = #{foreignerAllowance}</if>
+            <if test="ipPension != null "> and ip_pension = #{ipPension}</if>
+            <if test="ipMedical != null "> and ip_medical = #{ipMedical}</if>
+            <if test="ipUnemployment != null "> and ip_unemployment = #{ipUnemployment}</if>
+            <if test="ipHousingFund != null "> and ip_housing_fund = #{ipHousingFund}</if>
+            <if test="ipAnnuity != null "> and ip_annuity = #{ipAnnuity}</if>
+            <if test="ipUnionFee != null "> and ip_union_fee = #{ipUnionFee}</if>
+            <if test="IIT != null "> and IIT = #{IIT}</if>
+            <if test="balanceCharge != null "> and balance_charge = #{balanceCharge}</if>
+            <if test="epPension != null "> and ep_pension = #{epPension}</if>
+            <if test="epMedical != null "> and ep_medical = #{epMedical}</if>
+            <if test="epUnemployment != null "> and ep_unemployment = #{epUnemployment}</if>
+            <if test="maternity != null "> and maternity = #{maternity}</if>
+            <if test="workRelatedInjury != null "> and work_related_Injury = #{workRelatedInjury}</if>
+            <if test="disability != null "> and disability = #{disability}</if>
+            <if test="epHousingFund != null "> and ep_housing_fund = #{epHousingFund}</if>
+            <if test="epAnnuity != null "> and ep_annuity = #{epAnnuity}</if>
+            <if test="epUnionFee != null "> and ep_union_fee = #{epUnionFee}</if>
+            <if test="epHeatingFee != null "> and ep_heating_fee = #{epHeatingFee}</if>
+            <if test="commercialInsurance != null "> and commercial_insurance = #{commercialInsurance}</if>
+            <if test="otherBenefits != null "> and other_benefits = #{otherBenefits}</if>
+            <if test="serviceFee != null "> and service_fee = #{serviceFee}</if>
+            <if test="businessTax != null "> and business_tax = #{businessTax}</if>
+            <if test="deposit != null "> and deposit = #{deposit}</if>
+            <if test="employerLiability != null "> and employer_liability = #{employerLiability}</if>
+            <if test="officeSeat != null "> and office_seat = #{officeSeat}</if>
+            <if test="serviceFeeTax != null "> and service_fee_tax = #{serviceFeeTax}</if>
+            <if test="valueAddedTax != null "> and value_added_tax = #{valueAddedTax}</if>
+            <if test="totalCost != null "> and total_cost = #{totalCost}</if>
+        </where>
+        order by duration desc,id_no
+    </select>
+
+    <select id="selectVendorPsPayrollList" parameterType="PsPayroll" resultMap="PsPayrollResult">
+        <include refid="selectVendorPsPayrollVo"/>
+        <where>
+            <if test="department != null  and department != ''"> and department = #{department}</if>
+            <if test="duration != null  and duration != ''"> and duration = #{duration}</if>
+            <if test="idNo != null  and idNo != ''"> and id_no = #{idNo}</if>
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="netIncome != null "> and net_income = #{netIncome}</if>
+            <if test="expense != null "> and expense = #{expense}</if>
+            <if test="foreignerAllowance != null "> and foreigner_allowance = #{foreignerAllowance}</if>
+            <if test="ipPension != null "> and ip_pension = #{ipPension}</if>
+            <if test="ipMedical != null "> and ip_medical = #{ipMedical}</if>
+            <if test="ipUnemployment != null "> and ip_unemployment = #{ipUnemployment}</if>
+            <if test="ipHousingFund != null "> and ip_housing_fund = #{ipHousingFund}</if>
+            <if test="ipAnnuity != null "> and ip_annuity = #{ipAnnuity}</if>
+            <if test="ipUnionFee != null "> and ip_union_fee = #{ipUnionFee}</if>
+            <if test="IIT != null "> and IIT = #{IIT}</if>
+            <if test="balanceCharge != null "> and balance_charge = #{balanceCharge}</if>
+            <if test="epPension != null "> and ep_pension = #{epPension}</if>
+            <if test="epMedical != null "> and ep_medical = #{epMedical}</if>
+            <if test="epUnemployment != null "> and ep_unemployment = #{epUnemployment}</if>
+            <if test="maternity != null "> and maternity = #{maternity}</if>
+            <if test="workRelatedInjury != null "> and work_related_Injury = #{workRelatedInjury}</if>
+            <if test="disability != null "> and disability = #{disability}</if>
+            <if test="epHousingFund != null "> and ep_housing_fund = #{epHousingFund}</if>
+            <if test="epAnnuity != null "> and ep_annuity = #{epAnnuity}</if>
+            <if test="epUnionFee != null "> and ep_union_fee = #{epUnionFee}</if>
+            <if test="epHeatingFee != null "> and ep_heating_fee = #{epHeatingFee}</if>
+            <if test="commercialInsurance != null "> and commercial_insurance = #{commercialInsurance}</if>
+            <if test="otherBenefits != null "> and other_benefits = #{otherBenefits}</if>
+            <if test="serviceFee != null "> and service_fee = #{serviceFee}</if>
+            <if test="businessTax != null "> and business_tax = #{businessTax}</if>
+            <if test="deposit != null "> and deposit = #{deposit}</if>
+            <if test="employerLiability != null "> and employer_liability = #{employerLiability}</if>
+            <if test="officeSeat != null "> and office_seat = #{officeSeat}</if>
+            <if test="serviceFeeTax != null "> and service_fee_tax = #{serviceFeeTax}</if>
+            <if test="valueAddedTax != null "> and value_added_tax = #{valueAddedTax}</if>
+            <if test="totalCost != null "> and total_cost = #{totalCost}</if>
+        </where>
+        order by duration desc,id_no
+    </select>
+
+
+    <select id="selectPsPayrollById" parameterType="Long" resultMap="PsPayrollResult">
+        <include refid="selectPsPayrollVo"/>
+        where id = #{id}
+    </select>
+
+    <select id="selectPsPayrollListBySource" parameterType="PsPayroll" resultMap="PsPayrollResult">
+        SELECT
+            pp.id,
+            vv.client_code,
+            vv.client_name,
+            pp.department,
+            pp.duration,
+            pp.id_no,
+            pp.NAME,
+            pp.net_income,
+            pp.expense,
+            pp.foreigner_allowance,
+            pp.ip_pension,
+            pp.ip_medical,
+            pp.ip_unemployment,
+            pp.ip_housing_fund,
+            pp.ip_annuity,
+            pp.ip_union_fee,
+            pp.IIT,
+            pp.balance_charge,
+            pp.ep_pension,
+            pp.ep_medical,
+            pp.ep_unemployment,
+            pp.ep_heating_fee,
+            pp.maternity,
+            pp.work_related_Injury,
+            pp.disability,
+            pp.ep_housing_fund,
+            pp.ep_annuity,
+            pp.ep_union_fee,
+            pp.commercial_insurance,
+            pp.other_benefits,
+            pp.service_fee,
+            pp.business_tax,
+            pp.deposit,
+            pp.employer_liability,
+            pp.office_seat,
+            pp.others,
+            pp.service_fee_tax,
+            pp.value_added_tax,
+            pp.total_cost,
+            pp.tax_free_item,
+            pp.remarks,
+            pp.group_ids,
+            pp.payroll_source,
+            pp.create_by,
+            pp.create_time,
+            pp.update_by,
+            pp.update_time
+        FROM
+            ps_payroll pp
+        LEFT JOIN v_employee_info vv ON vv.ee_code = pp.id_no
+        <where>
+            <if test="department != null  and department != ''"> and department = #{department}</if>
+            <if test="duration != null  and duration != ''"> and duration = #{duration}</if>
+            <if test="idNo != null  and idNo != ''"> and id_no = #{idNo}</if>
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="clientName != null  and clientName != ''"> and client_name like concat('%', #{clientName}, '%')</if>
+            <if test="netIncome != null "> and net_income = #{netIncome}</if>
+            <if test="expense != null "> and expense = #{expense}</if>
+            <if test="foreignerAllowance != null "> and foreigner_allowance = #{foreignerAllowance}</if>
+            <if test="ipPension != null "> and ip_pension = #{ipPension}</if>
+            <if test="ipMedical != null "> and ip_medical = #{ipMedical}</if>
+            <if test="ipUnemployment != null "> and ip_unemployment = #{ipUnemployment}</if>
+            <if test="ipHousingFund != null "> and ip_housing_fund = #{ipHousingFund}</if>
+            <if test="ipAnnuity != null "> and ip_annuity = #{ipAnnuity}</if>
+            <if test="ipUnionFee != null "> and ip_union_fee = #{ipUnionFee}</if>
+            <if test="IIT != null "> and IIT = #{IIT}</if>
+            <if test="balanceCharge != null "> and balance_charge = #{balanceCharge}</if>
+            <if test="epPension != null "> and ep_pension = #{epPension}</if>
+            <if test="epMedical != null "> and ep_medical = #{epMedical}</if>
+            <if test="epUnemployment != null "> and ep_unemployment = #{epUnemployment}</if>
+            <if test="maternity != null "> and maternity = #{maternity}</if>
+            <if test="workRelatedInjury != null "> and work_related_Injury = #{workRelatedInjury}</if>
+            <if test="disability != null "> and disability = #{disability}</if>
+            <if test="epHousingFund != null "> and ep_housing_fund = #{epHousingFund}</if>
+            <if test="epAnnuity != null "> and ep_annuity = #{epAnnuity}</if>
+            <if test="epUnionFee != null "> and ep_union_fee = #{epUnionFee}</if>
+            <if test="epHeatingFee != null "> and ep_heating_fee = #{epHeatingFee}</if>
+            <if test="commercialInsurance != null "> and commercial_insurance = #{commercialInsurance}</if>
+            <if test="otherBenefits != null "> and other_benefits = #{otherBenefits}</if>
+            <if test="serviceFee != null "> and service_fee = #{serviceFee}</if>
+            <if test="businessTax != null "> and business_tax = #{businessTax}</if>
+            <if test="deposit != null "> and deposit = #{deposit}</if>
+            <if test="employerLiability != null "> and employer_liability = #{employerLiability}</if>
+            <if test="officeSeat != null "> and office_seat = #{officeSeat}</if>
+            <if test="serviceFeeTax != null "> and service_fee_tax = #{serviceFeeTax}</if>
+            <if test="valueAddedTax != null "> and value_added_tax = #{valueAddedTax}</if>
+            <if test="totalCost != null "> and total_cost = #{totalCost}</if>
+            <if test="payrollSource !=null">and payroll_source like concat('%', #{payrollSource}, '%')</if>
+            and pp.payroll_source IS NOT NULL
+            and TRIM(pp.payroll_source) != ''
+        </where>
+        order by pp.duration desc,pp.id_no
+    </select>
+
+
+    <select id=" getPsPayrollByIdnoAndduration" resultMap="PsPayrollResult">
+        <include refid="selectPsPayrollVo"/>
+        where id_no = #{idNo} and duration=#{duration}
+    </select>
+
+    <select id="getPsPayroll" parameterType="PsPayroll" resultMap="PsPayrollResult">
+        <include refid="selectPsPayrollVo"/>
+        <where>
+            <if test="duration != null  and duration != ''"> and duration = #{duration}</if>
+            <if test="idNo != null  and idNo != ''"> and id_no = #{idNo}</if>
+        </where>
+    </select>
+
+    <insert id="insertPsPayroll" parameterType="PsPayroll" useGeneratedKeys="true" keyProperty="id">
+        insert into ps_payroll
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="department != null">department,</if>
+            <if test="duration != null">duration,</if>
+            <if test="idNo != null">id_no,</if>
+            <if test="name != null">name,</if>
+            <if test="netIncome != null">net_income,</if>
+            <if test="expense != null">expense,</if>
+            <if test="foreignerAllowance != null">foreigner_allowance,</if>
+            <if test="ipPension != null">ip_pension,</if>
+            <if test="ipMedical != null">ip_medical,</if>
+            <if test="ipUnemployment != null">ip_unemployment,</if>
+            <if test="ipHousingFund != null">ip_housing_fund,</if>
+            <if test="ipAnnuity != null">ip_annuity,</if>
+            <if test="ipUnionFee != null">ip_union_fee,</if>
+            <if test="IIT != null">IIT,</if>
+            <if test="balanceCharge != null">balance_charge,</if>
+            <if test="epPension != null">ep_pension,</if>
+            <if test="epMedical != null">ep_medical,</if>
+            <if test="epUnemployment != null">ep_unemployment,</if>
+            <if test="maternity != null">maternity,</if>
+            <if test="workRelatedInjury != null">work_related_Injury,</if>
+            <if test="disability != null">disability,</if>
+            <if test="epHousingFund != null">ep_housing_fund,</if>
+            <if test="epAnnuity != null">ep_annuity,</if>
+            <if test="epUnionFee != null">ep_union_fee,</if>
+            <if test="epHeatingFee != null">ep_heating_fee,</if>
+            <if test="commercialInsurance != null">commercial_insurance,</if>
+            <if test="otherBenefits != null">other_benefits,</if>
+            <if test="serviceFee != null">service_fee,</if>
+            <if test="businessTax != null">business_tax,</if>
+            <if test="deposit != null">deposit,</if>
+            <if test="employerLiability != null">employer_liability,</if>
+            <if test="officeSeat != null">office_seat,</if>
+            <if test="others != null">others,</if>
+            <if test="serviceFeeTax != null ">service_fee_tax,</if>
+            <if test="valueAddedTax != null">value_added_tax,</if>
+            <if test="totalCost != null">total_cost,</if>
+            <if test="taxFreeItem != null">tax_free_item,</if>
+            <if test="payrollSource !=null">payroll_source,</if>
+            <if test="remarks != null">remarks,</if>
+            <if test="groupIds != null and groupIds !=''">group_ids,</if>
+            <if test="createBy != null and createBy != ''">create_by,</if>
+            create_time
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="department != null">#{department},</if>
+            <if test="duration != null">#{duration},</if>
+            <if test="idNo != null">#{idNo},</if>
+            <if test="name != null">#{name},</if>
+            <if test="netIncome != null">#{netIncome},</if>
+            <if test="expense != null">#{expense},</if>
+            <if test="foreignerAllowance != null">#{foreignerAllowance},</if>
+            <if test="ipPension != null">#{ipPension},</if>
+            <if test="ipMedical != null">#{ipMedical},</if>
+            <if test="ipUnemployment != null">#{ipUnemployment},</if>
+            <if test="ipHousingFund != null">#{ipHousingFund},</if>
+            <if test="ipAnnuity != null">#{ipAnnuity},</if>
+            <if test="ipUnionFee != null">#{ipUnionFee},</if>
+            <if test="IIT != null">#{IIT},</if>
+            <if test="balanceCharge != null">#{balanceCharge},</if>
+            <if test="epPension != null">#{epPension},</if>
+            <if test="epMedical != null">#{epMedical},</if>
+            <if test="epUnemployment != null">#{epUnemployment},</if>
+            <if test="maternity != null">#{maternity},</if>
+            <if test="workRelatedInjury != null">#{workRelatedInjury},</if>
+            <if test="disability != null">#{disability},</if>
+            <if test="epHousingFund != null">#{epHousingFund},</if>
+            <if test="epAnnuity != null">#{epAnnuity},</if>
+            <if test="epUnionFee != null">#{epUnionFee},</if>
+            <if test="epHeatingFee != null">#{epHeatingFee},</if>
+            <if test="commercialInsurance != null">#{commercialInsurance},</if>
+            <if test="otherBenefits != null">#{otherBenefits},</if>
+            <if test="serviceFee != null">#{serviceFee},</if>
+            <if test="businessTax != null">#{businessTax},</if>
+            <if test="deposit != null">#{deposit},</if>
+            <if test="employerLiability != null">#{employerLiability},</if>
+            <if test="officeSeat != null">#{officeSeat},</if>
+            <if test="others != null">#{others},</if>
+            <if test="serviceFeeTax != null ">#{serviceFeeTax},</if>
+            <if test="valueAddedTax != null">#{valueAddedTax},</if>
+            <if test="totalCost != null">#{totalCost},</if>
+            <if test="taxFreeItem != null">#{taxFreeItem},</if>
+            <if test="payrollSource !=null">#{payrollSource},</if>
+            <if test="remarks != null">#{remarks},</if>
+            <if test="groupIds != null and groupIds !=''">#{groupIds},</if>
+            <if test="createBy != null and createBy != ''">#{createBy},</if>
+            sysdate()
+        </trim>
+    </insert>
+
+    <insert id="insertVendorPsPayroll" parameterType="PsPayroll" useGeneratedKeys="true" keyProperty="id">
+        insert into vendor_ps_payroll
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="department != null">department,</if>
+            <if test="duration != null">duration,</if>
+            <if test="idNo != null">id_no,</if>
+            <if test="name != null">name,</if>
+            <if test="netIncome != null">net_income,</if>
+            <if test="expense != null">expense,</if>
+            <if test="foreignerAllowance != null">foreigner_allowance,</if>
+            <if test="ipPension != null">ip_pension,</if>
+            <if test="ipMedical != null">ip_medical,</if>
+            <if test="ipUnemployment != null">ip_unemployment,</if>
+            <if test="ipHousingFund != null">ip_housing_fund,</if>
+            <if test="ipAnnuity != null">ip_annuity,</if>
+            <if test="ipUnionFee != null">ip_union_fee,</if>
+            <if test="IIT != null">IIT,</if>
+            <if test="balanceCharge != null">balance_charge,</if>
+            <if test="epPension != null">ep_pension,</if>
+            <if test="epMedical != null">ep_medical,</if>
+            <if test="epUnemployment != null">ep_unemployment,</if>
+            <if test="maternity != null">maternity,</if>
+            <if test="workRelatedInjury != null">work_related_Injury,</if>
+            <if test="disability != null">disability,</if>
+            <if test="epHousingFund != null">ep_housing_fund,</if>
+            <if test="epAnnuity != null">ep_annuity,</if>
+            <if test="epUnionFee != null">ep_union_fee,</if>
+            <if test="epHeatingFee != null">ep_heating_fee,</if>
+            <if test="commercialInsurance != null">commercial_insurance,</if>
+            <if test="otherBenefits != null">other_benefits,</if>
+            <if test="serviceFee != null">service_fee,</if>
+            <if test="businessTax != null">business_tax,</if>
+            <if test="deposit != null">deposit,</if>
+            <if test="employerLiability != null">employer_liability,</if>
+            <if test="officeSeat != null">office_seat,</if>
+            <if test="others != null">others,</if>
+            <if test="serviceFeeTax != null ">service_fee_tax,</if>
+            <if test="valueAddedTax != null">value_added_tax,</if>
+            <if test="totalCost != null">total_cost,</if>
+            <if test="taxFreeItem != null">tax_free_item,</if>
+            <if test="remarks != null">remarks,</if>
+            <if test="groupIds != null and groupIds !=''">group_ids,</if>
+            <if test="createBy != null and createBy != ''">create_by,</if>
+            create_time
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="department != null">#{department},</if>
+            <if test="duration != null">#{duration},</if>
+            <if test="idNo != null">#{idNo},</if>
+            <if test="name != null">#{name},</if>
+            <if test="netIncome != null">#{netIncome},</if>
+            <if test="expense != null">#{expense},</if>
+            <if test="foreignerAllowance != null">#{foreignerAllowance},</if>
+            <if test="ipPension != null">#{ipPension},</if>
+            <if test="ipMedical != null">#{ipMedical},</if>
+            <if test="ipUnemployment != null">#{ipUnemployment},</if>
+            <if test="ipHousingFund != null">#{ipHousingFund},</if>
+            <if test="ipAnnuity != null">#{ipAnnuity},</if>
+            <if test="ipUnionFee != null">#{ipUnionFee},</if>
+            <if test="IIT != null">#{IIT},</if>
+            <if test="balanceCharge != null">#{balanceCharge},</if>
+            <if test="epPension != null">#{epPension},</if>
+            <if test="epMedical != null">#{epMedical},</if>
+            <if test="epUnemployment != null">#{epUnemployment},</if>
+            <if test="maternity != null">#{maternity},</if>
+            <if test="workRelatedInjury != null">#{workRelatedInjury},</if>
+            <if test="disability != null">#{disability},</if>
+            <if test="epHousingFund != null">#{epHousingFund},</if>
+            <if test="epAnnuity != null">#{epAnnuity},</if>
+            <if test="epUnionFee != null">#{epUnionFee},</if>
+            <if test="epHeatingFee != null">#{epHeatingFee},</if>
+            <if test="commercialInsurance != null">#{commercialInsurance},</if>
+            <if test="otherBenefits != null">#{otherBenefits},</if>
+            <if test="serviceFee != null">#{serviceFee},</if>
+            <if test="businessTax != null">#{businessTax},</if>
+            <if test="deposit != null">#{deposit},</if>
+            <if test="employerLiability != null">#{employerLiability},</if>
+            <if test="officeSeat != null">#{officeSeat},</if>
+            <if test="others != null">#{others},</if>
+            <if test="serviceFeeTax != null ">#{serviceFeeTax},</if>
+            <if test="valueAddedTax != null">#{valueAddedTax},</if>
+            <if test="totalCost != null">#{totalCost},</if>
+            <if test="taxFreeItem != null">#{taxFreeItem},</if>
+            <if test="remarks != null">#{remarks},</if>
+            <if test="groupIds != null and groupIds !=''">#{groupIds},</if>
+            <if test="createBy != null and createBy != ''">#{createBy},</if>
+            sysdate()
+        </trim>
+    </insert>
+
+    <update id="updatePsPayroll" parameterType="PsPayroll">
+        update ps_payroll
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="department != null">department = #{department},</if>
+            <if test="duration != null">duration = #{duration},</if>
+            <if test="idNo != null">id_no = #{idNo},</if>
+            <if test="name != null">name = #{name},</if>
+            <if test="netIncome != null">net_income = #{netIncome},</if>
+            <if test="expense != null">expense = #{expense},</if>
+            <if test="foreignerAllowance != null">foreigner_allowance = #{foreignerAllowance},</if>
+            <if test="ipPension != null">ip_pension = #{ipPension},</if>
+            <if test="ipMedical != null">ip_medical = #{ipMedical},</if>
+            <if test="ipUnemployment != null">ip_unemployment = #{ipUnemployment},</if>
+            <if test="ipHousingFund != null">ip_housing_fund = #{ipHousingFund},</if>
+            <if test="ipAnnuity != null">ip_annuity = #{ipAnnuity},</if>
+            <if test="ipUnionFee != null">ip_union_fee = #{ipUnionFee},</if>
+            <if test="IIT != null">IIT = #{IIT},</if>
+            <if test="balanceCharge != null">balance_charge = #{balanceCharge},</if>
+            <if test="epPension != null">ep_pension = #{epPension},</if>
+            <if test="epMedical != null">ep_medical = #{epMedical},</if>
+            <if test="epUnemployment != null">ep_unemployment = #{epUnemployment},</if>
+            <if test="maternity != null">maternity = #{maternity},</if>
+            <if test="workRelatedInjury != null">work_related_Injury = #{workRelatedInjury},</if>
+            <if test="disability != null">disability = #{disability},</if>
+            <if test="epHousingFund != null">ep_housing_fund = #{epHousingFund},</if>
+            <if test="epAnnuity != null">ep_annuity = #{epAnnuity},</if>
+            <if test="epUnionFee != null">ep_union_fee = #{epUnionFee},</if>
+            <if test="epHeatingFee != null">ep_heating_fee = #{epHeatingFee},</if>
+            <if test="commercialInsurance != null">commercial_insurance = #{commercialInsurance},</if>
+            <if test="otherBenefits != null">other_benefits = #{otherBenefits},</if>
+            <if test="serviceFee != null">service_fee = #{serviceFee},</if>
+            <if test="businessTax != null">business_tax = #{businessTax},</if>
+            <if test="deposit != null">deposit = #{deposit},</if>
+            <if test="employerLiability != null">employer_liability = #{employerLiability},</if>
+            <if test="officeSeat != null">office_seat = #{officeSeat},</if>
+            <if test="others != null">others = #{others},</if>
+            <if test="serviceFeeTax != null ">service_fee_tax = #{serviceFeeTax},</if>
+            <if test="valueAddedTax != null">value_added_tax = #{valueAddedTax},</if>
+            <if test="totalCost != null">total_cost = #{totalCost},</if>
+            <if test="taxFreeItem != null">tax_free_item = #{taxFreeItem},</if>
+            <if test="payrollSource !=null">payroll_source =#{payrollSource},</if>
+            <if test="remarks != null">remarks = #{remarks},</if>
+            <if test="groupIds != null and groupIds !=''">group_ids = #{groupIds},</if>
+            <if test="updateBy != null and updateBy != ''">update_by = #{updateBy},</if>
+            update_time = sysdate()
+        </trim>
+        where id = #{id}
+    </update>
+
+    <update id="batchUpdatePsPayroll" parameterType="java.util.List">
+        <foreach collection="list" item="psPayroll" index="index" separator=";">
+            update ps_payroll
+            <trim prefix="SET" suffixOverrides=",">
+                <if test="psPayroll.department != null">department = #{psPayroll.department},</if>
+                <if test="psPayroll.duration != null">duration = #{psPayroll.duration},</if>
+                <if test="psPayroll.idNo != null">id_no = #{psPayroll.idNo},</if>
+                <if test="psPayroll.name != null">name = #{psPayroll.name},</if>
+                <if test="psPayroll.netIncome != null">net_income = #{psPayroll.netIncome},</if>
+                <if test="psPayroll.expense != null">expense = #{psPayroll.expense},</if>
+                <if test="psPayroll.foreignerAllowance != null">foreigner_allowance = #{psPayroll.foreignerAllowance},</if>
+                <if test="psPayroll.ipPension != null">ip_pension = #{psPayroll.ipPension},</if>
+                <if test="psPayroll.ipMedical != null">ip_medical = #{psPayroll.ipMedical},</if>
+                <if test="psPayroll.ipUnemployment != null">ip_unemployment = #{psPayroll.ipUnemployment},</if>
+                <if test="psPayroll.ipHousingFund != null">ip_housing_fund = #{psPayroll.ipHousingFund},</if>
+                <if test="psPayroll.ipAnnuity != null">ip_annuity = #{psPayroll.ipAnnuity},</if>
+                <if test="psPayroll.ipUnionFee != null">ip_union_fee = #{psPayroll.ipUnionFee},</if>
+                <if test="psPayroll.IIT != null">IIT = #{psPayroll.IIT},</if>
+                <if test="psPayroll.balanceCharge != null">balance_charge = #{psPayroll.balanceCharge},</if>
+                <if test="psPayroll.epPension != null">ep_pension = #{psPayroll.epPension},</if>
+                <if test="psPayroll.epMedical != null">ep_medical = #{psPayroll.epMedical},</if>
+                <if test="psPayroll.epUnemployment != null">ep_unemployment = #{psPayroll.epUnemployment},</if>
+                <if test="psPayroll.maternity != null">maternity = #{psPayroll.maternity},</if>
+                <if test="psPayroll.workRelatedInjury != null">work_related_injury = #{psPayroll.workRelatedInjury},</if>
+                <if test="psPayroll.disability != null">disability = #{psPayroll.disability},</if>
+                <if test="psPayroll.epHousingFund != null">ep_housing_fund = #{psPayroll.epHousingFund},</if>
+                <if test="psPayroll.epAnnuity != null">ep_annuity = #{psPayroll.epAnnuity},</if>
+                <if test="psPayroll.epUnionFee != null">ep_union_fee = #{psPayroll.epUnionFee},</if>
+                <if test="psPayroll.epHeatingFee != null">ep_heating_fee = #{psPayroll.epHeatingFee},</if>
+                <if test="psPayroll.commercialInsurance != null">commercial_insurance = #{psPayroll.commercialInsurance},</if>
+                <if test="psPayroll.otherBenefits != null">other_benefits = #{psPayroll.otherBenefits},</if>
+                <if test="psPayroll.serviceFee != null">service_fee = #{psPayroll.serviceFee},</if>
+                <if test="psPayroll.businessTax != null">business_tax = #{psPayroll.businessTax},</if>
+                <if test="psPayroll.deposit != null">deposit = #{psPayroll.deposit},</if>
+                <if test="psPayroll.employerLiability != null">employer_liability = #{psPayroll.employerLiability},</if>
+                <if test="psPayroll.officeSeat != null">office_seat = #{psPayroll.officeSeat},</if>
+                <if test="psPayroll.others != null">others = #{psPayroll.others},</if>
+                <if test="psPayroll.serviceFeeTax != null">service_fee_tax = #{psPayroll.serviceFeeTax},</if>
+                <if test="psPayroll.valueAddedTax != null">value_added_tax = #{psPayroll.valueAddedTax},</if>
+                <if test="psPayroll.totalCost != null">total_cost = #{psPayroll.totalCost},</if>
+                <if test="psPayroll.taxFreeItem != null">tax_free_item = #{psPayroll.taxFreeItem},</if>
+                <if test="psPayroll.payrollSource != null">payroll_source = #{psPayroll.payrollSource},</if>
+                <if test="psPayroll.remarks != null">remarks = #{psPayroll.remarks},</if>
+                <if test="psPayroll.groupIds != null and psPayroll.groupIds !=''">group_ids = #{psPayroll.groupIds},</if>
+                <if test="psPayroll.updateBy != null and psPayroll.updateBy != ''">update_by = #{psPayroll.updateBy},</if>
+                update_time = sysdate()
+            </trim>
+            where id = #{psPayroll.id}
+        </foreach>
+    </update>
+
+
+
+    <update id="updateVendorPsPayroll" parameterType="PsPayroll">
+        update vendor_ps_payroll
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="department != null">department = #{department},</if>
+            <if test="duration != null">duration = #{duration},</if>
+            <if test="idNo != null">id_no = #{idNo},</if>
+            <if test="name != null">name = #{name},</if>
+            <if test="netIncome != null">net_income = #{netIncome},</if>
+            <if test="expense != null">expense = #{expense},</if>
+            <if test="foreignerAllowance != null">foreigner_allowance = #{foreignerAllowance},</if>
+            <if test="ipPension != null">ip_pension = #{ipPension},</if>
+            <if test="ipMedical != null">ip_medical = #{ipMedical},</if>
+            <if test="ipUnemployment != null">ip_unemployment = #{ipUnemployment},</if>
+            <if test="ipHousingFund != null">ip_housing_fund = #{ipHousingFund},</if>
+            <if test="ipAnnuity != null">ip_annuity = #{ipAnnuity},</if>
+            <if test="ipUnionFee != null">ip_union_fee = #{ipUnionFee},</if>
+            <if test="IIT != null">IIT = #{IIT},</if>
+            <if test="balanceCharge != null">balance_charge = #{balanceCharge},</if>
+            <if test="epPension != null">ep_pension = #{epPension},</if>
+            <if test="epMedical != null">ep_medical = #{epMedical},</if>
+            <if test="epUnemployment != null">ep_unemployment = #{epUnemployment},</if>
+            <if test="maternity != null">maternity = #{maternity},</if>
+            <if test="workRelatedInjury != null">work_related_Injury = #{workRelatedInjury},</if>
+            <if test="disability != null">disability = #{disability},</if>
+            <if test="epHousingFund != null">ep_housing_fund = #{epHousingFund},</if>
+            <if test="epAnnuity != null">ep_annuity = #{epAnnuity},</if>
+            <if test="epUnionFee != null">ep_union_fee = #{epUnionFee},</if>
+            <if test="epHeatingFee != null">ep_heating_fee = #{epHeatingFee},</if>
+            <if test="commercialInsurance != null">commercial_insurance = #{commercialInsurance},</if>
+            <if test="otherBenefits != null">other_benefits = #{otherBenefits},</if>
+            <if test="serviceFee != null">service_fee = #{serviceFee},</if>
+            <if test="businessTax != null">business_tax = #{businessTax},</if>
+            <if test="deposit != null">deposit = #{deposit},</if>
+            <if test="employerLiability != null">employer_liability = #{employerLiability},</if>
+            <if test="officeSeat != null">office_seat = #{officeSeat},</if>
+            <if test="others != null">others = #{others},</if>
+            <if test="serviceFeeTax != null ">service_fee_tax = #{serviceFeeTax},</if>
+            <if test="valueAddedTax != null">value_added_tax = #{valueAddedTax},</if>
+            <if test="totalCost != null">total_cost = #{totalCost},</if>
+            <if test="taxFreeItem != null">tax_free_item = #{taxFreeItem},</if>
+            <if test="payrollSource !=null">payroll_source =#{payrollSource},</if>
+            <if test="remarks != null">remarks = #{remarks},</if>
+            <if test="groupIds != null and groupIds !=''">group_ids = #{groupIds},</if>
+            <if test="updateBy != null and updateBy != ''">update_by = #{updateBy},</if>
+            update_time = sysdate()
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deletePsPayrollByKey" parameterType="PsPayroll">
+        DELETE FROM ps_payroll WHERE duration = #{duration} AND id_no = #{idNo}
+    </delete>
+
+    <select id="getPsPayrollByIdnoAndduration" resultMap="PsPayrollResult">
+        <include refid="selectPsPayrollVo"/>
+        where id_no = #{idNo} and duration=#{duration}
+    </select>
+
+    <select id="getVendorPsPayrollByIdnoAndduration" resultMap="PsPayrollResult">
+        <include refid="selectVendorPsPayrollVo"/>
+        where id_no = #{idNo} and duration=#{duration}
+    </select>
+
+</mapper>

@@ -1,0 +1,535 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nnroad.timeline.mapper.SysTimelineMapper">
+    
+    <resultMap type="SysTimeline" id="SysTimelineResult">
+        <result property="id"    column="id"    />
+		<result property="month"    column="month"    />
+		<result property="year"    column="year"    />
+        <result property="clientName"    column="client_name"    />
+		<result property="organizationName"    column="organization_name"    />
+		<result property="clientCompanyCode"    column="client_company_code"    />
+        <result property="crm"    column="crm"    />
+        <result property="dc"    column="dc"    />
+        <result property="vrm"    column="vrm"    />
+		<result property="vendorCompanyCode"    column="vendor_company_code"    />
+        <result property="service"    column="service"    />
+        <result property="extraData"    column="extra_data"   typeHandler = "com.nnroad.framework.datasource.JsonTypeHandler" />
+		<result property="uuid"    column="uuid"    />
+	</resultMap>
+
+    <sql id="selectSysTimelineVo">
+        select id, crm, dc, vrm, service, extra_data from sys_timeline
+    </sql>
+
+    <select id="selectSysTimelineList" parameterType="SysTimeline" resultMap="SysTimelineResult">
+        SELECT 
+		    st.id,
+			st.year,
+			st.month,
+			c.client_name AS client_name,
+			st.client_company_code,
+		    st.dc,
+		    st.vrm,
+		    st.vendor_id,
+			st.vendor_company_code,
+			st.uuid,
+			st.organization_name,
+
+			JSON_UNQUOTE(JSON_EXTRACT(cbs.extra_data, '$."182"')) AS crm,
+
+			JSON_UNQUOTE(JSON_EXTRACT(cbs.extra_data, '$."185"')) AS service,
+
+<!--			extraData field-->
+			JSON_SET(
+				st.extra_data,
+
+				'$."374"."397"',
+				JSON_UNQUOTE(JSON_EXTRACT(cc.extra_data, '$."314"')),
+
+				'$."373"."391"',
+				JSON_UNQUOTE(JSON_EXTRACT(cc.extra_data, '$."315"')),
+
+				'$."408"',
+				CASE
+					WHEN JSON_EXTRACT(cc.extra_data, '$."162"') IS NOT NULL
+						AND JSON_EXTRACT(cc.extra_data, '$."162"') != st.organization_name
+					THEN JSON_EXTRACT(cc.extra_data, '$."162"')
+					ELSE JSON_EXTRACT(st.extra_data, '$."408"')
+				END
+
+				) AS extra_data
+
+		FROM 
+		    sys_timeline st
+		JOIN
+			sys_client c ON st.client_company_code = c.company_code
+		JOIN
+			client_contract cc ON st.client_company_code = cc.company_code
+		JOIN
+			client_billing_status cbs ON st.client_company_code = cbs.company_code
+
+    	WHERE 1=1
+
+<!--		AND (st.vendor_company_code IS NULL OR st.vendor_company_code = '' OR st.vendor_company_code IN ('FDI', 'HRSH', 'Top FDI', 'HRHK', 'HRBJ'))-->
+
+			<if test="params['timelineType'] != null">
+				<choose>
+					<when test="params['timelineType'].contains('mainTimeline') and params['timelineType'].contains('vendorTimeline')">
+						-- Return all records when both types are present
+					</when>
+					<when test="params['timelineType'].contains('mainTimeline')">
+						AND c.org = st.organization_name
+					</when>
+					<when test="params['timelineType'].contains('vendorTimeline')">
+						AND c.org != st.organization_name
+					</when>
+				</choose>
+			</if>
+
+			<if test="clientCompanyCode != null">
+				AND st.client_company_code = #{clientCompanyCode}
+			</if>
+			<if test="organizationName != null and organizationName != ''">
+				AND st.organization_name = #{organizationName}
+			</if>
+			<if test="year != null and year != ''">
+				AND st.year = #{year}
+			</if>
+			<if test="month != null and month != ''">
+				AND st.month = #{month}
+			</if>
+		    <if test="crm != null and crm != ''">
+		        AND st.crm = #{crm}
+		    </if>
+		    <if test="dc != null and dc != ''">
+		        AND st.dc = #{dc}
+		    </if>
+		    <if test="vrm != null and vrm != ''">
+		        AND st.vrm = #{vrm}
+		    </if>
+			<if test="vendorCompanyCode != null">
+				AND st.vendor_company_code = #{vendorCompanyCode}
+			</if>
+		    <if test="service != null and service != ''">
+		        AND st.service = #{service}
+		    </if>
+
+		    <if test="extraData != null and extraData != ''">
+		        AND st.extra_data = #{extraData}
+		    </if>
+			<if test="uuid != null and uuid != ''">
+				AND st.uuid = #{uuid}
+			</if>
+			<if test="clientCompanyCodeArray != null and clientCompanyCodeArray.size() > 0">
+				AND st.client_company_code IN
+				<foreach item="code" collection="clientCompanyCodeArray" open="(" separator="," close=")">
+					#{code}
+				</foreach>
+			</if>
+
+
+			<if test="params['clientInfoExchangeDateFromClientActualSelected'] != null and params['clientInfoExchangeDateFromClientActualSelected'] == 'yes'">
+				<choose>
+					<when test="params['clientInfoExchangeDateFromClientActual'] != null">
+						AND JSON_UNQUOTE(JSON_EXTRACT(st.extra_data, '$."370"."381"')) = #{params.clientInfoExchangeDateFromClientActual}
+					</when>
+					<otherwise>
+						AND JSON_EXTRACT(st.extra_data, '$."370"."381"') IS NOT NULL
+						AND JSON_UNQUOTE(JSON_EXTRACT(st.extra_data, '$."370"."381"')) != ''
+						AND JSON_UNQUOTE(JSON_EXTRACT(st.extra_data, '$."370"."381"')) != 'null'
+					</otherwise>
+				</choose>
+			</if>
+
+
+			<!--  
+			<if test="params['salaryFundIssueDateActual'] != null and params['salaryFundIssueDateActual'] == 'yes'">
+				AND JSON_EXTRACT(st.extra_data, '$."376"."402"') IS NOT NULL
+				AND JSON_UNQUOTE(JSON_EXTRACT(st.extra_data, '$."376"."402"')) != ''
+				AND JSON_UNQUOTE(JSON_EXTRACT(st.extra_data, '$."376"."402"')) != 'null'
+			</if>
+			-->
+			<if test="params['salaryFundIssueDateActual'] != null">
+				AND JSON_UNQUOTE(JSON_EXTRACT(st.extra_data, '$."376"."402"')) = #{params.salaryFundIssueDateActual}
+			</if>
+			
+		ORDER BY st.client_company_code ASC, st.year ASC, st.month ASC, st.vendor_company_code ASC
+    </select>
+
+	<select id="selectSysExternalVendorTimelineList" parameterType="SysTimeline" resultMap="SysTimelineResult">
+		SELECT
+		st.id,
+		st.year,
+		st.month,
+		c.client_name AS client_name,
+		st.client_company_code,
+		st.dc,
+		st.vrm,
+		st.vendor_company_code,
+		st.uuid,
+		st.organization_name,
+
+		JSON_UNQUOTE(JSON_EXTRACT(cbs.extra_data, '$."182"')) AS crm,
+
+		JSON_UNQUOTE(JSON_EXTRACT(cbs.extra_data, '$."185"')) AS service,
+
+		<!--			extraData field-->
+		JSON_SET(
+		st.extra_data,
+
+		'$."374"."397"',
+		JSON_UNQUOTE(JSON_EXTRACT(cc.extra_data, '$."314"')),
+
+		'$."373"."391"',
+		JSON_UNQUOTE(JSON_EXTRACT(cc.extra_data, '$."315"')),
+
+		'$."408"',
+		CASE
+		WHEN JSON_EXTRACT(cc.extra_data, '$."162"') IS NOT NULL
+		AND JSON_EXTRACT(cc.extra_data, '$."162"') != st.organization_name
+		THEN JSON_EXTRACT(cc.extra_data, '$."162"')
+		ELSE JSON_EXTRACT(st.extra_data, '$."408"')
+		END
+
+
+		) AS extra_data
+
+		FROM
+		sys_timeline st
+		JOIN
+		sys_client c ON st.client_company_code = c.company_code
+		JOIN
+		client_contract cc ON st.client_company_code = cc.company_code
+		JOIN
+		client_billing_status cbs ON st.client_company_code = cbs.company_code
+
+		WHERE 1=1
+
+		AND (st.vendor_company_code IS NOT NULL and st.vendor_company_code NOT IN ('FDI', 'HRSH', 'Top FDI', 'HRHK', 'HRBJ', ''))
+
+
+		<if test="clientCompanyCode != null">
+			AND st.client_company_code = #{clientCompanyCode}
+		</if>
+		<if test="organizationName != null and organizationName != ''">
+			AND st.organization_name = #{organizationName}
+		</if>
+		<if test="year != null and year != ''">
+			AND st.year = #{year}
+		</if>
+		<if test="month != null and month != ''">
+			AND st.month = #{month}
+		</if>
+		<if test="crm != null and crm != ''">
+			AND st.crm = #{crm}
+		</if>
+		<if test="dc != null and dc != ''">
+			AND st.dc = #{dc}
+		</if>
+		<if test="vrm != null and vrm != ''">
+			AND st.vrm = #{vrm}
+		</if>
+		<if test="vendorCompanyCode != null">
+			AND st.vendor_company_code = #{vendorCompanyCode}
+		</if>
+		<if test="service != null and service != ''">
+			AND st.service = #{service}
+		</if>
+
+		<if test="extraData != null and extraData != ''">
+			AND st.extra_data = #{extraData}
+		</if>
+		<if test="uuid != null and uuid != ''">
+			AND st.uuid = #{uuid}
+		</if>
+
+
+		<if test="params['clientInfoExchangeDateFromClientActualSelected'] != null and params['clientInfoExchangeDateFromClientActualSelected'] == 'yes'">
+			<choose>
+				<when test="params['clientInfoExchangeDateFromClientActual'] != null">
+					AND JSON_UNQUOTE(JSON_EXTRACT(st.extra_data, '$."370"."381"')) = #{params.clientInfoExchangeDateFromClientActual}
+				</when>
+				<otherwise>
+					AND JSON_EXTRACT(st.extra_data, '$."370"."381"') IS NOT NULL
+					AND JSON_UNQUOTE(JSON_EXTRACT(st.extra_data, '$."370"."381"')) != ''
+					AND JSON_UNQUOTE(JSON_EXTRACT(st.extra_data, '$."370"."381"')) != 'null'
+				</otherwise>
+			</choose>
+		</if>
+
+
+		<!--
+        <if test="params['salaryFundIssueDateActual'] != null and params['salaryFundIssueDateActual'] == 'yes'">
+            AND JSON_EXTRACT(st.extra_data, '$."376"."402"') IS NOT NULL
+            AND JSON_UNQUOTE(JSON_EXTRACT(st.extra_data, '$."376"."402"')) != ''
+            AND JSON_UNQUOTE(JSON_EXTRACT(st.extra_data, '$."376"."402"')) != 'null'
+        </if>
+        -->
+		<if test="params['salaryFundIssueDateActual'] != null">
+			AND JSON_UNQUOTE(JSON_EXTRACT(st.extra_data, '$."376"."402"')) = #{params.salaryFundIssueDateActual}
+		</if>
+
+		ORDER BY st.client_company_code ASC, st.year ASC, st.month ASC, st.vendor_company_code ASC
+	</select>
+    
+    <select id="selectSysTimelineById" parameterType="Long" resultMap="SysTimelineResult">
+        SELECT 
+		    st.id,
+			st.year,
+			st.month,
+		    st.client_id,
+		    c.client_name AS client_name,
+			st.client_company_code,
+		    st.crm,
+		    st.dc,
+		    st.vrm,
+		    st.vendor_id,
+			st.vendor_company_code,
+		    st.service,
+			st.uuid,
+			st.organization_name,
+		    st.extra_data
+		FROM 
+		    sys_timeline st
+		JOIN 
+		    sys_client c ON st.client_company_code = c.company_code
+		WHERE 
+		    st.id = #{id}
+
+    </select>
+
+	<select id="selectSysTimelineByIds" parameterType="list" resultMap="SysTimelineResult">
+		SELECT
+		st.id,
+		st.year,
+		st.month,
+		st.client_id,
+		c.client_name AS client_name,
+		st.client_company_code,
+		st.crm,
+		st.dc,
+		st.vrm,
+		st.vendor_id,
+		st.vendor_company_code,
+		st.service,
+		st.uuid,
+		st.organization_name,
+		st.extra_data
+		FROM sys_timeline st
+		JOIN sys_client c ON st.client_company_code = c.company_code
+		WHERE st.id IN
+		<foreach collection="list" item="id" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</select>
+
+
+
+
+	<select id="selectSysTimelineByUuid" parameterType="SysTimeline" resultMap="SysTimelineResult">
+		SELECT
+		st.id,
+		st.year,
+		st.month,
+		st.client_company_code,
+		st.crm,
+		st.dc,
+		st.vrm,
+		st.vendor_company_code,
+		st.service,
+		st.extra_data,
+		st.uuid
+		FROM
+		sys_timeline st
+
+		WHERE 1=1
+
+		<if test="uuid != null">
+			AND st.uuid = #{uuid}
+		</if>
+
+		<!--  
+		<if test="vendorCompanyCode != null">
+			AND st.vendor_company_Code IS NOT NULL
+		</if>
+
+		<if test="vendorCompanyCode == null">
+			AND st.vendor_company_code IS NULL
+		</if>
+		-->
+
+	</select>
+
+    <insert id="insertSysTimeline" parameterType="SysTimeline" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO sys_timeline (
+			year,
+			month,
+			client_company_code,
+			organization_name,
+		    crm,
+		    dc,
+		    vrm,
+			vendor_company_code,
+		    service,
+		    extra_data,
+			uuid
+		) VALUES (
+			#{year},
+			#{month},
+			#{clientCompanyCode},
+			#{organizationName},
+		    #{crm},
+		    #{dc},
+		    #{vrm},
+			#{vendorCompanyCode},
+		    #{service},
+		    #{extraData, typeHandler=com.nnroad.framework.datasource.JsonTypeHandler},
+			#{uuid}
+
+		)
+
+    </insert>
+
+    <update id="updateSysTimeline" parameterType="SysTimeline">
+        UPDATE sys_timeline
+		SET
+		    crm = #{crm},
+		    dc = #{dc},
+		    vrm = #{vrm},
+		    service = #{service},
+		    extra_data = #{extraData, typeHandler=com.nnroad.framework.datasource.JsonTypeHandler}
+		WHERE id = #{id}
+    </update>
+
+	<update id="updateSysTimelineByColumn" parameterType="SysTimeline">
+		UPDATE sys_timeline
+		<set>
+			<if test="crm != null"> crm = #{crm}, </if>
+			<if test="dc != null"> dc = #{dc}, </if>
+			<if test="vrm != null"> vrm = #{vrm}, </if>
+			<if test="service != null"> service = #{service}, </if>
+			<if test="extraData != null and extraData.size() > 0">
+				<!-- Extract the first key (e.g., "370") -->
+				<bind name="firstKey" value="extraData.keySet().iterator().next()" />
+
+				<!-- Extract the value (could be a map or a simple value) -->
+				<bind name="firstValue" value="extraData[firstKey]" />
+
+				<!-- Check if the value is a map or a simple value -->
+				<if test="firstValue instanceof java.util.Map">
+					<!-- Handle nested map (extract the second key) -->
+					<bind name="secondKey" value="firstValue.keySet().iterator().next()" />
+					<bind name="secondValue" value="firstValue[secondKey]" />
+
+					<!-- Update JSON with both keys -->
+					extra_data = JSON_SET(extra_data, '$.\"${firstKey}\".\"${secondKey}\"', #{secondValue})
+				</if>
+
+				<if test="firstValue instanceof java.lang.String or firstValue instanceof java.lang.Number">
+					<!-- Handle simple value (no second key) -->
+					extra_data = JSON_SET(extra_data, '$.\"${firstKey}\"', #{firstValue})
+				</if>
+			</if>
+		</set>
+		WHERE id = #{id}
+	</update>
+
+	<update id="batchUpdateSysTimelineByColumn" parameterType="list">
+		UPDATE sys_timeline
+		<set>
+			<if test="list[0].crm != null"> crm = #{list[0].crm}, </if>
+			<if test="list[0].dc != null"> dc = #{list[0].dc}, </if>
+			<if test="list[0].vrm != null"> vrm = #{list[0].vrm}, </if>
+			<if test="list[0].service != null"> service = #{list[0].service}, </if>
+			<if test="list[0].extraData != null and list[0].extraData.size() > 0">
+				<!-- Extract the first key (e.g., "370") -->
+				<bind name="firstKey" value="list[0].extraData.keySet().iterator().next()" />
+
+				<!-- Extract the value (could be a map or a simple value) -->
+				<bind name="firstValue" value="list[0].extraData[firstKey]" />
+
+				<!-- Check if the value is a map or a simple value -->
+				<if test="firstValue instanceof java.util.Map">
+					<!-- Handle nested map (extract the second key) -->
+					<bind name="secondKey" value="firstValue.keySet().iterator().next()" />
+					<bind name="secondValue" value="firstValue[secondKey]" />
+
+					<!-- Update JSON with both keys -->
+					extra_data = JSON_SET(extra_data, '$.\"${firstKey}\".\"${secondKey}\"', #{secondValue})
+				</if>
+
+				<if test="firstValue instanceof java.lang.String or firstValue instanceof java.lang.Number">
+					<!-- Handle simple value (no second key) -->
+					extra_data = JSON_SET(extra_data, '$.\"${firstKey}\"', #{firstValue})
+				</if>
+			</if>
+		</set>
+		WHERE id in
+		<foreach collection="list" item="sysTimeline" index="index" open="(" separator="," close=")">
+			#{sysTimeline.id}
+		</foreach>
+	</update>
+
+    <delete id="deleteSysTimelineById" parameterType="Long">
+        delete from sys_timeline where id = #{id}
+    </delete>
+
+	<delete id="deleteSysTimelineByUuid" parameterType="String">
+		delete from sys_timeline where uuid = #{uuid}
+	</delete>
+
+    <delete id="deleteSysTimelineByIds" parameterType="String">
+        delete from sys_timeline where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+	<!-- get ServiceTypeB By Client CompanyCode -->
+	<select id="getServiceTypeBByClientCompanyCode" resultType="java.lang.String">
+		SELECT JSON_UNQUOTE(JSON_EXTRACT(cc.extra_data, '$."162"'))
+		FROM client_contract cc
+		WHERE cc.company_code = #{companyCode}
+	</select>
+
+
+	<!-- get Employee Employment Contracts By Client CompanyCode -->
+	<select id="getEmployeeEmploymentContractsByClientCompanyCode" resultType="java.lang.String">
+		SELECT DISTINCT JSON_UNQUOTE(JSON_EXTRACT(ec.extra_data, '$."424"'))
+		FROM employee_contract ec INNER JOIN sys_employee se on ec.employee_code = se.employee_code
+		WHERE se.company_code = #{clientCode} AND se.status = 'ongoing'
+	</select>
+
+	<!-- get Employee Employment Contracts By Client CompanyCode -->
+	<select id="getExistingVendorsFromTimeline" parameterType="SysTimeline" resultType="java.lang.String">
+		SELECT  DISTINCT COALESCE(st.vendor_company_code, '')
+		FROM sys_timeline st
+		WHERE 1=1
+		<if test="clientCompanyCode != null">
+			AND st.client_company_code = #{clientCompanyCode}
+		</if>
+		<if test="year != null and year != ''">
+			AND st.year = #{year}
+		</if>
+		<if test="month != null and month != ''">
+			AND st.month = #{month}
+		</if>
+		<if test="organizationName != null and organizationName != ''">
+			AND st.organization_name = #{organizationName}
+		</if>
+
+	</select>
+
+	<select id="getTimelineClientList" resultType="Map">
+		SELECT DISTINCT
+			st.client_company_code,
+			c.client_name AS client_name
+		FROM
+		sys_timeline st
+		JOIN
+		sys_client c ON st.client_company_code = c.company_code
+	</select>
+
+</mapper>

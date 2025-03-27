@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nnroad.finance.mapper.deposit.DepositEmployeeMapper">
+
+    <select id="selectDepositEmployee" parameterType="java.lang.String" resultType="com.nnroad.finance.model.dto.DepositEmployeeDto">
+        SELECT employee_code AS employeeCode
+              ,client_code AS clientCode
+              ,IFNULL(amount, 0) AS amount
+          FROM deposit_employee
+         WHERE employee_code = #{employeeCode}
+    </select>
+
+    <select id="getDepositEmployeeList" parameterType="com.nnroad.finance.model.form.DepositEmployeeCondition" resultType="com.nnroad.finance.model.vo.DepositEmployeeVo">
+        SELECT
+            ddr.client_code as clientCode,
+            MAX(ddr.client_name) AS clientName,
+            ddr.ee_code AS employeeCode,
+            MAX(ddr.ee_name) AS employeeName,
+            IFNULL(SUM(ddr.amount), 0) AS amount,
+            MAX(ddr.currency) AS currency,
+            IFNULL(SUM(ddr.currency_amount), 0) AS currencyAmount,
+            MAX(ddr.`date`) AS monthSettle
+        FROM
+            dc_gv_finance_deposit_detail_report ddr
+        WHERE 1=1
+            <if test="clientCode != null and clientCode != ''">AND ddr.client_code = #{clientCode}</if>
+            <if test="monthSettle != null and monthSettle != ''">AND ddr.`date` = #{monthSettle}</if>
+            <if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
+                AND ddr.`date` &gt;= #{params.beginTime}
+            </if>
+            <if test="params.endTime != null and params.endTime != ''"><!-- 结束时间检索 -->
+                AND ddr.`date` &lt;= #{params.endTime}
+            </if>
+        GROUP BY ddr.client_code, ddr.ee_code
+        ORDER BY clientCode, employeeCode
+        <!-- 数据范围过滤 -->
+        ${params.dataScope}
+    </select>
+
+    <insert id="insertDepositEmployee" parameterType="com.nnroad.finance.model.dto.DepositEmployeeDto">
+        INSERT INTO deposit_employee (
+             create_by
+            ,create_time
+            ,update_by
+            ,update_time
+             <if test="employeeCode != null">,employee_code</if>
+             <if test="clientCode != null">,client_code</if>
+             <if test="amount != null">,amount</if>
+        ) VALUES (
+             #{createBy}
+            ,NOW()
+            ,#{updateBy}
+            ,NOW()
+             <if test="employeeCode != null">,#{employeeCode}</if>
+             <if test="clientCode != null">,#{clientCode}</if>
+             <if test="amount != null">,#{amount}</if>
+        )
+    </insert>
+
+    <update id="refreshDeposit" parameterType="com.nnroad.finance.model.dto.DepositEmployeeDto">
+        UPDATE deposit_employee de,
+               (SELECT employee_code
+                      ,SUM(amount) AS amount
+                  FROM deposit_client_detail
+                 WHERE employee_code = #{employeeCode}
+               ) dcd
+           SET de.amount = dcd.amount
+              ,update_by = #{updateBy}
+              ,update_time = NOW()
+         WHERE de.employee_code = #{employeeCode}
+           AND de.employee_code = dcd.employee_code
+    </update>
+
+</mapper>

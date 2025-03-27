@@ -1,0 +1,630 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nnroad.client.mapper.ClientQuestionMapper">
+
+    <resultMap type="com.nnroad.client.domain.SysClient" id="SysClientResult">
+        <result property="id"    column="id"    />
+        <result property="clientName"    column="client_name"    />
+        <result property="companyCode"    column="company_code"    />
+        <result property="clientLocation"    column="client_location"    />
+
+        <result property="industry"    column="industry"    />
+        <result property="primaryServiceType"    column="primary_service_type"    />
+        <result property="secondaryServiceType"    column="secondary_service_type"    />
+        <result property="org" column="org" />
+        <result property="serviceTypeRemark"    column="service_type_remark"    />
+        <result property="contactPersonName"    column="contact_person_name"    />
+        <result property="contactPersonEmail"    column="contact_person_email"    />
+        <result property="contactPhoneNumber"    column="contact_phone_number"    />
+        <result property="startDate"    column="start_date"    />
+        <result property="endDate" column="end_date"/>
+        <result property="remark"    column="remark"    />
+        <result property="extraData"    column="extra_data"    />
+        <result property="createdAt"    column="created_at"    />
+        <result property="modifiedAt"    column="modified_at"    />
+    </resultMap>
+
+
+    <resultMap type="com.nnroad.client.domain.ClientCRMQuestion" id="ClientCRMQuestionResult">
+        <result property="fid" column="fid" />
+        <result property="fsurvey" column="fsurvey" />
+        <result property="freciverId" column="freciver_id" />
+        <result property="freciverName" column="freciver_name" />
+        <result property="contact" column="contact" />
+        <result property="accountManager" column="account_manager" />
+        <result property="mainServiceType" column="main_service_type" />
+        <result property="fother" column="fother" />
+        <result property="fsubmitAt" column="fsubmit_at" />
+        <result property="fsendAt" column="fsend_at" />
+        <result property="fresult" column="fresult" />
+        <result property="freciverEmail" column="freciver_email" />
+        <result property="status" column="status" />
+        <result property="score" column="score" />
+        <result property="ffollowedAt" column="ffollowed_at"/>
+        <result property="ffollowedBy" column="ffollowed_by"/>
+    </resultMap>
+
+    <sql id="selectClientVo">
+        select id,
+               client_name,
+               company_code,
+               client_location,industry,
+               primary_service_type,
+               secondary_service_type,
+               other_service_types,
+               service_type_remark,
+               contact_person_name,
+               contact_person_email,
+               contact_phone_number,
+               start_date,end_date,
+               remark,extra_data,created_at,
+               modified_at,
+               org
+        from sys_client t
+    </sql>
+
+    <sql id="selectClientCRMQuestion">
+        SELECT
+            dgsrc.fid,
+            dgsrc.fsurvey,
+            dgsrc.freciver_id,
+            dgsrc.freciver_name,
+            dgsrc.contact,
+            dgsrc.account_manager,
+            dgsrc.main_service_type,
+            dgsrc.fother,
+            dgsrc.fsubmit_at,
+            dgsrc.fsend_at,
+            dgsrc.fresult,
+            dgsrc.freciver_email,
+            dgsrc.status,
+            CAST(JSON_UNQUOTE(JSON_EXTRACT(fresult, '$[0].value')) AS UNSIGNED) AS score,
+            dgsrc.ffollowed_at,
+            su.user_name as ffollowed_by
+        FROM
+            dc_gv_survey_result_crm AS dgsrc
+        LEFT JOIN sys_user su ON dgsrc.ffollowed_by = su.user_id
+    </sql>
+
+
+    <select id="selectClient3" parameterType="com.nnroad.client.domain.SysClient" resultMap="SysClientResult">
+        <include refid="selectClientVo"/>
+        where status = 'Active' and contact_person_email is not null
+    </select>
+
+    <select id="selectCRMTitle" resultType="java.lang.String">
+        select ftitle from t_survey where ftype='crm'
+    </select>
+
+
+
+    <select id="selectClientList" parameterType="com.nnroad.client.domain.SysClient" resultMap="SysClientResult">
+        <include refid="selectClientVo"/>
+        where  del_flag &lt;&gt; 2
+        <if test="clientCodeList != null">
+            and client_code in
+            <foreach item="clientCode" collection="clientCodeList" open="(" separator="," close=")">
+                #{clientCode}
+            </foreach>
+        </if>
+        <if test="params.clientCodes != null">
+            and (t.client_code in
+            <foreach item="clientCode" collection="params.clientCodes" open="(" separator="," close=")">
+                #{clientCode}
+            </foreach>
+            <include refid="com.nnroad.system.mapper.SysAuthMapper.authCriterionAliasTor"/>)
+        </if>
+        <if test="clientPrevName != null  and clientPrevName != ''"> and client_prev_name like concat('%', #{clientPrevName}, '%')</if>
+        <if test="clientName != null  and clientName != ''"> and client_name like concat('%', #{clientName}, '%')</if>
+        <if test="locationList != null">
+            and location in
+            <foreach item="location" collection="locationList" open="(" separator="," close=")">
+                #{location}
+            </foreach>
+        </if>
+        <if test="statusList != null ">
+            and status in
+            <foreach item="status" collection="statusList" open="(" separator="," close=")">
+                #{status}
+            </foreach>
+        </if>
+        <if test="industryList != null ">
+            and industry in
+            <foreach item="industry" collection="industryList" open="(" separator="," close=")">
+                #{industry}
+            </foreach>
+        </if>
+        <if test="clientNameEn != null  and clientNameEn != ''"> and client_name_en = #{clientNameEn}</if>
+        <if test="clientNameLocal != null  and clientNameLocal != ''"> and client_name_local = #{clientNameLocal}</if>
+        <if test="contact != null  and contact != ''"> and contact = #{contact}</if>
+        <if test="contactEmail != null  and contactEmail != ''"> and contact_email = #{contactEmail}</if>
+        <if test="remark != null  and remark != ''"> and remark = #{remark}</if>
+        <if test="isLicense != null and isLicense !=''">and is_license =#{isLicense}</if>
+        <if test="params.userId != null">
+            and (
+            FIND_IN_SET(#{params.userId}, crm_read_ids)
+            or crm_read_ids IS NULL
+            or crm_read_ids = ''
+            )
+        </if>
+    </select>
+
+    <select id="selectExportClientList" parameterType="com.nnroad.client.domain.SysClient" resultMap="SysClientResult">
+        SELECT
+        a.client_id,
+        a.client_code,
+        a.client_name,
+        b.dict_label as location,
+        a.status,
+        a.industry,
+        a.client_name_en,
+        a.client_name_local,
+        a.contact,
+        a.contact_email,
+        a.read_ids,
+        a.operation_ids,
+        a.del_flag,
+        a.create_by,
+        a.create_time,
+        a.update_by,
+        a.update_time,
+        a.remark
+        FROM
+        sys_client a
+        LEFT JOIN dc_dict_data b on a.location=b.dict_value and b.dict_type='country'
+        where  del_flag &lt;&gt; 2
+        <if test="clientCode != null  and clientCode != ''"> and a.client_code = #{clientCode}</if>
+        <if test="clientName != null  and clientName != ''"> and a.client_name like concat('%', #{clientName}, '%')</if>
+        <if test="location != null  and location != ''"> and a.location = #{location}</if>
+        <if test="status != null "> and a.status = #{status}</if>
+        <if test="industry != null and industry != ''"> and a.industry = #{industry}</if>
+        <if test="clientNameEn != null  and clientNameEn != ''"> and a.client_name_en = #{clientNameEn}</if>
+        <if test="clientNameLocal != null  and clientNameLocal != ''"> and a.client_name_local = #{clientNameLocal}</if>
+        <if test="contact != null  and contact != ''"> and a.contact = #{contact}</if>
+        <if test="contactEmail != null  and contactEmail != ''"> and a.contact_email = #{contactEmail}</if>
+        <if test="remark != null  and remark != ''"> and a.remark = #{remark}</if>
+        <include refid="com.nnroad.system.mapper.SysAuthMapper.authCriterionAliasT"/>
+    </select>
+
+    <select id="selectClientById" parameterType="Long" resultMap="SysClientResult">
+        <include refid="selectClientVo"/>
+        where client_id = #{clientId}
+    </select>
+
+    <select id="selectClientByCode" parameterType="String" resultMap="SysClientResult">
+        <include refid="selectClientVo"/>
+        where client_code = #{clientCode}
+    </select>
+
+    <select id="selectCRM" resultType="java.lang.String">
+        select fid from t_survey where ftype='crm'
+    </select>
+
+    <insert id="insertClient" parameterType="com.nnroad.client.domain.SysClient" useGeneratedKeys="true" keyProperty="clientId">
+        insert into sys_client
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="clientCode != null">client_code,</if>
+            <if test="clientName != null">client_name,</if>
+            <if test="clientPrevName != null">client_prev_name,</if>
+            <if test="location != null">location,</if>
+            <if test="status != null">status,</if>
+            <if test="industry != null">industry,</if>
+            <if test="clientNameEn != null">client_name_en,</if>
+            <if test="clientNameLocal != null">client_name_local,</if>
+            <if test="contact != null">contact,</if>
+            <if test="contactEmail != null">contact_email,</if>
+            <if test="readIds != null">read_ids,</if>
+            <if test="operationIds != null">operation_ids,</if>
+            <if test="crmreadIds!=null">crm_read_ids,</if>
+            <if test="delFlag != null">del_flag,</if>
+            <if test="createBy != null">create_by,</if>
+            create_time,
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="admissionDate != null">admission_date,</if>
+            <if test="offboardDate != null">offboard_date,</if>
+            <if test="offboardReason != null">offboard_reason,</if>
+            <if test="remark != null">remark,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="clientCode != null">#{clientCode},</if>
+            <if test="clientPrevName != null">#{clientPrevName},</if>
+            <if test="clientName != null">#{clientName},</if>
+            <if test="location != null">#{location},</if>
+            <if test="status != null">#{status},</if>
+            <if test="industry != null">#{industry},</if>
+            <if test="clientNameEn != null">#{clientNameEn},</if>
+            <if test="clientNameLocal != null">#{clientNameLocal},</if>
+            <if test="contact != null">#{contact},</if>
+            <if test="contactEmail != null">#{contactEmail},</if>
+            <if test="readIds != null">#{readIds},</if>
+            <if test="operationIds != null">#{operationIds},</if>
+            <if test="crmreadIds !=null">#{crmreadIds},</if>
+            <if test="delFlag != null">#{delFlag},</if>
+            <if test="createBy != null">#{createBy},</if>
+            sysdate(),
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="admissionDate != null">#{admissionDate},</if>
+            <if test="offboardDate != null">#{offboardDate},</if>
+            <if test="offboardReason != null">#{offboardReason},</if>
+            <if test="remark != null">#{remark},</if>
+        </trim>
+    </insert>
+
+    <update id="updateClient" parameterType="com.nnroad.client.domain.SysClient">
+        update sys_client
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="clientCode != null and clientCode != ''">client_code = #{clientCode},</if>
+            <if test="clientPrevName != null">client_prev_name = #{clientPrevName},</if>
+            <if test="clientName != null and clientName != ''">client_name = #{clientName},</if>
+            <if test="location != null">location = #{location},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="industry != null">industry = #{industry},</if>
+            <if test="clientNameEn != null">client_name_en = #{clientNameEn},</if>
+            <if test="clientNameLocal != null">client_name_local = #{clientNameLocal},</if>
+            <if test="contact != null">contact = #{contact},</if>
+            <if test="contactEmail != null">contact_email = #{contactEmail},</if>
+            <if test="questionnaireEmail != null">questionnaire_email = #{questionnaireEmail},</if>
+            <!--            <if test="readIds != null">read_ids = #{readIds},</if>-->
+            <!--            <if test="operationIds != null">operation_ids = #{operationIds},</if>-->
+            <if test="delFlag != null">del_flag = #{delFlag},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            update_time = sysdate(),
+            <if test="admissionDate != null">admission_date = #{admissionDate},</if>
+            <if test="offboardDate != null">offboard_date = #{offboardDate},</if>
+            <if test="offboardReason != null">offboard_reason = #{offboardReason},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="isLicense != null">is_license =#{isLicense},</if>
+        </trim>
+        where client_id = #{clientId}
+    </update>
+
+    <delete id="deleteClientById" parameterType="Long">
+        update sys_client c set c.del_flag = 2 where c.client_id = #{clientId}
+    </delete>
+
+    <delete id="deleteClientByIds" parameterType="String">
+        update sys_client c set c.del_flag = 2 where c.client_id in
+        <foreach item="client_id" collection="array" open="(" separator="," close=")">
+            #{client_id}
+        </foreach>
+    </delete>
+
+    <update id="updateClientApprove" parameterType="String">
+        update sys_client set status = 1,admission_date=sysdate() where client_id in
+        <foreach item="client_id" collection="array" open="(" separator="," close=")">
+            #{client_id}
+        </foreach>
+    </update>
+
+
+
+    <update id="updateNameEverywhere" parameterType="com.nnroad.client.domain.SysClient">
+        <if test="clientName != null and clientName != ''">
+            update dc_gt_client_employee_info                       set client_name = #{clientName}          where client_code = #{clientCode};
+            update dc_gt_crm_client_empoyee_info                    set client_name = #{clientName}          where client_code = #{clientCode};
+            update dc_gt_employee_info                              set client_name = #{clientName}          where client_code = #{clientCode};
+            update dc_gt_hrone_account_hk                           set client_name = #{clientName}          where client_code = #{clientCode};
+            update dc_gt_hrone_account_sh                           set client_name = #{clientName}          where client_code = #{clientCode};
+            update cmgt_leads                                       set company_name = #{clientName}         where lead_code = #{clientCode};
+            update dc_gt_client_billing_situation_info              set client_name = #{clientName}          where client_code = #{clientCode};
+            update dc_gt_client_contract_info                       set client_name = #{clientName}          where client_code = #{clientCode};
+            update hrone_payroll.model_other_service_fee_main       set beneficiary_name = #{clientName}     where beneficiary_code = #{clientCode};
+            update hrone_payroll.ps_basic_info                      set er_name = #{clientName}              where id_no = #{clientCode};
+        </if>
+    </update>
+
+    <update id="updateDCClientEmployeeInfo" parameterType="com.nnroad.client.domain.SysClient">
+        <if test="clientName != null and clientName != ''">
+            update dc_gt_client_employee_info                       set client_name = #{clientName}          where client_code = #{clientCode}
+        </if>
+    </update>
+
+    <update id="updateDCCrmClientEmployeeInfo" parameterType="com.nnroad.client.domain.SysClient">
+        <if test="clientName != null and clientName != ''">
+            update dc_gt_crm_client_empoyee_info                    set client_name = #{clientName}          where client_code = #{clientCode}
+        </if>
+    </update>
+
+    <update id="updateDCEmployeeInfo" parameterType="com.nnroad.client.domain.SysClient">
+        <if test="clientName != null and clientName != ''">
+            update dc_gt_employee_info                              set client_name = #{clientName}          where client_code = #{clientCode}
+        </if>
+    </update>
+
+    <update id="updateDCHroneAccountHK" parameterType="com.nnroad.client.domain.SysClient">
+        <if test="clientName != null and clientName != ''">
+            update dc_gt_hrone_account_hk                           set client_name = #{clientName}          where client_code = #{clientCode}
+        </if>
+    </update>
+
+    <update id="updateDCHroneAccountSH" parameterType="com.nnroad.client.domain.SysClient">
+        <if test="clientName != null and clientName != ''">
+            update dc_gt_hrone_account_sh                           set client_name = #{clientName}          where client_code = #{clientCode}
+        </if>
+    </update>
+
+    <update id="updateLeads" parameterType="com.nnroad.client.domain.SysClient">
+        <if test="clientName != null and clientName != ''">
+            update cmgt_leads                                       set company_name = #{clientName}         where lead_code = #{clientCode}
+        </if>
+    </update>
+
+    <update id="updateClientBillingSituationInfo" parameterType="com.nnroad.client.domain.SysClient">
+        <if test="clientName != null and clientName != ''">
+            update dc_gt_client_billing_situation_info              set client_name = #{clientName}          where client_code = #{clientCode}
+        </if>
+    </update>
+
+    <update id="updateClientContractInfo" parameterType="com.nnroad.client.domain.SysClient">
+        <if test="clientName != null and clientName != ''">
+            update dc_gt_client_contract_info                       set client_name = #{clientName}          where client_code = #{clientCode}
+        </if>
+    </update>
+
+    <update id="updateModelOtherServiceFeeMain" parameterType="com.nnroad.client.domain.SysClient">
+        <if test="clientName != null and clientName != ''">
+            update hrone_payroll.model_other_service_fee_main       set beneficiary_name = #{clientName}     where beneficiary_code = #{clientCode}
+        </if>
+    </update>
+
+    <update id="updatePsBasicInfo" parameterType="com.nnroad.client.domain.SysClient">
+        <if test="clientName != null and clientName != ''">
+            update hrone_payroll.ps_basic_info                      set er_name = #{clientName}              where id_no = #{clientCode}
+        </if>
+    </update>
+    <update id="updateClientActive">
+        update sys_client set status = '3',active_date=sysdate() where client_id in
+        <foreach item="client_id" collection="array" open="(" separator="," close=")">
+            #{client_id}
+        </foreach>
+    </update>
+
+    <update id="setEmailStatus">
+        update t_survey_result set femail_status=#{status} where fsn = #{fsn}
+    </update>
+
+    <update id="updateCRMQuestionFollowStatus">
+        update t_survey_result set ffollowed_at = #{ffollowedAt}, ffollowed_by = #{ffollowedBy} where fid = #{fid}
+    </update>
+
+    <select id="selectClientCode" resultType="String">
+        select client_code from sys_client
+    </select>
+
+    <select id="selectTotalExisting" resultType="java.lang.Integer">
+        SELECT COUNT(1)
+        FROM sys_client
+        WHERE active_date &lt; #{startDate}
+        AND (offboard_date > #{startDate} OR offboard_date IS NULL)
+        <if test="isLicense != null">
+            AND is_license = #{isLicense}
+        </if>
+    </select>
+
+    <select id="selectTotalNew" resultType="java.lang.Integer">
+        SELECT COUNT(1)
+        FROM sys_client
+        WHERE active_date BETWEEN #{startDate} AND #{endDate}
+        <if test="isLicense != null">
+            AND is_license = #{isLicense}
+        </if>
+    </select>
+    <select id="selectTotalExit" resultType="java.lang.Integer">
+        SELECT COUNT(1)
+        FROM sys_client
+        WHERE (offboard_date BETWEEN #{EstartDate} AND #{EendDate})
+        AND active_date IS NOT NULL
+        <if test="isLicense != null">
+            AND is_license = #{isLicense}
+        </if>
+    </select>
+
+    <select id="selectExisting" resultType="java.lang.Integer">
+        SELECT COUNT(1)
+        FROM sys_client cc
+        LEFT JOIN dc_gt_client_contract_info cci ON cci.client_code = cc.client_code
+        WHERE cci.service_contract_party_b = 'HROne HK'
+        AND cc.active_date &lt; #{startDate}
+        AND (cc.offboard_date > #{startDate} OR cc.offboard_date IS NULL)
+        <if test="isLicense != null">
+            AND cc.is_license = #{isLicense}
+        </if>
+    </select>
+
+    <select id="selectNew" resultType="java.lang.Integer">
+        SELECT COUNT(1)
+        FROM sys_client cc
+        LEFT JOIN dc_gt_client_contract_info cci ON cci.client_code = cc.client_code
+        WHERE cci.service_contract_party_b = 'HROne HK'
+        AND (cc.active_date BETWEEN #{startDate} AND #{endDate})
+        <if test="isLicense != null">
+            AND cc.is_license = #{isLicense}
+        </if>
+    </select>
+
+    <select id="selectExit" resultType="java.lang.Integer">
+        SELECT COUNT(1)
+        FROM sys_client cc
+        LEFT JOIN dc_gt_client_contract_info cci ON cci.client_code = cc.client_code
+        WHERE cci.service_contract_party_b = 'HROne HK'
+        AND (cc.offboard_date BETWEEN #{EstartDate} AND #{EendDate})
+        AND cc.active_date IS NOT NULL
+        <if test="isLicense != null">
+            AND cc.is_license = #{isLicense}
+        </if>
+    </select>
+
+    <select id="selectExisting2" resultType="java.lang.Integer">
+        SELECT COUNT(1)
+        FROM sys_client cc
+        LEFT JOIN dc_gt_client_contract_info cci ON cci.client_code = cc.client_code
+        WHERE cci.service_contract_party_b IN ('HROne SH', 'HROne BJ')
+        AND cc.active_date &lt; #{startDate}
+        AND (cc.offboard_date > #{startDate} OR cc.offboard_date IS NULL)
+        <if test="isLicense != null">
+            AND cc.is_license = #{isLicense}
+        </if>
+    </select>
+
+    <select id="selectNew2" resultType="java.lang.Integer">
+        SELECT COUNT(1)
+        FROM sys_client cc
+        LEFT JOIN dc_gt_client_contract_info cci ON cci.client_code = cc.client_code
+        WHERE cci.service_contract_party_b IN ('HROne SH', 'HROne BJ')
+        AND (cc.active_date BETWEEN #{startDate} AND #{endDate})
+        <if test="isLicense != null">
+            AND cc.is_license = #{isLicense}
+        </if>
+    </select>
+
+    <select id="selectExit2" resultType="java.lang.Integer">
+        SELECT COUNT(1)
+        FROM sys_client cc
+        LEFT JOIN dc_gt_client_contract_info cci ON cci.client_code = cc.client_code
+        WHERE cci.service_contract_party_b IN ('HROne SH', 'HROne BJ')
+        AND (cc.offboard_date BETWEEN #{EstartDate} AND #{EendDate})
+        AND cc.active_date IS NOT NULL
+        <if test="isLicense != null">
+            AND cc.is_license = #{isLicense}
+        </if>
+    </select>
+
+    <select id="selectTopFDIExisting" resultType="java.lang.Integer">
+        SELECT COUNT(1)
+        FROM sys_client cc
+        LEFT JOIN dc_gt_client_contract_info cci ON cci.client_code = cc.client_code
+        WHERE cci.service_contract_party_b IN ('Top FDI')
+        AND cc.active_date &lt; #{startDate}
+        AND (cc.offboard_date > #{startDate} OR cc.offboard_date IS NULL)
+        <if test="isLicense != null">
+            AND cc.is_license = #{isLicense}
+        </if>
+    </select>
+
+    <select id="selectTopFDINew" resultType="java.lang.Integer">
+        SELECT COUNT(1)
+        FROM sys_client cc
+        LEFT JOIN dc_gt_client_contract_info cci ON cci.client_code = cc.client_code
+        WHERE cci.service_contract_party_b IN ('Top FDI')
+        AND (cc.active_date BETWEEN #{startDate} AND #{endDate})
+        <if test="isLicense != null">
+            AND cc.is_license = #{isLicense}
+        </if>
+    </select>
+
+    <select id="selectTopFDIExit" resultType="java.lang.Integer">
+        SELECT COUNT(1)
+        FROM sys_client cc
+        LEFT JOIN dc_gt_client_contract_info cci ON cci.client_code = cc.client_code
+        WHERE cci.service_contract_party_b IN ('Top FDI')
+        AND (cc.offboard_date BETWEEN #{EstartDate} AND #{EendDate})
+        AND cc.active_date IS NOT NULL
+        <if test="isLicense != null">
+            AND cc.is_license = #{isLicense}
+        </if>
+    </select>
+
+    <select id="getbusinessNatural" resultType="String">
+        select business_natural from dc_gt_client_billing_situation_info
+        where client_code = #{Code}
+    </select>
+
+    <select id="selectClientQuestion" parameterType="com.nnroad.client.domain.ClientCRMQuestion" resultMap="ClientCRMQuestionResult">
+        <include refid="selectClientCRMQuestion"/>
+        <where>
+            <if test="ffollowedBy != null and  ffollowedBy != ''">
+                AND dgsrc.ffollowed_by = su.user_id
+            </if>
+
+            <if test="freciverId != null and freciverId != ''">
+                and dgsrc.freciver_id = #{freciverId}
+            </if>
+            <if test="freciverName != null and freciverName != ''">
+                and dgsrc.freciver_name = #{freciverName}
+            </if>
+            <if test="status != null and status != ''">
+                and dgsrc.status = #{status}
+            </if>
+            <if test="fresult != null and fresult != ''">
+                <choose>
+                    <when test="fresult == 1">
+                        and dgsrc.fsubmit_at is not null
+                    </when>
+                    <when test="fresult == 0">
+                        and dgsrc.fsubmit_at is null
+                    </when>
+                </choose>
+            </if>
+            <if test="remarkStatus != null and remarkStatus != ''">
+                <choose>
+                    <when test="remarkStatus == 0">
+                        and (dgsrc.fresult->'$[1].value' is null or dgsrc.fresult->'$[1].value' = '')
+                    </when>
+                    <when test="remarkStatus == 1">
+                        and (dgsrc.fresult->'$[1].value' is not null and dgsrc.fresult->'$[1].value' != '')
+                    </when>
+                </choose>
+            </if>
+            <if test="scores != null and !scores.isEmpty()">
+                and CAST(JSON_UNQUOTE(JSON_EXTRACT(dgsrc.fresult, '$[0].value')) AS UNSIGNED) in
+                <foreach item="score" collection="scores" open="(" separator="," close=")">
+                    #{score}
+                </foreach>
+            </if>
+            <if test="sendAtStart != null and sendAtStart != '' and sendAtEnd != null and sendAtEnd != ''">
+                and dgsrc.fsend_at between UNIX_TIMESTAMP(STR_TO_DATE(#{sendAtStart},'%Y-%m-%d %H:%i:%s'))*1000 and UNIX_TIMESTAMP(STR_TO_DATE(#{sendAtEnd},'%Y-%m-%d %H:%i:%s'))*1000
+            </if>
+        </where>
+        ORDER BY dgsrc.fid DESC
+    </select>
+
+    <select id="selectCRMQuestion" resultType="java.lang.String">
+        select fquestions from t_survey where ftype='crm'
+    </select>
+
+    <select id="selectCRMQuery" resultType="java.lang.String">
+        SELECT fresult
+        FROM dc_gv_survey_result_crm
+        WHERE fsend_at BETWEEN #{sendStartDate} AND #{sendEndDate}
+            AND fsubmit_at is not null
+    </select>
+
+    <select id="selectCRMstatus" resultType="java.lang.Integer">
+        SELECT COUNT(*) AS count
+        FROM dc_gv_survey_result_crm
+        WHERE fsurvey = '0bded5cfeebb4f72b51e9d32f7536197'
+          AND status = #{status}
+          AND fsend_at BETWEEN #{sendStartDate} AND #{sendEndDate}
+    </select>
+
+    <select id="countCRMQuery" resultType="java.lang.Integer">
+        SELECT COUNT(*) AS count
+        FROM dc_gv_survey_result_crm
+        WHERE fsend_at BETWEEN #{sendStartDate} AND #{sendEndDate}
+    </select>
+
+    <select id="countCRMScores" resultType="java.lang.Integer">
+        SELECT COALESCE(SUM(CAST(JSON_UNQUOTE(JSON_EXTRACT(fresult, '$[0].value')) AS UNSIGNED)), 0) AS sumScore
+        FROM dc_gv_survey_result_crm
+        WHERE fsurvey = '0bded5cfeebb4f72b51e9d32f7536197'
+          AND status = #{status}
+          AND fsend_at BETWEEN #{sendStartDate} AND #{sendEndDate}
+          AND fsubmit_at is not null
+    </select>
+
+    <select id="countCRMSubmit" resultType="java.lang.Integer">
+        SELECT COUNT(*) AS count
+        FROM dc_gv_survey_result_crm
+        WHERE fsurvey = '0bded5cfeebb4f72b51e9d32f7536197'
+          AND status = #{status}
+          AND fsend_at BETWEEN #{sendStartDate} AND #{sendEndDate}
+          AND fsubmit_at is not null
+    </select>
+
+</mapper>

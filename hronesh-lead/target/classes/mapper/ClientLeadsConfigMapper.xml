@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nnroad.lead.mapper.ClientLeadsConfigMapper">
+
+    <resultMap type="ClientLeadsConfig" id="ClientLeadsConfigResult">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="value" column="value"/>
+        <result property="columnName" column="column_name"/>
+        <result property="status" column="status"/>
+        <result property="deleteFlag" column="delete_flag"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="createTime" column="create_time"/>
+        <result property="createBy" column="create_by"/>
+        <result property="remark" column="remark"/>
+        <result property="updateBy" column="update_by"/>
+
+    </resultMap>
+
+    <sql id="selectClientLeadsConfigVo">
+        select id, name, value, column_name, status, delete_flag, update_time, create_time, create_by, remark, update_by from cmgt_leads_config
+    </sql>
+
+    <select id="selectClientLeadsConfigList" parameterType="ClientLeadsConfig" resultMap="ClientLeadsConfigResult">
+        <include refid="selectClientLeadsConfigVo"/>
+        <where>
+            <if test="name != null and name != ''">and name = #{name}</if>
+            <if test="value != null and value != ''">and value = #{value}</if>
+            <if test="columnName != null and columnName != ''">
+                and column_name in <foreach collection="columnName.split(',')" item="item" open="(" separator="," close=")">#{item}</foreach>
+            </if>
+            <if test="status != null and status != ''">and status = #{status}</if>
+            <if test="createTime != null and createTime != ''">and create_time = #{createTime}</if>
+            <if test="createBy != null and createBy != ''">and create_by = #{createBy}</if>
+            <if test="remark != null and remark != ''">and remark = #{remark}</if>
+            <if test="updateBy != null and updateBy != ''">and update_by = #{updateBy}</if>
+            <if test="updateTime != null and updateTime != ''">and update_time = #{updateTime}</if>
+            <if test="deleteFlag != null and deleteFlag != ''">and delete_flag = #{deleteFlag}</if>
+        </where>
+    </select>
+
+    <insert id="insertClientLeadsConfig" parameterType="ClientLeadsConfig">
+        insert into cmgt_leads_config
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="name != null ">name,</if>
+            <if test="value != null ">value,</if>
+            <if test="columnName != null ">column_name,</if>
+            <if test="status != null ">status,</if>
+            <if test="updateTime != null ">update_time,</if>
+            <if test="createBy != null ">create_by,</if>
+            <if test="updateBy != null ">update_by,</if>
+            <if test="remark != null ">remark,</if>
+            create_time,
+            delete_flag,
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="name != null ">#{name},</if>
+            <if test="value != null ">#{value},</if>
+            <if test="columnName != null ">#{columnName},</if>
+            <if test="status != null ">#{status},</if>
+            <if test="createTime != null ">#{createTime},</if>
+            <if test="updateTime != null ">#{updateTime},</if>
+            <if test="createBy != null ">#{createBy},</if>
+            <if test="remark != null ">#{remark},</if>
+            <if test="updateBy != null ">#{updateBy},</if>
+            sysdate(),
+            "0",
+        </trim>
+    </insert>
+
+    <update id="updateClientLeadsConfig" parameterType="ClientLeadsConfig">
+        update cmgt_leads_config
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null and name != '' ">name = #{name},</if>
+            <if test="value != null and value != '' ">value = #{value},</if>
+            <if test="columnName != null and columnName != '' ">column_name = #{columnName},</if>
+            <if test="status != null and status != '' ">status = #{status},</if>
+            <if test="createTime != null and createTime != '' ">create_time = #{createTime},</if>
+            <if test="createBy != null and createBy != '' ">create_by = #{createBy},</if>
+            <if test="updateBy != null and updateBy != '' ">update_by = #{updateBy},</if>
+            <if test="deleteFlag != null and deleteFlag != '' ">delete_flag = #{deleteFlag},</if>
+            <if test="remark != null and remark != '' ">remark = #{remark},</if>
+            update_time = sysdate(),
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteClientLeadsById" parameterType="Long">
+        update cmgt_leads_config
+        set delete_flag = "2"
+        where id = #{id}
+    </delete>
+
+</mapper>

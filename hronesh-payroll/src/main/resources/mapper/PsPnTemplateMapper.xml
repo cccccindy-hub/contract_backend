@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nnroad.payroll.mapper.PsPnTemplateMapper">
+    
+    <resultMap type="PsPnTemplate" id="PsPnTemplateResult">
+        <result property="id"    column="id"    />
+        <result property="templateName"    column="template_name"    />
+        <result property="clientCode"    column="client_code"    />
+        <result property="clientName"    column="client_name"    />
+        <result property="status"    column="status"    />
+        <result property="description"    column="description"    />
+        <result property="fileName"    column="file_name"    />
+        <result property="fileAddress"    column="file_address"    />
+        <result property="fileType"    column="file_type"    />
+        <result property="groupIds"    column="group_ids"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+    <sql id="selectPsPnTemplateVo">
+        select id, template_name, client_code, status, description, file_name, file_address, file_type, group_ids,
+        del_flag, create_by, create_time, update_by, update_time from ps_pn_template
+    </sql>
+    <select id="selectPsPnTemplateList" parameterType="PsPnTemplate" resultMap="PsPnTemplateResult">
+        SELECT
+            pt.id,
+            pt.template_name,
+            pt.client_code,
+            ci.client_name,
+            pt.description,
+            pt.file_name,
+            pt.file_address,
+            pt.group_ids,
+            pt.del_flag,
+            pt.create_by,
+            pt.create_time,
+            pt.update_by,
+            pt.update_time
+        FROM
+            `ps_pn_template` pt
+        LEFT JOIN sys_client ci ON pt.client_code = ci.company_code
+        <where>  
+            <if test="templateName != null  and templateName != ''"> and pt.template_name like concat('%', #{templateName}, '%')</if>
+            <if test="clientCode != null  and clientCode != ''"> and pt.client_code = #{clientCode}</if>
+        </where>
+        ORDER BY pt.create_time
+    </select>
+
+
+    <select id="selectPsPnTemplateById" parameterType="Long" resultMap="PsPnTemplateResult">
+        <include refid="selectPsPnTemplateVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertPsPnTemplate" parameterType="PsPnTemplate" useGeneratedKeys="true" keyProperty="id">
+        insert into ps_pn_template
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="templateName != null">template_name,</if>
+            <if test="clientCode != null">client_code,</if>
+            <if test="status != null">status,</if>
+            <if test="description != null">description,</if>
+            <if test="fileName != null">file_name,</if>
+            <if test="fileAddress != null">file_address,</if>
+            <if test="fileType != null">file_type,</if>
+            <if test="groupIds != null">group_ids,</if>
+            <if test="delFlag != null">del_flag,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="templateName != null">#{templateName},</if>
+            <if test="clientCode != null">#{clientCode},</if>
+            <if test="status != null">#{status},</if>
+            <if test="description != null">#{description},</if>
+            <if test="fileName != null">#{fileName},</if>
+            <if test="fileAddress != null">#{fileAddress},</if>
+            <if test="fileType != null">#{fileType},</if>
+            <if test="groupIds != null">#{groupIds},</if>
+            <if test="delFlag != null">#{delFlag},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+    <update id="updatePsPnTemplate" parameterType="PsPnTemplate">
+        update ps_pn_template
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="templateName != null">template_name = #{templateName},</if>
+            <if test="clientCode != null">client_code = #{clientCode},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="description != null">description = #{description},</if>
+            <if test="fileName != null">file_name = #{fileName},</if>
+            <if test="fileAddress != null">file_address = #{fileAddress},</if>
+            <if test="fileType != null">file_type = #{fileType},</if>
+            <if test="groupIds != null">group_ids = #{groupIds},</if>
+            <if test="delFlag != null">del_flag = #{delFlag},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+    <delete id="deletePsPnTemplateByIds" parameterType="String">
+        delete from ps_pn_template where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

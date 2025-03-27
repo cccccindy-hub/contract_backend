@@ -1,0 +1,16 @@
+/Users/guo/Desktop/contract/hronesh-lead/src/main/java/com/nnroad/lead/mapper/LeadsBDQuestionMapper.java
+/Users/guo/Desktop/contract/hronesh-lead/src/main/java/com/nnroad/lead/enums/ClientLeadsStatus.java
+/Users/guo/Desktop/contract/hronesh-lead/src/main/java/com/nnroad/lead/mapper/ClientLeadsConfigMapper.java
+/Users/guo/Desktop/contract/hronesh-lead/src/main/java/com/nnroad/lead/service/IClientLeadsService.java
+/Users/guo/Desktop/contract/hronesh-lead/src/main/java/com/nnroad/lead/service/ILeadsBDQuestionService.java
+/Users/guo/Desktop/contract/hronesh-lead/src/main/java/com/nnroad/lead/service/impl/ClientLeadsServiceImpl.java
+/Users/guo/Desktop/contract/hronesh-lead/src/main/java/com/nnroad/lead/service/IClientLeadsConfigService.java
+/Users/guo/Desktop/contract/hronesh-lead/src/main/java/com/nnroad/lead/domain/ClientLeadsConfig.java
+/Users/guo/Desktop/contract/hronesh-lead/src/main/java/com/nnroad/lead/mapper/ClientLeadsMapper.java
+/Users/guo/Desktop/contract/hronesh-lead/src/main/java/com/nnroad/lead/service/impl/ClientLeadsConfigServiceImpl.java
+/Users/guo/Desktop/contract/hronesh-lead/src/main/java/com/nnroad/lead/enums/LeadsCodePrefixEnum.java
+/Users/guo/Desktop/contract/hronesh-lead/src/main/java/com/nnroad/lead/vo/Leads2ClientVo.java
+/Users/guo/Desktop/contract/hronesh-lead/src/main/java/com/nnroad/lead/service/impl/ILeadsBDQuestionServiceImpl.java
+/Users/guo/Desktop/contract/hronesh-lead/src/main/java/com/nnroad/lead/domain/ClientDBQuestion.java
+/Users/guo/Desktop/contract/hronesh-lead/src/main/java/com/nnroad/lead/enums/FileTypeEnum.java
+/Users/guo/Desktop/contract/hronesh-lead/src/main/java/com/nnroad/lead/domain/ClientLeads.java

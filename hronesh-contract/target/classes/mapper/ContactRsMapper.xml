@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nnroad.system.mapper.ContactRsMapper">
+    
+    <resultMap type="ContactRs" id="ContactRsResult">
+        <result property="indexColumn"    column="index_column"    />
+        <result property="stringIndex"    column="string_index"    />
+        <result property="rs21"    column="RS_2_1"    />
+        <result property="rs22"    column="RS_2_2"    />
+        <result property="rs6"    column="RS_6"    />
+        <result property="rs7"    column="RS_7"    />
+        <result property="userId"    column="user_id"    />
+    </resultMap>
+
+    <sql id="selectContactRsVo">
+        select index_column, string_index, RS_2_1, RS_2_2, RS_6, RS_7, user_id from contact_rs
+    </sql>
+
+    <select id="selectContactRsList" parameterType="ContactRs" resultMap="ContactRsResult">
+        <include refid="selectContactRsVo"/>
+        <where>  
+            <if test="indexColumn != null  and indexColumn != ''"> and index_column = #{indexColumn}</if>
+            <if test="stringIndex != null  and stringIndex != ''"> and string_index = #{stringIndex}</if>
+            <if test="rs21 != null "> and RS_2_1 = #{rs21}</if>
+            <if test="rs22 != null "> and RS_2_2 = #{rs22}</if>
+            <if test="rs6 != null "> and RS_6 = #{rs6}</if>
+            <if test="rs7 != null "> and RS_7 = #{rs7}</if>
+        </where>
+    </select>
+    
+    <select id="selectContactRsByUserId" parameterType="String" resultMap="ContactRsResult">
+        <include refid="selectContactRsVo"/>
+        where user_id = #{userId}
+    </select>
+
+    <insert id="insertContactRs" parameterType="ContactRs">
+        insert into contact_rs
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="indexColumn != null and indexColumn != ''">index_column,</if>
+            <if test="stringIndex != null and stringIndex != ''">string_index,</if>
+            <if test="rs21 != null">RS_2_1,</if>
+            <if test="rs22 != null">RS_2_2,</if>
+            <if test="rs6 != null">RS_6,</if>
+            <if test="rs7 != null">RS_7,</if>
+            <if test="userId != null">user_id,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="indexColumn != null and indexColumn != ''">#{indexColumn},</if>
+            <if test="stringIndex != null and stringIndex != ''">#{stringIndex},</if>
+            <if test="rs21 != null">#{rs21},</if>
+            <if test="rs22 != null">#{rs22},</if>
+            <if test="rs6 != null">#{rs6},</if>
+            <if test="rs7 != null">#{rs7},</if>
+            <if test="userId != null">#{userId},</if>
+         </trim>
+    </insert>
+
+    <update id="updateContactRs" parameterType="ContactRs">
+        update contact_rs
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="indexColumn != null and indexColumn != ''">index_column = #{indexColumn},</if>
+            <if test="stringIndex != null and stringIndex != ''">string_index = #{stringIndex},</if>
+            <if test="rs21 != null">RS_2_1 = #{rs21},</if>
+            <if test="rs22 != null">RS_2_2 = #{rs22},</if>
+            <if test="rs6 != null">RS_6 = #{rs6},</if>
+            <if test="rs7 != null">RS_7 = #{rs7},</if>
+        </trim>
+        where user_id = #{userId}
+    </update>
+
+    <delete id="deleteContactRsByUserId" parameterType="String">
+        delete from contact_rs where user_id = #{userId}
+    </delete>
+
+    <delete id="deleteContactRsByUserIds" parameterType="String">
+        delete from contact_rs where user_id in 
+        <foreach item="userId" collection="array" open="(" separator="," close=")">
+            #{userId}
+        </foreach>
+    </delete>
+</mapper>

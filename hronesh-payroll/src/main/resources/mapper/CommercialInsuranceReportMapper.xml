@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nnroad.payroll.mapper.CommercialInsuranceReportMapper">
+    
+    <resultMap type="CommercialInsuranceReport" id="CommercialInsuranceReportResult">
+        <result property="employeeName"    column="employee_name"    />
+        <result property="idNumber"    column="id_number"    />
+        <result property="idType"    column="id_type"    />
+        <result property="ciLevel"    column="ci_level"    />
+        <result property="ciStartMonth"    column="ci_start_month"    />
+        <result property="isSiReady"    column="is_si_ready"    />
+        <result property="telephone"    column="telephone"    />
+        <result property="email"    column="email"    />
+        <result property="bankName"    column="bank_name"    />
+        <result property="bankAccount"    column="bank_account"    />
+        <result property="bankHolder"    column="bank_holder"    />
+        <result property="companyName"    column="company_name"    />
+        <result property="employeeCode"    column="employee_code"    />
+        <result property="clientCode"    column="client_code"    />
+        <result property="isLeave"    column="is_leave"    />
+        <result property="ciIsAdd"    column="commercial_insurance_is_added"    />
+    </resultMap>
+
+    <sql id="selectCommercialInsuranceReportVo">
+        select employee_code,employee_name, id_number, id_type, ci_level, ci_start_month, is_si_ready, telephone, email, bank_name, bank_account, bank_holder, company_name,client_code,is_leave,commercial_insurance_is_added from commercial_insurance_report
+    </sql>
+
+    <select id="selectCommercialInsuranceReportList" parameterType="CommercialInsuranceReport" resultMap="CommercialInsuranceReportResult">
+        <include refid="selectCommercialInsuranceReportVo"/>
+        <where>  
+            <if test="employeeCode != null  and employeeCode != ''"> and employee_code like concat('%', #{employeeCode}, '%')</if>
+            <if test="employeeName != null  and employeeName != ''"> and employee_name like concat('%', #{employeeName}, '%')</if>
+            <if test="companyName != null  and companyName != ''"> and company_name like concat('%', #{companyName}, '%')</if>
+            <if test="clientCode != null  and clientCode != ''"> and client_code like concat('%', #{clientCode}, '%')</if>
+            <if test="isLeave != null  and isLeave != ''"> and is_leave = #{isLeave}</if>
+            <if test="ciIsAdd != null  and ciIsAdd != ''"> and commercial_insurance_is_added = #{ciIsAdd}</if>
+        </where>
+    </select>
+    
+    <select id="selectCommercialInsuranceReportById" parameterType="String" resultMap="CommercialInsuranceReportResult">
+        <include refid="selectCommercialInsuranceReportVo"/>
+        where employee_name = #{employeeName}
+    </select>
+        
+    <insert id="insertCommercialInsuranceReport" parameterType="CommercialInsuranceReport">
+        insert into commercial_insurance_report
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="employeeName != null and employeeName != ''">employee_name,</if>
+            <if test="idNumber != null">id_number,</if>
+            <if test="idType != null">id_type,</if>
+            <if test="ciLevel != null">ci_level,</if>
+            <if test="ciStartMonth != null">ci_start_month,</if>
+            <if test="isSiReady != null and isSiReady != ''">is_si_ready,</if>
+            <if test="telephone != null">telephone,</if>
+            <if test="email != null">email,</if>
+            <if test="bankName != null">bank_name,</if>
+            <if test="bankAccount != null">bank_account,</if>
+            <if test="bankHolder != null">bank_holder,</if>
+            <if test="companyName != null">company_name,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="employeeName != null and employeeName != ''">#{employeeName},</if>
+            <if test="idNumber != null">#{idNumber},</if>
+            <if test="idType != null">#{idType},</if>
+            <if test="ciLevel != null">#{ciLevel},</if>
+            <if test="ciStartMonth != null">#{ciStartMonth},</if>
+            <if test="isSiReady != null and isSiReady != ''">#{isSiReady},</if>
+            <if test="telephone != null">#{telephone},</if>
+            <if test="email != null">#{email},</if>
+            <if test="bankName != null">#{bankName},</if>
+            <if test="bankAccount != null">#{bankAccount},</if>
+            <if test="bankHolder != null">#{bankHolder},</if>
+            <if test="companyName != null">#{companyName},</if>
+         </trim>
+    </insert>
+
+    <update id="updateCommercialInsuranceReport" parameterType="CommercialInsuranceReport">
+        update commercial_insurance_report
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="idNumber != null">id_number = #{idNumber},</if>
+            <if test="idType != null">id_type = #{idType},</if>
+            <if test="ciLevel != null">ci_level = #{ciLevel},</if>
+            <if test="ciStartMonth != null">ci_start_month = #{ciStartMonth},</if>
+            <if test="isSiReady != null and isSiReady != ''">is_si_ready = #{isSiReady},</if>
+            <if test="telephone != null">telephone = #{telephone},</if>
+            <if test="email != null">email = #{email},</if>
+            <if test="bankName != null">bank_name = #{bankName},</if>
+            <if test="bankAccount != null">bank_account = #{bankAccount},</if>
+            <if test="bankHolder != null">bank_holder = #{bankHolder},</if>
+            <if test="companyName != null">company_name = #{companyName},</if>
+        </trim>
+        where employee_name = #{employeeName}
+    </update>
+
+    <delete id="deleteCommercialInsuranceReportById" parameterType="String">
+        delete from commercial_insurance_report where employee_name = #{employeeName}
+    </delete>
+
+    <delete id="deleteCommercialInsuranceReportByIds" parameterType="String">
+        delete from commercial_insurance_report where employee_name in
+        <foreach item="employeeName" collection="array" open="(" separator="," close=")">
+            #{employeeName}
+        </foreach>
+    </delete>
+
+</mapper>

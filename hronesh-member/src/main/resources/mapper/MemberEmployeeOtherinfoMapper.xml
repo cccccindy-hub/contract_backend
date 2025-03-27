@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nnroad.member.mapper.MemberEmployeeOtherinfoMapper">
+
+    <resultMap type="MemberEmployeeOtherinfo" id="MemberEmployeeOtherinfoResult">
+        <result property="id"    column="id"    />
+        <result property="eeCode"    column="ee_code"    />
+        <result property="tryoutEndDate"    column="tryout_end_date"    />
+        <result property="contractEndDate"    column="contract_end_date"    />
+        <result property="renewalContractEndDate"    column="renewal_contract_end_date"    />
+        <result property="residencePermitEndDate"    column="residence_permit_end_date"    />
+        <result property="seniority"    column="seniority"    />
+        <result property="basicSalary"    column="basic_salary"    />
+        <result property="performanceSalaryBase"    column="performance_salary_base"    />
+        <result property="postSalary"    column="post_salary"    />
+        <result property="socialSecurityBase"    column="social_security_base"    />
+        <result property="providentFundBase"    column="provident_fund_base"    />
+        <result property="payUnit"    column="pay_unit"    />
+        <result property="socialSecurityPayMonth"    column="social_security_pay_month"    />
+        <result property="commercialInsuranceLevel"    column="commercial_insurance_level"    />
+        <result property="commercialInsurance"    column="commercial_insurance"    />
+        <result property="erDutyInsurance"    column="er_duty_insurance"    />
+    </resultMap>
+
+    <sql id="selectMemberEmployeeOtherinfoVo">
+        select id, ee_code, tryout_end_date, contract_end_date, renewal_contract_end_date, residence_permit_end_date, seniority, basic_salary, performance_salary_base, post_salary, social_security_base, provident_fund_base, pay_unit, social_security_pay_month, commercial_insurance_level, commercial_insurance, er_duty_insurance from mmgt_employee_otherInfo
+    </sql>
+
+    <select id="selectMemberEmployeeOtherinfoList" parameterType="MemberEmployeeOtherinfo" resultMap="MemberEmployeeOtherinfoResult">
+        <include refid="selectMemberEmployeeOtherinfoVo"/>
+        <where>
+            <if test="eeCode != null  and eeCode != ''"> and ee_code = #{eeCode}</if>
+            <if test="tryoutEndDate != null "> and tryout_end_date = #{tryoutEndDate}</if>
+            <if test="contractEndDate != null "> and contract_end_date = #{contractEndDate}</if>
+            <if test="renewalContractEndDate != null "> and renewal_contract_end_date = #{renewalContractEndDate}</if>
+            <if test="residencePermitEndDate != null "> and residence_permit_end_date = #{residencePermitEndDate}</if>
+            <if test="seniority != null  and seniority != ''"> and seniority = #{seniority}</if>
+            <if test="basicSalary != null  and basicSalary != ''"> and basic_salary = #{basicSalary}</if>
+            <if test="performanceSalaryBase != null  and performanceSalaryBase != ''"> and performance_salary_base = #{performanceSalaryBase}</if>
+            <if test="postSalary != null  and postSalary != ''"> and post_salary = #{postSalary}</if>
+            <if test="socialSecurityBase != null  and socialSecurityBase != ''"> and social_security_base = #{socialSecurityBase}</if>
+            <if test="providentFundBase != null  and providentFundBase != ''"> and provident_fund_base = #{providentFundBase}</if>
+            <if test="payUnit != null  and payUnit != ''"> and pay_unit = #{payUnit}</if>
+            <if test="socialSecurityPayMonth != null  and socialSecurityPayMonth != ''"> and social_security_pay_month = #{socialSecurityPayMonth}</if>
+            <if test="commercialInsuranceLevel != null  and commercialInsuranceLevel != ''"> and commercial_insurance_level = #{commercialInsuranceLevel}</if>
+            <if test="commercialInsurance != null  and commercialInsurance != ''"> and commercial_insurance = #{commercialInsurance}</if>
+            <if test="erDutyInsurance != null  and erDutyInsurance != ''"> and er_duty_insurance = #{erDutyInsurance}</if>
+        </where>
+    </select>
+
+    <select id="selectMemberEmployeeOtherinfoById" parameterType="Long" resultMap="MemberEmployeeOtherinfoResult">
+        <include refid="selectMemberEmployeeOtherinfoVo"/>
+        where id = #{id}
+    </select>
+
+
+    <select id="selectMemberEmployeeOtherinfoByEecode" parameterType="string" resultMap="MemberEmployeeOtherinfoResult">
+        <include refid="selectMemberEmployeeOtherinfoVo"/>
+        where ee_code = #{eeCode}
+    </select>
+
+    <insert id="insertMemberEmployeeOtherinfo" parameterType="MemberEmployeeOtherinfo" useGeneratedKeys="true" keyProperty="id">
+        insert into mmgt_employee_otherInfo
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="eeCode != null">ee_code,</if>
+            <if test="tryoutEndDate != null">tryout_end_date,</if>
+            <if test="contractEndDate != null">contract_end_date,</if>
+            <if test="renewalContractEndDate != null">renewal_contract_end_date,</if>
+            <if test="residencePermitEndDate != null">residence_permit_end_date,</if>
+            <if test="seniority != null">seniority,</if>
+            <if test="basicSalary != null">basic_salary,</if>
+            <if test="performanceSalaryBase != null">performance_salary_base,</if>
+            <if test="postSalary != null">post_salary,</if>
+            <if test="socialSecurityBase != null">social_security_base,</if>
+            <if test="providentFundBase != null">provident_fund_base,</if>
+            <if test="payUnit != null">pay_unit,</if>
+            <if test="socialSecurityPayMonth != null">social_security_pay_month,</if>
+            <if test="commercialInsuranceLevel != null">commercial_insurance_level,</if>
+            <if test="commercialInsurance != null">commercial_insurance,</if>
+            <if test="erDutyInsurance != null">er_duty_insurance,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="eeCode != null">#{eeCode},</if>
+            <if test="tryoutEndDate != null">#{tryoutEndDate},</if>
+            <if test="contractEndDate != null">#{contractEndDate},</if>
+            <if test="renewalContractEndDate != null">#{renewalContractEndDate},</if>
+            <if test="residencePermitEndDate != null">#{residencePermitEndDate},</if>
+            <if test="seniority != null">#{seniority},</if>
+            <if test="basicSalary != null">#{basicSalary},</if>
+            <if test="performanceSalaryBase != null">#{performanceSalaryBase},</if>
+            <if test="postSalary != null">#{postSalary},</if>
+            <if test="socialSecurityBase != null">#{socialSecurityBase},</if>
+            <if test="providentFundBase != null">#{providentFundBase},</if>
+            <if test="payUnit != null">#{payUnit},</if>
+            <if test="socialSecurityPayMonth != null">#{socialSecurityPayMonth},</if>
+            <if test="commercialInsuranceLevel != null">#{commercialInsuranceLevel},</if>
+            <if test="commercialInsurance != null">#{commercialInsurance},</if>
+            <if test="erDutyInsurance != null">#{erDutyInsurance},</if>
+        </trim>
+    </insert>
+
+    <update id="updateMemberEmployeeOtherinfo" parameterType="MemberEmployeeOtherinfo">
+        update mmgt_employee_otherInfo
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="eeCode != null">ee_code = #{eeCode},</if>
+            <if test="tryoutEndDate != null">tryout_end_date = #{tryoutEndDate},</if>
+            <if test="contractEndDate != null">contract_end_date = #{contractEndDate},</if>
+            <if test="renewalContractEndDate != null">renewal_contract_end_date = #{renewalContractEndDate},</if>
+            <if test="residencePermitEndDate != null">residence_permit_end_date = #{residencePermitEndDate},</if>
+            <if test="seniority != null">seniority = #{seniority},</if>
+            <if test="basicSalary != null">basic_salary = #{basicSalary},</if>
+            <if test="performanceSalaryBase != null">performance_salary_base = #{performanceSalaryBase},</if>
+            <if test="postSalary != null">post_salary = #{postSalary},</if>
+            <if test="socialSecurityBase != null">social_security_base = #{socialSecurityBase},</if>
+            <if test="providentFundBase != null">provident_fund_base = #{providentFundBase},</if>
+            <if test="payUnit != null">pay_unit = #{payUnit},</if>
+            <if test="socialSecurityPayMonth != null">social_security_pay_month = #{socialSecurityPayMonth},</if>
+            <if test="commercialInsuranceLevel != null">commercial_insurance_level = #{commercialInsuranceLevel},</if>
+            <if test="commercialInsurance != null">commercial_insurance = #{commercialInsurance},</if>
+            <if test="erDutyInsurance != null">er_duty_insurance = #{erDutyInsurance},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteMemberEmployeeOtherinfoByEecode" parameterType="string">
+        delete from mmgt_employee_otherInfo where ee_code = #{eeCode}
+    </delete>
+
+    <delete id="deleteMemberEmployeeOtherinfoById" parameterType="Long">
+        delete from mmgt_employee_otherInfo where id = #{id}
+    </delete>
+
+    <delete id="deleteMemberEmployeeOtherinfoByIds" parameterType="String">
+        delete from mmgt_employee_otherInfo where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

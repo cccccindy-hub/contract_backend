@@ -1,0 +1,601 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nnroad.payroll.mapper.PsPayslipMapper">
+
+    <resultMap type="PsPayslip" id="PsPayslipResult">
+        <result property="id" column="id"/>
+        <result property="department" column="department"/>
+        <result property="duration" column="duration"/>
+        <result property="idNo" column="id_no"/>
+        <result property="name" column="name"/>
+        <result property="basicSalary" column="basic_salary"/>
+        <result property="normalBonus" column="normal_bonus"/>
+        <result property="annualBonus13thSalary" column="annual_bonus_13th_salary"/>
+        <result property="allowanceSubsidy" column="allowance_subsidy"/>
+        <result property="transportAllowance" column="transport_allowance"/>
+        <result property="communicationAllowance" column="communication_allowance"/>
+        <result property="mealAllowance" column="meal_allowance"/>
+        <result property="birthdayGift" column="birthday_gift"/>
+        <result property="otherAllowance" column="other_allowance"/>
+        <result property="otPayment" column="OT_payment"/>
+        <result property="affordTax" column="afford_tax"/>
+        <result property="socialBenefitsBasis" column="social_benefits_basis"/>
+        <result property="housingFundBasis" column="housing_fund_basis"/>
+        <result property="pension" column="pension"/>
+        <result property="medical" column="medical"/>
+        <result property="unemployment" column="unemployment"/>
+        <result property="housingFund" column="housing_fund"/>
+        <result property="absence" column="absence"/>
+        <result property="affairLeave" column="affair_leave"/>
+        <result property="absenteeism" column="absenteeism"/>
+        <result property="sickLeave" column="sick_leave"/>
+        <result property="annuity" column="annuity"/>
+        <result property="unionFee" column="union_fee"/>
+        <result property="other" column="other"/>
+        <result property="IIT" column="IIT"/>
+        <result property="balanceCharge" column="balance_charge"/>
+        <result property="expense" column="expense"/>
+        <result property="foreignersSubsistence" column="foreigners_subsistence"/>
+        <result property="netIncome" column="net_income"/>
+        <result property="pretaxAdjustment" column="pre_tax_adjustment"/>
+        <result property="shareIncentives" column="share_incentives"/>
+        <result property="compensation" column="compensation"/>
+        <result property="afterTaxAdjustment" column="after_tax_adjustment"/>
+        <result property="kfFlag" column="kf_flag"/>
+        <result property="czFlag" column="cz_flag"/>
+        <result property="groupIds" column="group_ids"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="openTime" column="open_time"/>
+        <result property="payDay" column="pay_day"/>
+        <result property="psType" column="ps_type"/>
+        <result property="taxCalculation" column="tax_calculation"/>
+    </resultMap>
+
+    <sql id="selectPsPayslipVo">
+        select id, department, duration, id_no, name, basic_salary, normal_bonus, annual_bonus_13th_salary, allowance_subsidy,
+        transport_allowance,communication_allowance,meal_allowance,birthday_gift,other_allowance,
+        OT_payment, afford_tax, social_benefits_basis, housing_fund_basis, pension, medical, unemployment, housing_fund,
+        absence, affair_leave, absenteeism, sick_leave, annuity, union_fee, other, IIT, balance_charge, expense,
+        foreigners_subsistence, net_income, kf_flag, cz_flag, pre_tax_adjustment, share_incentives, compensation,
+        after_tax_adjustment, group_ids, create_by, create_time, update_by, update_time, open_time from ps_payslip
+    </sql>
+
+    <sql id="selectPsPayslipVo1">
+        SELECT DISTINCT
+            p.id,
+            p.duration,
+            er.client_name AS "clientName",
+            er.client_code as "clientCode",
+            p.id_no,
+            p.NAME,
+            p.basic_salary,
+            p.normal_bonus,
+            p.annual_bonus_13th_salary,
+            p.allowance_subsidy,
+            p.transport_allowance,
+            p.communication_allowance,
+            p.meal_allowance,
+            p.birthday_gift,
+            p.other_allowance,
+            p.OT_payment,
+            p.afford_tax,
+            p.social_benefits_basis,
+            p.housing_fund_basis,
+            p.pension,
+            p.medical,
+            p.unemployment,
+            p.housing_fund,
+            p.absence,
+            p.affair_leave,
+            p.absenteeism,
+            p.sick_leave,
+            p.annuity,
+            p.union_fee,
+            p.other,
+            p.IIT,
+            p.balance_charge,
+            p.expense,
+            p.foreigners_subsistence,
+            p.net_income,
+            p.pre_tax_adjustment,
+            p.share_incentives,
+            p.compensation,
+            p.after_tax_adjustment,
+            b.accumulated_child_education AS "yTDChildrenEducation",
+            b.accumulated_continuing_education AS "yTDContinueEducation",
+            b.accumulated_hli  AS "yTDHousingLoanInterest",
+            b.accumulated_housing_rent AS "yTDHousingRental",
+            b.accumulated_sfte AS "yTDCaringForTheElderly",
+            b.accumulated_child_care  AS "yTDChildCare",
+            cr.tax_calculation,
+            p.kf_flag,
+            p.cz_flag,
+            p.create_by,
+            p.create_time,
+            p.update_by,
+            p.update_time,
+            p.open_time,
+            er.pay_day
+        FROM
+            ps_payslip p
+            INNER JOIN ps_basic_info b ON p.duration = b.duration
+            AND p.id_no = b.id_no
+            INNER JOIN ps_calculation_result cr ON p.duration = cr.duration
+            and p.id_no = cr.id_no
+            LEFT OUTER JOIN v_client_info er ON b.client_code = er.client_code
+    </sql>
+    <select id="selectPsPayslipList" parameterType="PsPayslip" resultMap="PsPayslipResult">
+        <include refid="selectPsPayslipVo"/>
+        <where>
+            <if test="department != null  and department != ''">and department = #{department}</if>
+            <if test="idNo != null  and idNo != ''">and id_no = #{idNo}</if>
+            <if test="name != null  and name != ''">and name like concat('%', #{name}, '%')</if>
+            <if test="basicSalary != null ">and basic_salary = #{basicSalary}</if>
+            <if test="normalBonus != null ">and normal_bonus = #{normalBonus}</if>
+            <if test="annualBonus13thSalary != null ">and annual_bonus_13th_salary = #{annualBonus13thSalary}</if>
+            <if test="allowanceSubsidy != null ">and allowance_subsidy = #{allowanceSubsidy}</if>
+            <if test="transportAllowance != null ">and transport_allowance = #{transportAllowance}</if>
+            <if test="communicationAllowance != null ">and communication_allowance = #{communicationAllowance}</if>
+            <if test="mealAllowance != null ">and meal_allowance = #{mealAllowance}</if>
+            <if test="birthdayGift != null ">and birthday_gift = #{birthdayGift}</if>
+            <if test="otherAllowance != null ">and other_allowance = #{otherAllowance}</if>
+            <if test="otPayment != null ">and OT_payment = #{otPayment}</if>
+            <if test="affordTax != null ">and afford_tax = #{affordTax}</if>
+            <if test="socialBenefitsBasis != null ">and social_benefits_basis = #{socialBenefitsBasis}</if>
+            <if test="housingFundBasis != null ">and housing_fund_basis = #{housingFundBasis}</if>
+            <if test="pension != null ">and pension = #{pension}</if>
+            <if test="medical != null ">and medical = #{medical}</if>
+            <if test="unemployment != null ">and unemployment = #{unemployment}</if>
+            <if test="housingFund != null ">and housing_fund = #{housingFund}</if>
+            <if test="absence != null ">and absence = #{absence}</if>
+            <if test="affairLeave != null ">and affair_leave = #{affairLeave}</if>
+            <if test="absenteeism != null ">and absenteeism = #{absenteeism}</if>
+            <if test="sickLeave != null ">and sick_leave = #{sickLeave}</if>
+            <if test="annuity != null ">and annuity = #{annuity}</if>
+            <if test="unionFee != null ">and union_fee = #{unionFee}</if>
+            <if test="other != null ">and other = #{other}</if>
+            <if test="IIT != null ">and IIT = #{IIT}</if>
+            <if test="balanceCharge != null ">and balance_charge = #{balanceCharge}</if>
+            <if test="expense != null ">and expense = #{expense}</if>
+            <if test="foreignersSubsistence != null ">and foreigners_subsistence = #{foreignersSubsistence}</if>
+            <if test="netIncome != null ">and net_income = #{netIncome}</if>
+            <if test="kfFlag != null ">and kf_flag = #{kfFlag}</if>
+            <if test="czFlag != null and czFlag != ''">and cz_flag = #{czFlag}</if>
+            <if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
+                AND duration &gt;= #{params.beginTime}
+            </if>
+            <if test="params.endTime != null and params.endTime != ''"><!-- 结束时间检索 -->
+                AND duration &lt;= #{params.endTime}
+            </if>
+            <if test="duration != null  and duration != ''">and duration = #{duration}</if>
+
+        </where>
+        order by duration desc, id_no
+    </select>
+
+    <select id="getPsPayslip" parameterType="PsPayslip" resultMap="PsPayslipResult">
+        <include refid="selectPsPayslipVo"/>
+        <where>
+            <if test="duration != null  and duration != ''">and duration = #{duration}</if>
+            <if test="idNo != null  and idNo != ''">and id_no = #{idNo}</if>
+
+            <if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
+                AND duration &gt;= #{params.beginTime}
+            </if>
+            <if test="params.endTime != null and params.endTime != ''"><!-- 结束时间检索 -->
+                AND duration &lt;= #{params.endTime}
+            </if>
+        </where>
+    </select>
+
+
+    <insert id="insertPsPayslip" parameterType="PsPayslip" useGeneratedKeys="true" keyProperty="id">
+        insert into ps_payslip
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="department != null">department,</if>
+            <if test="duration != null">duration,</if>
+            <if test="idNo != null">id_no,</if>
+            <if test="name != null">name,</if>
+            <if test="basicSalary != null">basic_salary,</if>
+            <if test="normalBonus != null">normal_bonus,</if>
+            <if test="annualBonus13thSalary != null">annual_bonus_13th_salary,</if>
+            <if test="allowanceSubsidy != null">allowance_subsidy,</if>
+            <if test="transportAllowance != null">transport_allowance,</if>
+            <if test="communicationAllowance != null">communication_allowance,</if>
+            <if test="mealAllowance != null">meal_allowance,</if>
+            <if test="birthdayGift != null">birthday_gift,</if>
+            <if test="otherAllowance != null">other_allowance,</if>
+            <if test="otPayment != null">OT_payment,</if>
+            <if test="affordTax != null">afford_tax,</if>
+            <if test="socialBenefitsBasis != null">social_benefits_basis,</if>
+            <if test="housingFundBasis != null">housing_fund_basis,</if>
+            <if test="pension != null">pension,</if>
+            <if test="medical != null">medical,</if>
+            <if test="unemployment != null">unemployment,</if>
+            <if test="housingFund != null">housing_fund,</if>
+            <if test="absence != null">absence,</if>
+            <if test="affairLeave != null">affair_leave,</if>
+            <if test="absenteeism != null">absenteeism,</if>
+            <if test="sickLeave != null">sick_leave,</if>
+            <if test="annuity != null">annuity,</if>
+            <if test="unionFee != null">union_fee,</if>
+            <if test="other != null">other,</if>
+            <if test="IIT != null">IIT,</if>
+            <if test="balanceCharge != null">balance_charge,</if>
+            <if test="expense != null">expense,</if>
+            <if test="foreignersSubsistence != null">foreigners_subsistence,</if>
+            <if test="netIncome != null">net_income,</if>
+            <if test="pretaxAdjustment != null">pre_tax_adjustment,</if>
+            <if test="shareIncentives != null">share_incentives,</if>
+            <if test="compensation != null">compensation,</if>
+            <if test="afterTaxAdjustment != null">after_tax_adjustment,</if>
+            <if test="kfFlag != null">kf_flag,</if>
+            <if test="czFlag != null">cz_flag,</if>
+            <if test="groupIds != null and groupIds !=''">group_ids,</if>
+            <if test="createBy != null and createBy != ''">create_by,</if>
+            create_time
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="department != null">#{department},</if>
+            <if test="duration != null">#{duration},</if>
+            <if test="idNo != null">#{idNo},</if>
+            <if test="name != null">#{name},</if>
+            <if test="basicSalary != null">#{basicSalary},</if>
+            <if test="normalBonus != null">#{normalBonus},</if>
+            <if test="annualBonus13thSalary != null">#{annualBonus13thSalary},</if>
+            <if test="allowanceSubsidy != null">#{allowanceSubsidy},</if>
+            <if test="transportAllowance != null">#{transportAllowance},</if>
+            <if test="communicationAllowance != null">#{communicationAllowance},</if>
+            <if test="mealAllowance != null">#{mealAllowance},</if>
+            <if test="birthdayGift != null">#{birthdayGift},</if>
+            <if test="otherAllowance != null">#{otherAllowance},</if>
+            <if test="otPayment != null">#{otPayment},</if>
+            <if test="affordTax != null">#{affordTax},</if>
+            <if test="socialBenefitsBasis != null">#{socialBenefitsBasis},</if>
+            <if test="housingFundBasis != null">#{housingFundBasis},</if>
+            <if test="pension != null">#{pension},</if>
+            <if test="medical != null">#{medical},</if>
+            <if test="unemployment != null">#{unemployment},</if>
+            <if test="housingFund != null">#{housingFund},</if>
+            <if test="absence != null">#{absence},</if>
+            <if test="affairLeave != null">#{affairLeave},</if>
+            <if test="absenteeism != null">#{absenteeism},</if>
+            <if test="sickLeave != null">#{sickLeave},</if>
+            <if test="annuity != null">#{annuity},</if>
+            <if test="unionFee != null">#{unionFee},</if>
+            <if test="other != null">#{other},</if>
+            <if test="IIT != null">#{IIT},</if>
+            <if test="balanceCharge != null">#{balanceCharge},</if>
+            <if test="expense != null">#{expense},</if>
+            <if test="foreignersSubsistence != null">#{foreignersSubsistence},</if>
+            <if test="netIncome != null">#{netIncome},</if>
+            <if test="pretaxAdjustment != null">#{pretaxAdjustment},</if>
+            <if test="shareIncentives != null">#{shareIncentives},</if>
+            <if test="compensation != null">#{compensation},</if>
+            <if test="afterTaxAdjustment != null">#{afterTaxAdjustment},</if>
+            <if test="kfFlag != null">#{kfFlag},</if>
+            <if test="czFlag != null">#{czFlag},</if>
+            <if test="groupIds != null and groupIds !=''">#{groupIds},</if>
+            <if test="createBy != null and createBy != ''">#{createBy},</if>
+            sysdate()
+        </trim>
+    </insert>
+
+    <update id="updatePsPayslip" parameterType="PsPayslip">
+        update ps_payslip
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="department != null">department = #{department},</if>
+            <if test="duration != null">duration = #{duration},</if>
+            <if test="idNo != null">id_no = #{idNo},</if>
+            <if test="name != null">name = #{name},</if>
+            <if test="basicSalary != null">basic_salary = #{basicSalary},</if>
+            <if test="normalBonus != null">normal_bonus = #{normalBonus},</if>
+            <if test="annualBonus13thSalary != null">annual_bonus_13th_salary = #{annualBonus13thSalary},</if>
+            <if test="allowanceSubsidy != null">allowance_subsidy = #{allowanceSubsidy},</if>
+            <if test="transportAllowance != null ">transport_allowance = #{transportAllowance},</if>
+            <if test="communicationAllowance != null ">communication_allowance = #{communicationAllowance},</if>
+            <if test="mealAllowance != null ">meal_allowance = #{mealAllowance},</if>
+            <if test="birthdayGift != null ">birthday_gift = #{birthdayGift},</if>
+            <if test="otherAllowance != null ">other_allowance = #{otherAllowance},</if>
+            <if test="otPayment != null">OT_payment = #{otPayment},</if>
+            <if test="affordTax != null">afford_tax = #{affordTax},</if>
+            <if test="socialBenefitsBasis != null">social_benefits_basis = #{socialBenefitsBasis},</if>
+            <if test="housingFundBasis != null">housing_fund_basis = #{housingFundBasis},</if>
+            <if test="pension != null">pension = #{pension},</if>
+            <if test="medical != null">medical = #{medical},</if>
+            <if test="unemployment != null">unemployment = #{unemployment},</if>
+            <if test="housingFund != null">housing_fund = #{housingFund},</if>
+            <if test="absence != null">absence = #{absence},</if>
+            <if test="affairLeave != null">affair_leave = #{affairLeave},</if>
+            <if test="absenteeism != null">absenteeism = #{absenteeism},</if>
+            <if test="sickLeave != null">sick_leave = #{sickLeave},</if>
+            <if test="annuity != null">annuity = #{annuity},</if>
+            <if test="unionFee != null">union_fee = #{unionFee},</if>
+            <if test="other != null">other = #{other},</if>
+            <if test="IIT != null">IIT = #{IIT},</if>
+            <if test="balanceCharge != null">balance_charge = #{balanceCharge},</if>
+            <if test="expense != null">expense = #{expense},</if>
+            <if test="foreignersSubsistence != null">foreigners_subsistence = #{foreignersSubsistence},</if>
+            <if test="netIncome != null">net_income = #{netIncome},</if>
+            <if test="pretaxAdjustment != null">pre_tax_adjustment = #{pretaxAdjustment},</if>
+            <if test="shareIncentives != null">share_incentives = #{shareIncentives},</if>
+            <if test="compensation != null">compensation = #{compensation},</if>
+            <if test="afterTaxAdjustment != null">after_tax_adjustment = #{afterTaxAdjustment},</if>
+            <if test="kfFlag != null">kf_flag = #{kfFlag},</if>
+            <if test="czFlag != null">cz_flag = #{czFlag},</if>
+            <if test="groupIds != null and groupIds !=''">group_ids = #{groupIds},</if>
+            <if test="updateBy != null and updateBy != ''">update_by = #{updateBy},</if>
+            update_time = sysdate()
+        </trim>
+        where id = #{id}
+    </update>
+
+
+    <delete id="deletePsPayslipByKey" parameterType="PsPayslip">
+        DELETE FROM ps_payslip WHERE duration = #{duration} AND id_no = #{idNo}
+    </delete>
+
+
+    <select id="selectPsPayslipList1" parameterType="PsPayslip" resultMap="PsPayslipResult">
+        <include refid="selectPsPayslipVo1"/>
+        <where>
+            <if test="department != null  and department != ''">and b.er_name like concat('%', #{department}, '%')</if>
+            <if test="idNo != null  and idNo != ''">and p.id_no = #{idNo}</if>
+            <if test="name != null  and name != ''">and p.name like concat('%', #{name}, '%')</if>
+            <if test="basicSalary != null ">and p.basic_salary = #{basicSalary}</if>
+            <if test="normalBonus != null ">and p.normal_bonus = #{normalBonus}</if>
+            <if test="annualBonus13thSalary != null ">and p.annual_bonus_13th_salary = #{annualBonus13thSalary}</if>
+            <if test="allowanceSubsidy != null ">and p.allowance_subsidy = #{allowanceSubsidy}</if>
+            <if test="transportAllowance != null ">and p.transport_allowance = #{transportAllowance}</if>
+            <if test="communicationAllowance != null ">and p.communication_allowance = #{communicationAllowance}</if>
+            <if test="mealAllowance != null ">and p.meal_allowance = #{mealAllowance}</if>
+            <if test="birthdayGift != null ">and p.birthday_gift = #{birthdayGift}</if>
+            <if test="otherAllowance != null ">and p.other_allowance = #{otherAllowance}</if>
+            <if test="otPayment != null ">and p.OT_payment = #{otPayment}</if>
+            <if test="affordTax != null ">and p.afford_tax = #{affordTax}</if>
+            <if test="socialBenefitsBasis != null ">and p.social_benefits_basis = #{socialBenefitsBasis}</if>
+            <if test="housingFundBasis != null ">and p.housing_fund_basis = #{housingFundBasis}</if>
+            <if test="pension != null ">and p.pension = #{pension}</if>
+            <if test="medical != null ">and p.medical = #{medical}</if>
+            <if test="unemployment != null ">and p.unemployment = #{unemployment}</if>
+            <if test="housingFund != null ">and p.housing_fund = #{housingFund}</if>
+            <if test="absence != null ">and p.absence = #{absence}</if>
+            <if test="affairLeave != null ">and p.affair_leave = #{affairLeave}</if>
+            <if test="absenteeism != null ">and p.absenteeism = #{absenteeism}</if>
+            <if test="sickLeave != null ">and p.sick_leave = #{sickLeave}</if>
+            <if test="annuity != null ">and p.annuity = #{annuity}</if>
+            <if test="unionFee != null ">and p.union_fee = #{unionFee}</if>
+            <if test="other != null ">and p.other = #{other}</if>
+            <if test="IIT != null ">and p.IIT = #{IIT}</if>
+            <if test="balanceCharge != null ">and p.balance_charge = #{balanceCharge}</if>
+            <if test="expense != null ">and p.expense = #{expense}</if>
+            <if test="foreignersSubsistence != null ">and p.foreigners_subsistence = #{foreignersSubsistence}</if>
+            <if test="netIncome != null ">and p.net_income = #{netIncome}</if>
+            <if test="kfFlag != null and kfFlag !=''">and p.kf_flag = #{kfFlag}</if>
+            <if test="czFlag != null and czFlag != ''">and p.cz_flag = #{czFlag}</if>
+            <if test="payDay != null and payDay != ''">and er.pay_day in (${payDay})</if>
+            <if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
+                AND p.duration &gt;= #{params.beginTime}
+            </if>
+            <if test="params.endTime != null and params.endTime != ''"><!-- 结束时间检索 -->
+                AND p.duration &lt;= #{params.endTime}
+            </if>
+            <if test="duration != null  and duration != ''">and duration = #{duration}</if>
+        </where>
+        ORDER BY p.duration desc
+    </select>
+
+    <select id="selectPsPayslipListByEmployeeOrg" parameterType="PsPayslip" resultMap="PsPayslipResult">
+        SELECT DISTINCT
+        p.id,
+        p.duration,
+        er.client_name AS "clientName",
+        er.client_code as "clientCode",
+        p.id_no,
+        p.NAME,
+        p.basic_salary,
+        p.normal_bonus,
+        p.annual_bonus_13th_salary,
+        p.allowance_subsidy,
+        p.transport_allowance,
+        p.communication_allowance,
+        p.meal_allowance,
+        p.birthday_gift,
+        p.other_allowance,
+        p.OT_payment,
+        p.afford_tax,
+        p.social_benefits_basis,
+        p.housing_fund_basis,
+        p.pension,
+        p.medical,
+        p.unemployment,
+        p.housing_fund,
+        p.absence,
+        p.affair_leave,
+        p.absenteeism,
+        p.sick_leave,
+        p.annuity,
+        p.union_fee,
+        p.other,
+        p.IIT,
+        p.balance_charge,
+        p.expense,
+        p.foreigners_subsistence,
+        p.net_income,
+        p.pre_tax_adjustment,
+        p.share_incentives,
+        p.compensation,
+        p.after_tax_adjustment,
+        b.accumulated_child_education AS "yTDChildrenEducation",
+        b.accumulated_continuing_education AS "yTDContinueEducation",
+        b.accumulated_hli  AS "yTDHousingLoanInterest",
+        b.accumulated_housing_rent AS "yTDHousingRental",
+        b.accumulated_sfte AS "yTDCaringForTheElderly",
+        b.accumulated_child_care  AS "yTDChildCare",
+        cr.tax_calculation,
+        p.kf_flag,
+        p.cz_flag,
+        p.create_by,
+        p.create_time,
+        p.update_by,
+        p.update_time,
+        p.open_time,
+        er.pay_day,
+        sys.org
+        FROM
+        ps_payslip p
+        INNER JOIN ps_basic_info b ON p.duration = b.duration
+        AND p.id_no = b.id_no
+        INNER JOIN ps_calculation_result cr ON p.duration = cr.duration
+        and p.id_no = cr.id_no
+        LEFT OUTER JOIN v_client_info er ON b.client_code = er.client_code LEFT JOIN sys_employee sys ON sys.employee_code=p.id_no
+        <where>
+            <if test="department != null  and department != ''">and b.er_name like concat('%', #{department}, '%')</if>
+            <if test="idNo != null  and idNo != ''">and p.id_no = #{idNo}</if>
+            <if test="name != null  and name != ''">and p.name like concat('%', #{name}, '%')</if>
+            <if test="basicSalary != null ">and p.basic_salary = #{basicSalary}</if>
+            <if test="normalBonus != null ">and p.normal_bonus = #{normalBonus}</if>
+            <if test="annualBonus13thSalary != null ">and p.annual_bonus_13th_salary = #{annualBonus13thSalary}</if>
+            <if test="allowanceSubsidy != null ">and p.allowance_subsidy = #{allowanceSubsidy}</if>
+            <if test="transportAllowance != null ">and p.transport_allowance = #{transportAllowance}</if>
+            <if test="communicationAllowance != null ">and p.communication_allowance = #{communicationAllowance}</if>
+            <if test="mealAllowance != null ">and p.meal_allowance = #{mealAllowance}</if>
+            <if test="birthdayGift != null ">and p.birthday_gift = #{birthdayGift}</if>
+            <if test="otherAllowance != null ">and p.other_allowance = #{otherAllowance}</if>
+            <if test="otPayment != null ">and p.OT_payment = #{otPayment}</if>
+            <if test="affordTax != null ">and p.afford_tax = #{affordTax}</if>
+            <if test="socialBenefitsBasis != null ">and p.social_benefits_basis = #{socialBenefitsBasis}</if>
+            <if test="housingFundBasis != null ">and p.housing_fund_basis = #{housingFundBasis}</if>
+            <if test="pension != null ">and p.pension = #{pension}</if>
+            <if test="medical != null ">and p.medical = #{medical}</if>
+            <if test="unemployment != null ">and p.unemployment = #{unemployment}</if>
+            <if test="housingFund != null ">and p.housing_fund = #{housingFund}</if>
+            <if test="absence != null ">and p.absence = #{absence}</if>
+            <if test="affairLeave != null ">and p.affair_leave = #{affairLeave}</if>
+            <if test="absenteeism != null ">and p.absenteeism = #{absenteeism}</if>
+            <if test="sickLeave != null ">and p.sick_leave = #{sickLeave}</if>
+            <if test="annuity != null ">and p.annuity = #{annuity}</if>
+            <if test="unionFee != null ">and p.union_fee = #{unionFee}</if>
+            <if test="other != null ">and p.other = #{other}</if>
+            <if test="IIT != null ">and p.IIT = #{IIT}</if>
+            <if test="balanceCharge != null ">and p.balance_charge = #{balanceCharge}</if>
+            <if test="expense != null ">and p.expense = #{expense}</if>
+            <if test="foreignersSubsistence != null ">and p.foreigners_subsistence = #{foreignersSubsistence}</if>
+            <if test="netIncome != null ">and p.net_income = #{netIncome}</if>
+            <if test="kfFlag != null and kfFlag !=''">and p.kf_flag = #{kfFlag}</if>
+            <if test="czFlag != null and czFlag != ''">and p.cz_flag = #{czFlag}</if>
+            <if test="payDay != null and payDay != ''">and er.pay_day in (${payDay})</if>
+            <if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
+                AND p.duration &gt;= #{params.beginTime}
+            </if>
+            <if test="params.endTime != null and params.endTime != ''"><!-- 结束时间检索 -->
+                AND p.duration &lt;= #{params.endTime}
+            </if>
+            <if test="duration != null  and duration != ''">and p.duration = #{duration}</if>
+            <if test="orgList != null">
+                AND sys.org IN
+                <foreach collection="orgList" item="org" open="(" separator="," close=")">
+                    #{org}
+                </foreach>
+            </if>
+
+        </where>
+        ORDER BY p.duration desc
+    </select>
+
+    <select id="selectPsPayslipById" parameterType="Long" resultMap="PsPayslipResult">
+        <include refid="selectPsPayslipVo"/>
+        where id = #{id}
+    </select>
+
+
+    <select id="getMyPayslipData" resultType="com.nnroad.payroll.domain.MyPsPayslip"
+            parameterType="com.nnroad.payroll.domain.MyPsPayslipDto">
+        SELECT
+        p.`name` AS "eeName",
+        p.duration,
+        p.id_no AS "eeNo",
+        b.er_name AS "erName",
+        CASE WHEN p.act_basic_salary >0 THEN ROUND(p.act_basic_salary, 2) ELSE ROUND(p.basic_salary, 2) END AS
+        "basicSalary",
+        ROUND(p.normal_bonus, 2) AS "normalBonus",
+        ROUND(p.annual_bonus_13th_salary, 2) AS "annualBonus13thSalary",
+        ROUND(p.allowance_subsidy, 2) AS "allowanceSubsidy",
+        ROUND(p.transport_allowance, 2) AS "transportAllowance",
+        ROUND(p.communication_allowance, 2) AS "communicationAllowance",
+        ROUND(p.meal_allowance, 2) AS "mealAllowance",
+        ROUND(p.birthday_gift, 2) AS "birthdayGift",
+        ROUND(p.other_allowance, 2) AS "otherAllowance",
+        ROUND(p.OT_payment, 2) AS "oTPayment",
+        ROUND(p.afford_tax, 2) AS "incomeEmployerAffordTax",
+        ROUND(p.pension, 2) AS "pension",
+        ROUND(p.medical, 2) AS "medical",
+        ROUND(p.unemployment, 2) AS "unemployment",
+        ROUND(p.housing_fund, 2) AS "housingFund",
+        ROUND(p.absence, 2) AS "deductionfor1stlastMonthAbsence",
+        ROUND(p.affair_leave, 2) AS "deductionforPersonalAffairLeave",
+        ROUND(p.absenteeism, 2) AS "deductionforAbsenteeism",
+        ROUND(p.sick_leave, 2) AS "deductionforSickLeave",
+        ROUND(p.annuity, 2) AS "annuity",
+        ROUND(p.other, 2) AS "other",
+        ROUND(p.IIT, 2) AS "iIT",
+        ROUND(p.balance_charge, 2) AS "balanceForChargeOnBehalf",
+        ROUND(p.expense, 2) AS "expense",
+        ROUND(p.foreigners_subsistence, 2) AS "subsistenceAllowanceforForeigners",
+        ROUND(p.net_income, 2) AS "netIncome",
+        ROUND(b.accumulated_child_education, 2) AS "yTDChildrenEducation",
+        ROUND(b.accumulated_continuing_education, 2) AS "yTDContinueEducation",
+        ROUND(b.accumulated_hli, 2) AS "yTDHousingLoanInterest",
+        ROUND(b.accumulated_housing_rent, 2) AS "yTDHousingRental",
+        ROUND(b.accumulated_sfte, 2) AS "yTDCaringForTheElderly",
+        ROUND(b.accumulated_child_care, 2) AS "yTDChildCare",
+        b.remarks2 AS "biRemark2",
+        ROUND(p.pre_tax_adjustment, 2) AS pretaxAdjustment,
+        ROUND(p.share_incentives, 2) AS shareIncentives,
+        ROUND(p.compensation, 2) AS compensation,
+        ROUND(c.tax_calculation,2) AS taxCalculation
+        FROM
+        ps_payslip p
+        INNER JOIN ps_basic_info b ON p.id_no = b.id_no
+        AND p.duration = b.duration
+        INNER JOIN ps_calculation_result  c ON c.id_no=p.id_no and c.duration=p.duration
+        AND p.id = #{id}
+        <where>
+            <if test="eeNo != null  and eeNo != ''">and p.id_no = #{eeNo}</if>
+            <if test="duration != null  and duration != ''">and p.duration = #{duration}</if>
+            <if test="kfFlag != null  and kfFlag != ''">and p.kf_flag = #{kfFlag}</if>
+        </where>
+    </select>
+
+    <update id="openQueryPsPayslipByIds" parameterType="String">
+        update ps_payslip set kf_flag = '1',open_time = sysdate() where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+
+    <update id="closeQueryPsPayslipByIds" parameterType="String">
+        update ps_payslip set kf_flag = '0',open_time = sysdate() where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+
+    <select id="selectPsPayslipByIds" resultMap="PsPayslipResult">
+        <include refid="selectPsPayslipVo1"/>
+        where p.id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+    <select id="selectPsPayslipByDurationAndeeCode" resultMap="PsPayslipResult">
+        <include refid="selectPsPayslipVo"/>
+        where id_no=#{eeCode} and duration=#{duration}
+    </select>
+
+</mapper>

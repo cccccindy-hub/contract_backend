@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nnroad.finance.mapper.deposit.DepositClientDetailMapper">
+
+    <select id="selectDepositClientDetailById" parameterType="java.lang.Long" resultType="com.nnroad.finance.model.dto.DepositClientDetailDto">
+        SELECT id AS id
+              ,client_code AS clientCode
+              ,str_to_date(concat(`date`,'01'), '%Y%m%d') AS `date`
+              ,data_from AS `type`
+              ,amount AS amount
+              ,ee_code AS employeeCode
+              ,currency AS currency
+              ,rate AS rate
+              ,currency_amount AS amountCurrency
+              ,remark AS remark
+          FROM dc_gv_finance_deposit_detail_report
+         WHERE id = #{id}
+    </select>
+
+    <select id="selectDepositClientDetailList" parameterType="com.nnroad.finance.model.form.DepositClientDetailCondition" resultType="com.nnroad.finance.model.vo.DepositClientDetailVo">
+        SELECT
+            ddr.id AS id,
+            ddr.client_code AS clientCode,
+            ddr.client_name as clientName,
+            str_to_date(concat(ddr.`date`, '01'),'%Y%m%d') AS `date`,
+            ddr.data_from AS dataSource,
+            ddr.data_from AS `type`,
+            ddr.amount AS amount,
+            ddr.ee_code AS employeeCode,
+            ddr.ee_name AS employeeName,
+            ddr.currency AS currency,
+            ddr.rate AS rate,
+            ddr.currency_amount AS amountCurrency,
+            ddr.remark AS remark
+        FROM
+            dc_gv_finance_deposit_detail_report ddr
+        WHERE
+            ddr.amount!=0 and  ddr.currency_amount!=0
+            <if test="clientCode != null and clientCode != ''">
+                and ddr.client_code = #{clientCode}
+            </if>
+            <if test="employeeCode != null and employeeCode != ''">
+                AND ddr.ee_code = #{employeeCode}
+            </if>
+            <if test="type != null and type != ''">
+                AND ddr.data_from = #{type}
+            </if>
+            <if test="dateMin != null and dateMin != '' and dateMax != null and dateMax != ''">
+                AND ddr.date between #{dateMin} and #{dateMax}
+            </if>
+            <if test="month != null and month != ''">
+                AND ddr.date = #{month}
+            </if>
+        ORDER BY ddr.date DESC, ddr.create_time DESC
+        <!-- 数据范围过滤 -->
+        ${params.dataScope}
+    </select>
+
+    <select id="selectClientDepositDetailFromPayroll" parameterType="com.nnroad.finance.model.form.DepositClientDetailCondition" resultType="com.nnroad.finance.model.dto.DepositClientDetailDto">
+        SELECT STR_TO_DATE(CONCAT(pr.duration, '01'),'%Y%m%d') AS date
+              ,pr.id_no AS employeeCode
+              ,pr.deposit AS amount
+              ,ci.currency AS currency
+              ,IFNULL(ci.exchange_rate, 0) AS rate
+              ,IF(IFNULL(ci.exchange_rate, 0) = 0, 0, ROUND(pr.deposit / ci.exchange_rate, 2)) AS amountCurrency
+          FROM hrone_payroll.ps_payroll pr
+     LEFT JOIN hrone_payroll.ps_basic_info bi
+            ON bi.duration = pr.duration
+           AND bi.id_no = pr.id_no
+     LEFT JOIN (SELECT duration, er_no, currency, exchange_rate FROM hrone_payroll.ps_cover_info WHERE exchange_rate > 0 ) ci
+            ON ci.duration = bi.duration
+           AND ci.er_no = bi.client_code
+         WHERE pr.id_no = #{employeeCode}
+           AND pr.duration &gt;= #{monthMin}
+           AND pr.duration &lt;= #{monthMax}
+      ORDER BY pr.duration
+    </select>
+
+    <insert id="insertDepositClientDetail" parameterType="com.nnroad.finance.model.dto.DepositClientDetailDto">
+        INSERT INTO hrone_deposit_detail (
+             create_by
+            ,create_time
+            ,update_by
+            ,update_time
+            <if test="clientCode != null">,client_code</if>
+            <if test="date != null">,date</if>
+            <if test="type != null">,data_from</if>
+            <if test="amount != null">,amount</if>
+            <if test="employeeCode != null">,ee_code</if>
+            <if test="employeeName != null">,ee_name</if>
+            <if test="currency != null">,currency</if>
+            <if test="rate != null">,exchange_rate</if>
+            <if test="amountCurrency != null">,currency_amount</if>
+            <if test="remark != null">,remark1</if>
+            <!--<if test="delFlag != null">,del_flag</if>-->
+        ) VALUES (
+             #{createBy}
+            ,NOW()
+            ,#{updateBy}
+            ,NOW()
+            <if test="clientCode != null">,#{clientCode}</if>
+            <if test="date != null">,#{date}</if>
+            <if test="type != null">,#{type}</if>
+            <if test="amount != null">,#{amount}</if>
+            <if test="employeeCode != null">,#{employeeCode}</if>
+            <if test="employeeName != null">,#{employeeName}</if>
+            <if test="currency != null">,#{currency}</if>
+            <if test="rate != null">,#{rate}</if>
+            <if test="amountCurrency != null">,#{amountCurrency}</if>
+            <if test="remark != null">,#{remark}</if>
+            <!--<if test="delFlag != null">,#{delFlag}</if>-->
+        )
+    </insert>
+
+    <update id="updateDepositClientDetail" parameterType="com.nnroad.finance.model.dto.DepositClientDetailDto">
+        UPDATE hrone_deposit_detail
+           SET update_by = #{updateBy}
+              ,update_time = NOW()
+               <if test="clientCode != null">,client_code = #{clientCode}</if>
+               <if test="date != null">,date = #{date}</if>
+               <if test="type != null">,data_from = #{type}</if>
+               <if test="amount != null">,amount = #{amount}</if>
+               <if test="employeeCode != null">,ee_code = #{employeeCode}</if>
+               <if test="employeeName != null">,ee_name = #{employeeName}</if>
+               <if test="currency != null">,currency = #{currency}</if>
+               <if test="rate != null">,exchange_rate = #{rate}</if>
+               <if test="amountCurrency != null">,currency_amount = #{amountCurrency}</if>
+               <if test="remark != null">,remark1 = #{remark}</if>
+         WHERE id = #{id}
+    </update>
+
+    <delete id="deleteDepositClientDetail" parameterType="java.lang.Long">
+        DELETE FROM hrone_deposit_detail WHERE id = #{id}
+    </delete>
+
+    <delete id="deleteDepositClientDetailBySettle" parameterType="com.nnroad.finance.model.form.DepositClientDetailCondition">
+        DELETE FROM deposit_client_detail
+              WHERE type IN ('01', '11')
+                AND client_code = #{clientCode}
+                AND DATE_FORMAT(date, '%Y%m') &gt;= #{monthMin}
+                AND DATE_FORMAT(date, '%Y%m') &lt;= #{monthMax}
+                AND del_flag IS NULL
+    </delete>
+
+    <select id="selectClientDepositDetailFromHk" parameterType="com.nnroad.finance.model.form.DepositClientDetailCondition" resultType="com.nnroad.finance.model.dto.DepositClientDetailDto">
+        SELECT
+            for_period AS date,
+            SUM(deposit) AS amount
+        FROM dc_gt_hrone_account_hk
+        WHERE
+            client_code = #{clientCode}
+        AND deposit &lt;> 0
+        GROUP BY for_period
+        ORDER BY for_period
+    </select>
+    <select id="selectDepositClientDetailDto" resultType="com.nnroad.finance.model.dto.DepositClientDetailDto">
+        SELECT id AS id
+             ,client_code AS clientCode
+             ,str_to_date(concat(`date`,'01'), '%Y%m%d') AS `date`
+             ,data_from AS `type`
+             ,amount AS amount
+             ,ee_code AS employeeCode
+             ,currency AS currency
+             ,rate AS rate
+             ,currency_amount AS amountCurrency
+             ,remark AS remark
+        FROM dc_gv_finance_deposit_detail_report
+    </select>
+
+</mapper>

@@ -1,0 +1,543 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nnroad.payroll.mapper.PaymentNoticeReportMapper">
+
+    <resultMap type="SPayrollReport" id="SPayrollReportResult">
+        <result property="duration"    column="duration"    />
+        <result property="erName"    column="er_name"    />
+        <result property="department"    column="department"    />
+        <result property="employeeNo"    column="employee_no"    />
+        <result property="idNo"    column="id_no"    />
+        <result property="name"    column="name"    />
+        <result property="socialBenefitsAddress"    column="social_benefits_address"    />
+        <result property="netIncome"    column="net_income"    />
+        <result property="expense"    column="expense"    />
+        <result property="foreignerAllowance"    column="foreigner_allowance"    />
+        <result property="ipPension"    column="ip_pension"    />
+        <result property="ipMedical"    column="ip_medical"    />
+        <result property="ipUnemployment"    column="ip_unemployment"    />
+        <result property="ipHousingFund"    column="ip_housing_fund"    />
+        <result property="ipAnnuity"    column="ip_annuity"    />
+        <result property="sbAdjEe"    column="sb_adj_ee"    />
+        <result property="phfAdjEe"    column="phf_adj_ee"    />
+        <result property="ipUnionFee"    column="ip_union_fee"    />
+        <result property="IIT"    column="IIT"    />
+        <result property="salaryIIT"    column="salary_iit"    />
+        <result property="annualBonusIIT"    column="annual_bonus_iit"    />
+        <result property="epPension"    column="ep_pension"    />
+        <result property="epMedical"    column="ep_medical"    />
+        <result property="epUnemployment"    column="ep_unemployment"    />
+        <result property="maternity"    column="maternity"    />
+        <result property="workRelatedInjury"    column="work_related_Injury"    />
+        <result property="disability"    column="disability"    />
+        <result property="epHousingFund"    column="ep_housing_fund"    />
+        <result property="epHeatingFee"    column="ep_heating_fee"    />
+        <result property="sbAdjCom"    column="sb_adj_com"    />
+        <result property="phfAdjCom"    column="phf_adj_com"    />
+        <result property="cdAdjCom"    column="cd_adj_com"    />
+        <result property="epAnnuity"    column="ep_annuity"    />
+        <result property="epUnionFee"    column="ep_union_fee"    />
+        <result property="commercialInsurance"    column="commercial_insurance"    />
+        <result property="businessTax"    column="business_tax"    />
+        <result property="deposit"    column="deposit"    />
+        <result property="employerLiability"    column="employer_liability"    />
+        <result property="officeSeat"    column="office_seat"    />
+        <result property="other" column="others" />
+        <result property="serviceFee"    column="service_fee"    />
+        <result property="serviceFeeTax"    column="service_fee_tax"    />
+        <result property="valueAddedTax"    column="value_added_tax"    />
+        <result property="totalCost"    column="total_cost"    />
+        <result property="remarks"    column="remarks"    />
+        <result property="paySb"    column="pay_sb"    />
+        <result property="payHf"    column="pay_hf"    />
+        <result property="payIIt"    column="pay_iit"    />
+        <result property="netSalary"    column="net_salary"    />
+        <result property="grossSalary"    column="gross_salary"    />
+        <result property="salaryBonus"    column="salary_bonus"    />
+        <result property="travelAllowance"    column="travel_allowance"    />
+        <result property="annualBonus"    column="annual_bonus"    />
+        <result property="taxFreeItem"    column="tax_free_item"    />
+        <result property="sbAdjEeAct"    column="sb_adj_ee_act"    />
+        <result property="phfAdjEeAct"    column="phf_adj_ee_act"    />
+        <result property="sbAdjComAct"    column="sb_adj_com_act"    />
+        <result property="phfAdjComAct"    column="phf_adj_com_act"    />
+        <result property="cdAdjComAct"    column="cd_adj_com_act"    />
+        <result property="payrollBelong" column="payroll_belong" />
+    </resultMap>
+
+    <resultMap type="SPayslipReport" id="SPayslipReportResult">
+        <result property="duration"    column="duration"    />
+        <result property="erName"    column="er_name"    />
+        <result property="department"    column="department"    />
+        <result property="employeeNo"    column="employee_no"    />
+        <result property="idNo"    column="id_no"    />
+        <result property="name"    column="name"    />
+        <result property="basicSalary"    column="basic_salary"    />
+        <result property="acutalBasicSalary"    column="acutal_basic_salary"    />
+        <result property="normalBonus"    column="normal_bonus"    />
+        <result property="annualBonus13thSalary"    column="annual_bonus_13th_salary"    />
+        <result property="allowanceSubsidy"    column="allowance_subsidy"    />
+        <result property="transportAllowance"    column="transport_allowance"    />
+        <result property="communicationAllowance"    column="communication_allowance"    />
+        <result property="mealAllowance"    column="meal_allowance"    />
+        <result property="birthdayGift"    column="birthday_gift"    />
+        <result property="otherAllowance"    column="other_allowance"    />
+        <result property="otPayment"    column="ot_payment"    />
+        <result property="other"    column="other"    />
+        <result property="affordTax"    column="afford_tax"    />
+        <result property="shareIncentives"    column="share_incentives"    />
+        <result property="compensation"    column="compensation"    />
+        <result property="socialBenefitsBasis"    column="social_benefits_basis"    />
+        <result property="housingFundBasis"    column="housing_fund_basis"    />
+        <result property="pension"    column="pension"    />
+        <result property="medical"    column="medical"    />
+        <result property="unemployment"    column="unemployment"    />
+        <result property="housingFund"    column="housing_fund"    />
+        <result property="sbAdjEe"    column="sb_adj_ee"    />
+        <result property="phfAdjEe"    column="phf_adj_ee"    />
+        <result property="affairAbsenteeismLeave"    column="affair_absenteeism_leave"    />
+        <result property="sickLeave"    column="sick_leave"    />
+        <result property="annuity"    column="annuity"    />
+        <result property="unionFee"    column="union_fee"    />
+        <result property="IIT"    column="IIT"    />
+        <result property="afterTaxReissue"    column="after_tax_reissue"    />
+        <result property="expense"    column="expense"    />
+        <result property="foreignersSubsistence"    column="foreigners_subsistence"    />
+        <result property="netIncome"    column="net_income"    />
+        <result property="accumulatedChildEducation"    column="accumulated_child_education"    />
+        <result property="accumulatedHLI"    column="accumulated_hli"    />
+        <result property="accumulatedHousingRent"    column="accumulated_housing_rent"    />
+        <result property="accumulatedSFTE"    column="accumulated_sfte"    />
+        <result property="accumulatedContinuingEducation"    column="accumulated_continuing_education"    />
+        <result property="accumulatedChildCare"    column="accumulated_child_care"    />
+        <result property="accumulatedAdditionalDeduction"    column="accumulated_additional_deduction"    />
+        <result property="monthlyFixedSalary"    column="monthly_fixed_salary"    />
+        <result property="mobile"    column="telephone"    />
+        <result property="bankAccount"    column="bank_account"    />
+        <result property="bank"    column="bank"    />
+        <result property="bankAccountHolder"    column="bank_accoun_name"    />
+        <result property="taxCalculation" column="tax_calculation"/>
+    </resultMap>
+
+    <resultMap type="SOtherFeeReport" id="SOtherFeeReportResult">
+        <result property="duration"    column="duration"    />
+        <result property="erId"    column="er_id"    />
+        <result property="erName"    column="er_name"    />
+        <result property="serviceName"    column="service_name"    />
+        <result property="paymentType"    column="payment_type"    />
+        <result property="serviceCost"    column="service_cost"    />
+        <result property="serviceTax"    column="service_tax"    />
+        <result property="remark"    column="service_remark"    />
+    </resultMap>
+
+    <resultMap type="SEmployeeInfo" id="SEmployeeInfoResult">
+        <result property="department" column="department"/>
+        <result property="idNo" column="id_no"/>
+        <result property="name" column="name"/>
+        <result property="socialBenefitsAddress" column="social_benefits_address"/>
+        <result property="pensionBase" column="pension_base"/>
+        <result property="medicalBase" column="medical_base"/>
+        <result property="unemploymentBase" column="unemployment_base"/>
+        <result property="maternityBase" column="maternity_base"/>
+        <result property="workRelatedInjuryBase" column="work_related_injury_base"/>
+        <result property="disabilityBase" column="disability_base"/>
+        <result property="housingFundBase" column="housing_fund_base"/>
+        <result property="shfBase" column="shf_base"/>
+        <result property="personalPension" column="personal_pension"/>
+        <result property="personalMedical" column="personal_medical"/>
+        <result property="personalUnemployment" column="personal_unemployment"/>
+        <result property="personalHousingFund" column="personal_housing_fund"/>
+        <result property="personalShfTe" column="personal_shf_te"/>
+        <result property="personalMedicalFixedNumber" column="personal_medical_fixed_number"/>
+        <result property="companyPension" column="company_pension"/>
+        <result property="companyMedical" column="company_medical"/>
+        <result property="companyUnemployment" column="company_unemployment"/>
+        <result property="companyMaternity" column="company_maternity"/>
+        <result property="companyWorkRelatedInjury" column="company_work_related_injury"/>
+        <result property="companyDisability" column="company_disability"/>
+        <result property="companyHousingFund" column="company_housing_fund"/>
+        <result property="companyShf" column="company_shf"/>
+        <result property="companyMedicalFixedNumber" column="company_medical_fixed_number"/>
+        <result property="companyEriFixedNumber" column="company_wri_fixed_number"/>
+        <result property="companyDisabilityFixedNumber" column="company_disability_fixed_number"/>
+        <result property="accumulatedChildEducation" column="accumulated_child_education"/>
+        <result property="accumulatedContinuingEducation" column="accumulated_continuing_education"/>
+        <result property="accumulatedHli" column="accumulated_hli"/>
+        <result property="accumulatedHousingRent" column="accumulated_housing_rent"/>
+        <result property="accumulatedSfte" column="accumulated_sfte"/>
+        <result property="accumulatedChildCare" column="accumulated_child_care"/>
+        <result property="commercialInsuranceLevel" column="commercial_insurance_level"/>
+    </resultMap>
+
+    <resultMap type="PsCoverInfo" id="PsCoverInfoResult">
+        <result property="id"    column="id"    />
+        <result property="duration"    column="duration"    />
+        <result property="erNo"    column="er_no"    />
+        <result property="erName"    column="er_name"    />
+        <result property="currency"    column="currency"    />
+        <result property="exchangeRate"    column="exchange_rate"    />
+        <result property="bankInfoEn"    column="bank_abroad"    />
+        <result property="bankInfoCn"    column="bank_cnml"    />
+        <result property="groupIds"    column="group_ids"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <resultMap type="Employer" id="EmployerResult">
+        <result property="erId"    column="er_id"    />
+        <result property="erNo"    column="er_no"    />
+        <result property="erName"    column="er_name"    />
+        <result property="erType"    column="er_type"    />
+        <result property="erStatus"    column="er_status"    />
+        <result property="speClientType"    column="spe_client_type"    />
+        <result property="payDay"    column="pay_day"    />
+        <result property="currency"    column="currency"    />
+        <result property="org" column="org"/>
+        <result property="deptId"    column="dept_id"    />
+        <result property="groupIds"    column="group_ids"    />
+        <result property="delFlag"    column="del_flag"    />
+        <result property="createBy"   column="create_by"   />
+        <result property="createTime" column="create_time" />
+        <result property="updateBy"   column="update_by"   />
+        <result property="updateTime" column="update_time" />
+        <result property="remark" column="remark" />
+    </resultMap>
+
+    <resultMap type="SCIEEPayrollReport" id="SCIEEPayrollReportResult">
+        <result property="duration"    column="duration"    />
+        <result property="idNo"    column="id_no"    />
+        <result property="name"    column="name"    />
+        <result property="idNumber"    column="certificate_number"    />
+        <result property="socialBenefitsBasis"    column="social_benefits_basis"    />
+        <result property="housingFundBasis"    column="housing_fund_base"    />
+        <result property="basicSalary"    column="basic_salary"    />
+        <result property="adjustment"    column="adjustment"    />
+        <result property="pretaxSalary"    column="pretaxSalary"    />
+        <result property="incomeTax"    column="income_tax"    />
+        <result property="others"    column="others"    />
+        <result property="netSalary"    column="net_income"    />
+        <result property="ytdTax"    column="ytd_tax"    />
+        <result property="remarks"    column="remarks"    />
+    </resultMap>
+
+    <select id="selectSPayrollList" parameterType="Map" resultMap="SPayrollReportResult">
+        SELECT
+            duration,
+            er_name,
+            department,
+            employee_no,
+            id_no,
+            name,
+            social_benefits_address,
+            net_income,
+            expense,
+            foreigner_allowance,
+            ip_pension,
+            ip_medical,
+            ip_unemployment,
+            ip_housing_fund,
+            ip_annuity,
+            sb_adj_ee,
+            phf_adj_ee,
+            ip_union_fee,
+            IIT,
+            salary_iit,
+            annual_bonus_iit,
+            ep_pension,
+            ep_medical,
+            ep_unemployment,
+            maternity,
+            work_related_Injury,
+            disability,
+            ep_housing_fund,
+            ep_heating_fee,
+            sb_adj_com,
+            phf_adj_com,
+            cd_adj_com,
+            ep_annuity,
+            ep_union_fee,
+            commercial_insurance,
+            business_tax,
+            deposit,
+            employer_liability,
+            office_seat,
+            others,
+            service_fee,
+            service_fee_tax,
+            value_added_tax,
+            total_cost,
+            remarks,
+            pay_sb,
+            pay_hf,
+            pay_iit,
+            net_salary,
+            gross_salary,
+            salary_bonus,
+            travel_allowance,
+            annual_bonus,
+            tax_free_item,
+            sb_adj_ee_act,
+            phf_adj_ee_act,
+            sb_adj_com_act,
+            phf_adj_com_act,
+            cd_adj_com_act,
+            payroll_belong
+        FROM
+            s_payroll_report p
+        <where>
+            <if test="params.duration != null and params.duration != ''">
+                AND p.duration = #{params.duration}
+            </if>
+            <if test="params.erNo != null and params.erNo != ''">
+                AND p.client_code = #{params.erNo}
+            </if>
+            <if test="params.idNo != null and params.idNo != ''">
+                AND p.id_no in (${params.idNo})
+            </if>
+        </where>
+    </select>
+    
+    <select id="selectSPayslipList" parameterType="Map" resultMap="SPayslipReportResult">
+        SELECT
+            duration,
+            er_name,
+            department,
+            employee_no,
+            id_no,
+            name,
+            basic_salary,
+            acutal_basic_salary,
+            normal_bonus,
+            annual_bonus_13th_salary,
+            allowance_subsidy,
+            transport_allowance,
+            communication_allowance,
+            meal_allowance,
+            birthday_gift,
+            other_allowance,
+            ot_payment,
+            other,
+            afford_tax,
+            share_incentives,
+            compensation,
+            social_benefits_basis,
+            housing_fund_basis,
+            pension,
+            medical,
+            unemployment,
+            housing_fund,
+            sb_adj_ee,
+            phf_adj_ee,
+            affair_absenteeism_leave,
+            sick_leave,
+            annuity,
+            union_fee,
+            IIT,
+            after_tax_reissue,
+            expense,
+            foreigners_subsistence,
+            net_income,
+            accumulated_child_education,
+            accumulated_hli,
+            accumulated_housing_rent,
+            accumulated_sfte,
+            accumulated_continuing_education,
+            accumulated_child_care,
+            accumulated_additional_deduction,
+            monthly_fixed_salary,
+            telephone,
+            bank_account,
+            bank,
+            bank_accoun_name,
+            tax_calculation
+        FROM
+            s_payslip_report p
+        <where>
+            <if test="params.duration != null and params.duration != ''">
+                AND p.duration = #{params.duration}
+            </if>
+            <if test="params.erNo != null and params.erNo != ''">
+                AND p.client_code = #{params.erNo}
+            </if>
+            <if test="params.idNo != null and params.idNo != ''">
+                AND p.id_no in (${params.idNo})
+            </if>
+        </where>
+    </select>
+
+    <select id="selectSOtherFeeList" parameterType="Map" resultMap="SOtherFeeReportResult">
+        SELECT  service_name,
+                payment_type,
+                GROUP_CONCAT(COALESCE(service_remark,'') SEPARATOR '. ') AS service_remark,
+                SUM(service_cost_cny) AS service_cost,
+                SUM(tax_cny) AS service_tax
+          FROM v_other_service_fee_detail
+         WHERE duration = #{params.duration}
+           AND client_code = #{params.erNo}
+           AND payment_type &lt;&gt; 6
+        <if test="params.idNo != null and params.idNo != ''">
+            AND employee_code in (${params.idNo})
+        </if>
+      GROUP BY service_name, payment_type
+    </select>
+
+    <select id="selectSEmployeeInfoList" parameterType="Map" resultMap="SEmployeeInfoResult">
+        SELECT
+            pbi.department,
+            pbi.id_no,
+            pbi.NAME,
+            pbi.en_name,
+            pbi.social_benefits_address,
+            pbi.housing_fund_address,
+            pbi.pension_base,
+            pbi.medical_base,
+            pbi.unemployment_base,
+            pbi.maternity_base,
+            pbi.work_related_injury_base,
+            pbi.disability_base,
+            pbi.housing_fund_base,
+            pbi.shf_base,
+            ROUND(pbi.personal_pension *100,2) AS personal_pension,
+            ROUND(pbi.personal_medical *100,2) AS personal_medical,
+            ROUND(pbi.personal_unemployment *100,2) AS personal_unemployment,
+            ROUND(pbi.personal_housing_fund *100,2) AS personal_housing_fund,
+            ROUND(pbi.personal_shf_te *100,2) AS personal_shf_te,
+            ROUND(pbi.personal_medical_fixed_number,2) AS personal_medical_fixed_number,
+            ROUND(pbi.company_pension*100,2) AS company_pension,
+            ROUND(pbi.company_medical*100,2) AS company_medical,
+            ROUND(pbi.company_unemployment*100,2) AS company_unemployment,
+            ROUND(pbi.company_maternity*100,2) AS company_maternity,
+            ROUND(pbi.company_work_related_injury*100,2) AS company_work_related_injury,
+            ROUND(pbi.company_disability*100,2) AS company_disability,
+            ROUND(pbi.company_housing_fund*100,2) AS company_housing_fund,
+            ROUND(pbi.company_shf*100,2) AS company_shf,
+            pbi.company_medical_fixed_number,
+            pbi.company_wri_fixed_number,
+            pbi.company_disability_fixed_number,
+            pbi.accumulated_child_education,
+            pbi.accumulated_continuing_education,
+            pbi.accumulated_hli,
+            pbi.accumulated_housing_rent,
+            pbi.accumulated_sfte,
+            pbi.accumulated_child_care,
+            pbi.commercial_insurance_level
+        FROM
+            ps_basic_info pbi
+        <where>
+            <if test="params.duration != null and params.duration != ''">
+                AND pbi.duration = #{params.duration}
+            </if>
+            <if test="params.erNo != null and params.erNo != ''">
+                AND pbi.client_code = #{params.erNo}
+            </if>
+            <if test="params.idNo != null and params.idNo != ''">
+                AND pbi.id_no in (${params.idNo})
+            </if>
+        </where>
+    </select>
+
+    <select id="selectBankInfo" parameterType="String" resultMap="PsCoverInfoResult">
+        SELECT
+        cb.company_id AS er_no,
+        cb.bank_cnml,
+        cb.bank_abroad,
+        sys.company_code
+        FROM
+        company_bank cb
+        INNER JOIN client_contract cc ON cb.company_id = cc.extra_data->>'$."160"'
+        LEFT JOIN sys_client sys ON sys.id = cc.client_id
+        <where>
+            <if test="erNo != null and erNo != ''">
+                AND sys.company_code = #{erNo}
+            </if>
+        </where>
+        LIMIT 1
+    </select>
+
+    <select id="selectClientInfo" parameterType="String" resultMap="EmployerResult">
+        SELECT
+            sys.company_code AS er_no,
+            sys.org as org,
+            concat_ws(
+                    ' ',
+                    IF
+                    ( sys.company_name_local = 'N', '', sys.company_name_local ),
+                    IF
+                    ( sys.company_name_en = 'N' OR sys.company_name_en = sys.company_name_local, '', sys.company_name_en )) AS er_name,
+            cc.extra_data->>'$."185"' AS er_type
+        FROM
+            sys_client sys
+            LEFT JOIN client_billing_status cc ON sys.id = cc.client_id
+        WHERE
+            sys.company_code =  #{erNo}
+            and sys.status='active'
+    </select>
+
+    <select id="selectAllClient" resultMap="EmployerResult">
+        SELECT
+            sys.client_code AS er_no,
+            sys.client_name AS er_name,
+            sys.main_service_type AS er_type
+        FROM
+            v_client_info sys
+        WHERE sys.`status`='Active'
+    </select>
+
+
+    <select id="selectEmployeeListByClient" parameterType="Map" resultType="com.nnroad.payroll.domain.common.PsBasicInfo">
+        SELECT id_no AS idNo, name AS name FROM ps_basic_info WHERE duration = #{duration} AND client_code = #{clientCode}
+    </select>
+
+    <select id="selectCIEEPayrollList" parameterType="Map" resultMap="SCIEEPayrollReportResult">
+        SELECT
+            duration,
+            id_no,
+            name,
+            certificate_number,
+            social_benefits_basis,
+            housing_fund_base,
+            basic_salary,
+            adjustment,
+            pretaxSalary,
+            income_tax,
+            others,
+            net_income,
+            ytd_tax,
+            remarks
+        FROM
+            s_ciee_payroll_report p
+        <where>
+            <if test="params.duration != null and params.duration != ''">
+                AND p.duration = #{params.duration}
+            </if>
+            <if test="params.idNo != null and params.idNo != ''">
+                AND p.id_no in (${params.idNo})
+            </if>
+        </where>
+    </select>
+
+    <select id="selectServiceContractPartyB" resultType="java.lang.String">
+        SELECT
+            cc.extra_data ->> '$."162"' AS service_contract_party_b
+        FROM
+            sys_client sys LEFT JOIN client_contract cc ON sys.id=cc.client_id
+        WHERE
+            sys.company_code = #{erNo}
+
+    </select>
+    <select id="selectEmployeeServiceContractPartyB" resultType="java.lang.String">
+        SELECT
+            service_contract_party_b
+        FROM
+            dc_gt_crm_client_empoyee_info
+        WHERE
+            ee_code = #{IdNo}
+
+    </select>
+
+</mapper>

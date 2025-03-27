@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nnroad.payroll.mapper.GzgPayrollMapper">
+
+    <select id="selectByPayrollId" resultType="com.nnroad.payroll.dto.PayrollDto">
+        select
+            femployer_name empNameCode,
+            fperiod period,
+            femployer empId
+        from
+            t_er_payroll
+        where
+            fid = #{payrollId};
+    </select>
+
+    <select id="selectByFpayroll" resultType="com.nnroad.payroll.domain.PayrollEntry">
+        select * from t_er_payroll_entry where fpayroll = #{fpayroll}
+    </select>
+    <select id="selectDuration" resultType="java.lang.String" parameterType="java.lang.String">
+        select fperiod  from t_er_payroll where fid=#{fpayroll};
+    </select>
+    <select id="selectErName" resultType="java.lang.String" parameterType="java.lang.String">
+        select femployer_name from t_er_payroll where fid=#{fpayroll};
+    </select>
+
+    <select id="selectFidAndFcode" resultType="map">
+        SELECT
+            fid, fcode
+        FROM
+            t_item
+        WHERE
+            femployer is null or femployer=#{femployer}
+    </select>
+    <select id="selectByFid" resultType="java.lang.Integer">
+        select femployer from t_er_payroll where fid = #{fid}
+    </select>
+</mapper>

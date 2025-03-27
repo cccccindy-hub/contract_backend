@@ -1,0 +1,584 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nnroad.payroll.mapper.PsCalculationResultMapper">
+    
+    <resultMap type="PsCalculationResult" id="PsCalculationResultResult">
+        <result property="id"    column="id"    />
+        <result property="duration"    column="duration"    />
+        <result property="erName"    column="er_name"    />
+        <result property="idNo"    column="id_no"    />
+        <result property="certificateNumber"    column="certificate_number"    />
+        <result property="socialBenefitsAddress"    column="social_benefits_address"    />
+        <result property="name"    column="name"    />
+        <result property="basicSalary"    column="basic_salary"    />
+        <result property="floatingSalary"    column="floating_salary"    />
+        <result property="monthlyAward"    column="monthly_award"    />
+        <result property="quarterAward"    column="quarter_award"    />
+        <result property="overtimeAward150"    column="overtime_award_150"    />
+        <result property="overtimeAward200"    column="overtime_award_200"    />
+        <result property="overtimeAward300"    column="overtime_award_300"    />
+        <result property="ealaDeduction"    column="eala_deduction"    />
+        <result property="alDeduction"    column="al_deduction"    />
+        <result property="absenteeismDeduction"    column="absenteeism_deduction"    />
+        <result property="slDeduction"    column="sl_deduction"    />
+        <result property="transportationPayment"    column="transportation_payment"    />
+        <result property="communicationPayment"    column="communication_payment"    />
+        <result property="mealAllowance"    column="meal_allowance"    />
+        <result property="birthdayGift"    column="birthday_gift"    />
+        <result property="otherBenefits"    column="other_benefits"    />
+        <result property="middleShiftPayment"    column="middle_shift_payment"    />
+        <result property="nightShiftPayment"    column="night_shift_payment"    />
+        <result property="highTemperaturePayment"    column="high_temperature_payment"    />
+        <result property="hotWorkingPayment"    column="hot_working_payment"    />
+        <result property="tahwPayment"    column="tahw_payment"    />
+        <result property="reissue"    column="reissue"    />
+        <result property="wageDeduction"    column="wage_deduction"    />
+        <result property="pension"    column="pension"    />
+        <result property="medical"    column="medical"    />
+        <result property="unemployment"    column="unemployment"    />
+        <result property="housingFund"    column="housing_fund"    />
+        <result property="steHousingFund"    column="ste_housing_fund"    />
+        <result property="socialBenefitsAdjustment"    column="social_benefits_adjustment"    />
+        <result property="housingFundAdjustment"    column="housing_fund_adjustment"    />
+        <result property="annuity"    column="annuity"    />
+        <result property="unionFee"    column="union_fee"    />
+        <result property="taxCalculation"    column="tax_calculation"    />
+        <result property="preTaxIncome"    column="pre_tax_income"    />
+        <result property="basicDeduction"    column="basic_deduction"    />
+        <result property="accumulatedIpti"    column="accumulated_ipti"    />
+        <result property="accumulatedIsiahf"    column="accumulated_isiahf"    />
+        <result property="accumulatedBd"    column="accumulated_bd"    />
+        <result property="accumulatedChildEducation"    column="accumulated_child_education"    />
+        <result property="accumulatedContinuingEducation"    column="accumulated_continuing_education"    />
+        <result property="accumulatedHli"    column="accumulated_hli"    />
+        <result property="accumulatedHousingRent"    column="accumulated_housing_rent"    />
+        <result property="accumulatedSfte"    column="accumulated_sfte"    />
+        <result property="accumulatedOther"    column="accumulated_other"    />
+        <result property="accumulatedTftd"    column="accumulated_tftd"    />
+        <result property="accumulatedTotalCost"    column="accumulated_total_cost"    />
+        <result property="accumulatedIl"    column="accumulated_il"    />
+        <result property="individualLlt"    column="individual_llt"    />
+        <result property="companyTax"    column="company_tax"    />
+        <result property="companyTotalTax"    column="company_total_tax"    />
+        <result property="accumulatedAti"    column="accumulated_ati"    />
+        <result property="accumulatedBti"    column="accumulated_bti"    />
+        <result property="theoreticalIncome"    column="theoretical_income"    />
+        <result property="accumulatedLltCai"    column="accumulated_llt_cai"    />
+        <result property="companyLlt"    column="company_llt"    />
+        <result property="onlyChildAllowance"    column="only_child_allowance"    />
+        <result property="snteHousingFund"    column="snte_housing_fund"    />
+        <result property="expense"    column="expense"    />
+        <result property="expense25"    column="expense_25"    />
+        <result property="fsAllowance"    column="fs_allowance"    />
+        <result property="afterTaxReissue"    column="after_tax_reissue"    />
+        <result property="afterTaxDeduction"    column="after_tax_deduction"    />
+        <result property="annualBonus"    column="annual_bonus"    />
+        <result property="annualBonusLlt"    column="annual_bonus_llt"    />
+        <result property="income"    column="income"    />
+        <result property="cost"    column="cost"    />
+        <result property="netIncome"    column="net_income"    />
+        <result property="companyPension"    column="company_pension"    />
+        <result property="companyMedical"    column="company_medical"    />
+        <result property="companyUnemployment"    column="company_unemployment"    />
+        <result property="companyMaternity"    column="company_maternity"    />
+        <result property="companyWri"    column="company_wri"    />
+        <result property="companyDisability"    column="company_disability"    />
+        <result property="companyHousingFund"    column="company_housing_fund"    />
+        <result property="companyShf"    column="company_shf"    />
+        <result property="accumulatedPayrollTax"    column="accumulated_payroll_tax"    />
+        <result property="employerLiability"    column="employer_liability"    />
+        <result property="deposit"    column="deposit"    />
+        <result property="serviceFee"    column="service_fee"    />
+        <result property="valueAddedTax"    column="value_added_tax"    />
+        <result property="otherBonus"    column="other_bonus"    />
+        <result property="pretaxAdjustment"    column="pre_tax_adjustment"    />
+        <result property="indemnity"    column="indemnity"    />
+        <result property="indemnityTax"    column="indemnity_tax"    />
+        <result property="shareIncentives"    column="share_incentives"    />
+        <result property="shareIncentivesTax"    column="share_incentives_tax"    />
+        <result property="serviceFeeTax"    column="service_fee_tax"    />
+        <result property="travelAllowance"    column="travel_allowance"    />
+        <result property="accumulatedChildCare"    column="accumulated_child_care"    />
+        <result property="clientCode"    column="client_code"    />
+        <result property="groupIds"    column="group_ids"    />
+        <result property="createBy"   column="create_by"   />
+        <result property="createTime" column="create_time" />
+        <result property="updateBy"   column="update_by"   />
+        <result property="updateTime" column="update_time" />
+        <result property="entryDate"    column="entry_date"    />
+    </resultMap>
+
+    <sql id="selectPsCalculationResultVo">
+        select p.id, p.duration, p.id_no, p.name, p.basic_salary, p.floating_salary, p.monthly_award,
+        p.quarter_award, p.overtime_award_150, p.overtime_award_200, p.overtime_award_300,
+        p.eala_deduction, p.al_deduction, p.absenteeism_deduction, p.sl_deduction, p.transportation_payment,
+        p.communication_payment, p.meal_allowance, p.birthday_gift,p.other_benefits, p.middle_shift_payment, p.night_shift_payment,
+        p.high_temperature_payment, p.hot_working_payment, p.tahw_payment, p.reissue, p.wage_deduction,
+        p.pension, p.medical, p.unemployment, p.housing_fund, p.ste_housing_fund, p.social_benefits_adjustment,
+        p.housing_fund_adjustment, p.annuity, p.union_fee, p.tax_calculation, p.pre_tax_income, p.basic_deduction,
+        p.accumulated_ipti, p.accumulated_isiahf, p.accumulated_bd, p.accumulated_child_education,
+        p.accumulated_continuing_education, p.accumulated_hli, p.accumulated_housing_rent, p.accumulated_sfte,
+        p.accumulated_other, p.accumulated_tftd, p.accumulated_total_cost, p.accumulated_il, p.individual_llt, p.company_tax,
+        p.company_total_tax, p.accumulated_ati, p.accumulated_bti, p.theoretical_income, p.accumulated_llt_cai, p.company_llt,
+        p.only_child_allowance, p.snte_housing_fund, p.expense, p.expense_25, p.fs_allowance, p.after_tax_reissue, p.after_tax_deduction,
+        p.annual_bonus, p.annual_bonus_llt, p.income, p.cost, p.net_income, p.company_pension, p.company_medical, p.company_unemployment,
+        p.company_maternity, p.company_wri, p.company_disability, p.company_housing_fund, p.company_shf, p.accumulated_payroll_tax, p.employer_liability,
+        p.deposit, p.service_fee, p.value_added_tax, p.other_bonus, p.pre_tax_adjustment, p.indemnity, p.indemnity_tax, p.share_incentives,
+        p.share_incentives_tax, p.service_fee_tax,p.travel_allowance,p.accumulated_child_care from ps_calculation_result p
+    </sql>
+
+        
+    <insert id="insertPsCalculationResult" parameterType="PsCalculationResult" useGeneratedKeys="true" keyProperty="id">
+        insert into ps_calculation_result
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="duration != null">duration,</if>
+            <if test="idNo != null">id_no,</if>
+            <if test="name != null">name,</if>
+            <if test="basicSalary != null">basic_salary,</if>
+            <if test="floatingSalary != null">floating_salary,</if>
+            <if test="monthlyAward != null">monthly_award,</if>
+            <if test="quarterAward != null">quarter_award,</if>
+            <if test="overtimeAward150 != null">overtime_award_150,</if>
+            <if test="overtimeAward200 != null">overtime_award_200,</if>
+            <if test="overtimeAward300 != null">overtime_award_300,</if>
+            <if test="ealaDeduction != null">eala_deduction,</if>
+            <if test="alDeduction != null">al_deduction,</if>
+            <if test="absenteeismDeduction != null">absenteeism_deduction,</if>
+            <if test="slDeduction != null">sl_deduction,</if>
+            <if test="transportationPayment != null">transportation_payment,</if>
+            <if test="communicationPayment != null">communication_payment,</if>
+            <if test="mealAllowance != null">meal_allowance,</if>
+            <if test="birthdayGift != null">birthday_gift,</if>
+            <if test="otherBenefits != null">other_benefits,</if>
+            <if test="middleShiftPayment != null">middle_shift_payment,</if>
+            <if test="nightShiftPayment != null">night_shift_payment,</if>
+            <if test="highTemperaturePayment != null">high_temperature_payment,</if>
+            <if test="hotWorkingPayment != null">hot_working_payment,</if>
+            <if test="tahwPayment != null">tahw_payment,</if>
+            <if test="reissue != null">reissue,</if>
+            <if test="wageDeduction != null">wage_deduction,</if>
+            <if test="pension != null">pension,</if>
+            <if test="medical != null">medical,</if>
+            <if test="unemployment != null">unemployment,</if>
+            <if test="housingFund != null">housing_fund,</if>
+            <if test="steHousingFund != null">ste_housing_fund,</if>
+            <if test="socialBenefitsAdjustment != null">social_benefits_adjustment,</if>
+            <if test="housingFundAdjustment != null">housing_fund_adjustment,</if>
+            <if test="annuity != null">annuity,</if>
+            <if test="unionFee != null">union_fee,</if>
+            <if test="taxCalculation != null">tax_calculation,</if>
+            <if test="preTaxIncome != null">pre_tax_income,</if>
+            <if test="basicDeduction != null">basic_deduction,</if>
+            <if test="accumulatedIpti != null">accumulated_ipti,</if>
+            <if test="accumulatedIsiahf != null">accumulated_isiahf,</if>
+            <if test="accumulatedBd != null">accumulated_bd,</if>
+            <if test="accumulatedChildEducation != null">accumulated_child_education,</if>
+            <if test="accumulatedContinuingEducation != null">accumulated_continuing_education,</if>
+            <if test="accumulatedHli != null">accumulated_hli,</if>
+            <if test="accumulatedHousingRent != null">accumulated_housing_rent,</if>
+            <if test="accumulatedSfte != null">accumulated_sfte,</if>
+            <if test="accumulatedOther != null">accumulated_other,</if>
+            <if test="accumulatedTftd != null">accumulated_tftd,</if>
+            <if test="accumulatedTotalCost != null">accumulated_total_cost,</if>
+            <if test="accumulatedIl != null">accumulated_il,</if>
+            <if test="individualLlt != null">individual_llt,</if>
+            <if test="companyTax != null">company_tax,</if>
+            <if test="companyTotalTax != null">company_total_tax,</if>
+            <if test="accumulatedAti != null">accumulated_ati,</if>
+            <if test="accumulatedBti != null">accumulated_bti,</if>
+            <if test="theoreticalIncome != null">theoretical_income,</if>
+            <if test="accumulatedLltCai != null">accumulated_llt_cai,</if>
+            <if test="companyLlt != null">company_llt,</if>
+            <if test="onlyChildAllowance != null">only_child_allowance,</if>
+            <if test="snteHousingFund != null">snte_housing_fund,</if>
+            <if test="expense != null">expense,</if>
+            <if test="expense25 != null">expense_25,</if>
+            <if test="fsAllowance != null">fs_allowance,</if>
+            <if test="afterTaxReissue != null">after_tax_reissue,</if>
+            <if test="afterTaxDeduction != null">after_tax_deduction,</if>
+            <if test="annualBonus != null">annual_bonus,</if>
+            <if test="annualBonusLlt != null">annual_bonus_llt,</if>
+            <if test="income != null">income,</if>
+            <if test="cost != null">cost,</if>
+            <if test="netIncome != null">net_income,</if>
+            <if test="companyPension != null">company_pension,</if>
+            <if test="companyMedical != null">company_medical,</if>
+            <if test="companyUnemployment != null">company_unemployment,</if>
+            <if test="companyMaternity != null">company_maternity,</if>
+            <if test="companyWri != null">company_wri,</if>
+            <if test="companyDisability != null">company_disability,</if>
+            <if test="companyHousingFund != null">company_housing_fund,</if>
+            <if test="companyShf != null">company_shf,</if>
+            <if test="accumulatedPayrollTax != null">accumulated_payroll_tax,</if>
+            <if test="employerLiability != null">employer_liability,</if>
+            <if test="deposit != null">deposit,</if>
+            <if test="serviceFee != null">service_fee,</if>
+            <if test="valueAddedTax != null">value_added_tax,</if>
+            <if test="otherBonus != null">other_bonus,</if>
+            <if test="pretaxAdjustment != null">pre_tax_adjustment,</if>
+            <if test="indemnity != null">indemnity,</if>
+            <if test="indemnityTax != null">indemnity_tax,</if>
+            <if test="shareIncentives != null">share_incentives,</if>
+            <if test="shareIncentivesTax != null">share_incentives_tax,</if>
+            <if test="serviceFeeTax != null">service_fee_tax,</if>
+            <if test="travelAllowance != null">travel_allowance,</if>
+            <if test="accumulatedChildCare != null">accumulated_child_care,</if>
+            <if test="groupIds != null and groupIds !=''">group_ids,</if>
+            <if test="createBy != null and createBy != ''">create_by,</if>
+            create_time
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="duration != null">#{duration},</if>
+            <if test="idNo != null">#{idNo},</if>
+            <if test="name != null">#{name},</if>
+            <if test="basicSalary != null">#{basicSalary},</if>
+            <if test="floatingSalary != null">#{floatingSalary},</if>
+            <if test="monthlyAward != null">#{monthlyAward},</if>
+            <if test="quarterAward != null">#{quarterAward},</if>
+            <if test="overtimeAward150 != null">#{overtimeAward150},</if>
+            <if test="overtimeAward200 != null">#{overtimeAward200},</if>
+            <if test="overtimeAward300 != null">#{overtimeAward300},</if>
+            <if test="ealaDeduction != null">#{ealaDeduction},</if>
+            <if test="alDeduction != null">#{alDeduction},</if>
+            <if test="absenteeismDeduction != null">#{absenteeismDeduction},</if>
+            <if test="slDeduction != null">#{slDeduction},</if>
+            <if test="transportationPayment != null">#{transportationPayment},</if>
+            <if test="communicationPayment != null">#{communicationPayment},</if>
+            <if test="mealAllowance != null">#{mealAllowance},</if>
+            <if test="birthdayGift != null">#{birthdayGift},</if>
+            <if test="otherBenefits != null">#{otherBenefits},</if>
+            <if test="middleShiftPayment != null">#{middleShiftPayment},</if>
+            <if test="nightShiftPayment != null">#{nightShiftPayment},</if>
+            <if test="highTemperaturePayment != null">#{highTemperaturePayment},</if>
+            <if test="hotWorkingPayment != null">#{hotWorkingPayment},</if>
+            <if test="tahwPayment != null">#{tahwPayment},</if>
+            <if test="reissue != null">#{reissue},</if>
+            <if test="wageDeduction != null">#{wageDeduction},</if>
+            <if test="pension != null">#{pension},</if>
+            <if test="medical != null">#{medical},</if>
+            <if test="unemployment != null">#{unemployment},</if>
+            <if test="housingFund != null">#{housingFund},</if>
+            <if test="steHousingFund != null">#{steHousingFund},</if>
+            <if test="socialBenefitsAdjustment != null">#{socialBenefitsAdjustment},</if>
+            <if test="housingFundAdjustment != null">#{housingFundAdjustment},</if>
+            <if test="annuity != null">#{annuity},</if>
+            <if test="unionFee != null">#{unionFee},</if>
+            <if test="taxCalculation != null">#{taxCalculation},</if>
+            <if test="preTaxIncome != null">#{preTaxIncome},</if>
+            <if test="basicDeduction != null">#{basicDeduction},</if>
+            <if test="accumulatedIpti != null">#{accumulatedIpti},</if>
+            <if test="accumulatedIsiahf != null">#{accumulatedIsiahf},</if>
+            <if test="accumulatedBd != null">#{accumulatedBd},</if>
+            <if test="accumulatedChildEducation != null">#{accumulatedChildEducation},</if>
+            <if test="accumulatedContinuingEducation != null">#{accumulatedContinuingEducation},</if>
+            <if test="accumulatedHli != null">#{accumulatedHli},</if>
+            <if test="accumulatedHousingRent != null">#{accumulatedHousingRent},</if>
+            <if test="accumulatedSfte != null">#{accumulatedSfte},</if>
+            <if test="accumulatedOther != null">#{accumulatedOther},</if>
+            <if test="accumulatedTftd != null">#{accumulatedTftd},</if>
+            <if test="accumulatedTotalCost != null">#{accumulatedTotalCost},</if>
+            <if test="accumulatedIl != null">#{accumulatedIl},</if>
+            <if test="individualLlt != null">#{individualLlt},</if>
+            <if test="companyTax != null">#{companyTax},</if>
+            <if test="companyTotalTax != null">#{companyTotalTax},</if>
+            <if test="accumulatedAti != null">#{accumulatedAti},</if>
+            <if test="accumulatedBti != null">#{accumulatedBti},</if>
+            <if test="theoreticalIncome != null">#{theoreticalIncome},</if>
+            <if test="accumulatedLltCai != null">#{accumulatedLltCai},</if>
+            <if test="companyLlt != null">#{companyLlt},</if>
+            <if test="onlyChildAllowance != null">#{onlyChildAllowance},</if>
+            <if test="snteHousingFund != null">#{snteHousingFund},</if>
+            <if test="expense != null">#{expense},</if>
+            <if test="expense25 != null">#{expense25},</if>
+            <if test="fsAllowance != null">#{fsAllowance},</if>
+            <if test="afterTaxReissue != null">#{afterTaxReissue},</if>
+            <if test="afterTaxDeduction != null">#{afterTaxDeduction},</if>
+            <if test="annualBonus != null">#{annualBonus},</if>
+            <if test="annualBonusLlt != null">#{annualBonusLlt},</if>
+            <if test="income != null">#{income},</if>
+            <if test="cost != null">#{cost},</if>
+            <if test="netIncome != null">#{netIncome},</if>
+            <if test="companyPension != null">#{companyPension},</if>
+            <if test="companyMedical != null">#{companyMedical},</if>
+            <if test="companyUnemployment != null">#{companyUnemployment},</if>
+            <if test="companyMaternity != null">#{companyMaternity},</if>
+            <if test="companyWri != null">#{companyWri},</if>
+            <if test="companyDisability != null">#{companyDisability},</if>
+            <if test="companyHousingFund != null">#{companyHousingFund},</if>
+            <if test="companyShf != null">#{companyShf},</if>
+            <if test="accumulatedPayrollTax != null">#{accumulatedPayrollTax},</if>
+            <if test="employerLiability != null">#{employerLiability},</if>
+            <if test="deposit != null">#{deposit},</if>
+            <if test="serviceFee != null">#{serviceFee},</if>
+            <if test="valueAddedTax != null">#{valueAddedTax},</if>
+            <if test="otherBonus != null">#{otherBonus},</if>
+            <if test="pretaxAdjustment != null">#{pretaxAdjustment},</if>
+            <if test="indemnity != null">#{indemnity},</if>
+            <if test="indemnityTax != null">#{indemnityTax},</if>
+            <if test="shareIncentives != null">#{shareIncentives},</if>
+            <if test="shareIncentivesTax != null">#{shareIncentivesTax},</if>
+            <if test="serviceFeeTax != null">#{serviceFeeTax},</if>
+            <if test="travelAllowance != null">#{travelAllowance},</if>
+            <if test="accumulatedChildCare != null">#{accumulatedChildCare},</if>
+            <if test="groupIds != null and groupIds !=''">#{groupIds},</if>
+            <if test="createBy != null and createBy != ''">#{createBy},</if>
+            sysdate()
+         </trim>
+    </insert>
+
+    <update id="updatePsCalculationResult" parameterType="PsCalculationResult">
+        update ps_calculation_result
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="duration != null">duration = #{duration},</if>
+            <if test="idNo != null">id_no = #{idNo},</if>
+            <if test="name != null">name = #{name},</if>
+            <if test="basicSalary != null">basic_salary = #{basicSalary},</if>
+            <if test="floatingSalary != null">floating_salary = #{floatingSalary},</if>
+            <if test="monthlyAward != null">monthly_award = #{monthlyAward},</if>
+            <if test="quarterAward != null">quarter_award = #{quarterAward},</if>
+            <if test="overtimeAward150 != null">overtime_award_150 = #{overtimeAward150},</if>
+            <if test="overtimeAward200 != null">overtime_award_200 = #{overtimeAward200},</if>
+            <if test="overtimeAward300 != null">overtime_award_300 = #{overtimeAward300},</if>
+            <if test="ealaDeduction != null">eala_deduction = #{ealaDeduction},</if>
+            <if test="alDeduction != null">al_deduction = #{alDeduction},</if>
+            <if test="absenteeismDeduction != null">absenteeism_deduction = #{absenteeismDeduction},</if>
+            <if test="slDeduction != null">sl_deduction = #{slDeduction},</if>
+            <if test="transportationPayment != null">transportation_payment = #{transportationPayment},</if>
+            <if test="communicationPayment != null">communication_payment = #{communicationPayment},</if>
+            <if test="mealAllowance != null">meal_allowance = #{mealAllowance},</if>
+            <if test="birthdayGift != null">birthday_gift = #{birthdayGift},</if>
+            <if test="otherBenefits != null">other_benefits = #{otherBenefits},</if>
+            <if test="middleShiftPayment != null">middle_shift_payment = #{middleShiftPayment},</if>
+            <if test="nightShiftPayment != null">night_shift_payment = #{nightShiftPayment},</if>
+            <if test="highTemperaturePayment != null">high_temperature_payment = #{highTemperaturePayment},</if>
+            <if test="hotWorkingPayment != null">hot_working_payment = #{hotWorkingPayment},</if>
+            <if test="tahwPayment != null">tahw_payment = #{tahwPayment},</if>
+            <if test="reissue != null">reissue = #{reissue},</if>
+            <if test="wageDeduction != null">wage_deduction = #{wageDeduction},</if>
+            <if test="pension != null">pension = #{pension},</if>
+            <if test="medical != null">medical = #{medical},</if>
+            <if test="unemployment != null">unemployment = #{unemployment},</if>
+            <if test="housingFund != null">housing_fund = #{housingFund},</if>
+            <if test="steHousingFund != null">ste_housing_fund = #{steHousingFund},</if>
+            <if test="socialBenefitsAdjustment != null">social_benefits_adjustment = #{socialBenefitsAdjustment},</if>
+            <if test="housingFundAdjustment != null">housing_fund_adjustment = #{housingFundAdjustment},</if>
+            <if test="annuity != null">annuity = #{annuity},</if>
+            <if test="unionFee != null">union_fee = #{unionFee},</if>
+            <if test="taxCalculation != null">tax_calculation = #{taxCalculation},</if>
+            <if test="preTaxIncome != null">pre_tax_income = #{preTaxIncome},</if>
+            <if test="basicDeduction != null">basic_deduction = #{basicDeduction},</if>
+            <if test="accumulatedIpti != null">accumulated_ipti = #{accumulatedIpti},</if>
+            <if test="accumulatedIsiahf != null">accumulated_isiahf = #{accumulatedIsiahf},</if>
+            <if test="accumulatedBd != null">accumulated_bd = #{accumulatedBd},</if>
+            <if test="accumulatedChildEducation != null">accumulated_child_education = #{accumulatedChildEducation},</if>
+            <if test="accumulatedContinuingEducation != null">accumulated_continuing_education = #{accumulatedContinuingEducation},</if>
+            <if test="accumulatedHli != null">accumulated_hli = #{accumulatedHli},</if>
+            <if test="accumulatedHousingRent != null">accumulated_housing_rent = #{accumulatedHousingRent},</if>
+            <if test="accumulatedSfte != null">accumulated_sfte = #{accumulatedSfte},</if>
+            <if test="accumulatedOther != null">accumulated_other = #{accumulatedOther},</if>
+            <if test="accumulatedTftd != null">accumulated_tftd = #{accumulatedTftd},</if>
+            <if test="accumulatedTotalCost != null">accumulated_total_cost = #{accumulatedTotalCost},</if>
+            <if test="accumulatedIl != null">accumulated_il = #{accumulatedIl},</if>
+            <if test="individualLlt != null">individual_llt = #{individualLlt},</if>
+            <if test="companyTax != null">company_tax = #{companyTax},</if>
+            <if test="companyTotalTax != null">company_total_tax = #{companyTotalTax},</if>
+            <if test="accumulatedAti != null">accumulated_ati = #{accumulatedAti},</if>
+            <if test="accumulatedBti != null">accumulated_bti = #{accumulatedBti},</if>
+            <if test="theoreticalIncome != null">theoretical_income = #{theoreticalIncome},</if>
+            <if test="accumulatedLltCai != null">accumulated_llt_cai = #{accumulatedLltCai},</if>
+            <if test="companyLlt != null">company_llt = #{companyLlt},</if>
+            <if test="onlyChildAllowance != null">only_child_allowance = #{onlyChildAllowance},</if>
+            <if test="snteHousingFund != null">snte_housing_fund = #{snteHousingFund},</if>
+            <if test="expense != null">expense = #{expense},</if>
+            <if test="expense25 != null">expense_25 = #{expense25},</if>
+            <if test="fsAllowance != null">fs_allowance = #{fsAllowance},</if>
+            <if test="afterTaxReissue != null">after_tax_reissue = #{afterTaxReissue},</if>
+            <if test="afterTaxDeduction != null">after_tax_deduction = #{afterTaxDeduction},</if>
+            <if test="annualBonus != null">annual_bonus = #{annualBonus},</if>
+            <if test="annualBonusLlt != null">annual_bonus_llt = #{annualBonusLlt},</if>
+            <if test="income != null">income = #{income},</if>
+            <if test="cost != null">cost = #{cost},</if>
+            <if test="netIncome != null">net_income = #{netIncome},</if>
+            <if test="companyPension != null">company_pension = #{companyPension},</if>
+            <if test="companyMedical != null">company_medical = #{companyMedical},</if>
+            <if test="companyUnemployment != null">company_unemployment = #{companyUnemployment},</if>
+            <if test="companyMaternity != null">company_maternity = #{companyMaternity},</if>
+            <if test="companyWri != null">company_wri = #{companyWri},</if>
+            <if test="companyDisability != null">company_disability = #{companyDisability},</if>
+            <if test="companyHousingFund != null">company_housing_fund = #{companyHousingFund},</if>
+            <if test="companyShf != null">company_shf = #{companyShf},</if>
+            <if test="accumulatedPayrollTax != null">accumulated_payroll_tax = #{accumulatedPayrollTax},</if>
+            <if test="employerLiability != null">employer_liability = #{employerLiability},</if>
+            <if test="deposit != null">deposit = #{deposit},</if>
+            <if test="serviceFee != null">service_fee = #{serviceFee},</if>
+            <if test="valueAddedTax != null">value_added_tax = #{valueAddedTax},</if>
+            <if test="otherBonus != null">other_bonus = #{otherBonus},</if>
+            <if test="pretaxAdjustment != null">pre_tax_adjustment = #{pretaxAdjustment},</if>
+            <if test="indemnity != null">indemnity = #{indemnity},</if>
+            <if test="indemnityTax != null">indemnity_tax = #{indemnityTax},</if>
+            <if test="shareIncentives != null">share_incentives = #{shareIncentives},</if>
+            <if test="shareIncentivesTax != null">share_incentives_tax = #{shareIncentivesTax},</if>
+            <if test="serviceFeeTax != null">service_fee_tax = #{serviceFeeTax},</if>
+            <if test="travelAllowance != null">travel_allowance = #{travelAllowance},</if>
+            <if test="accumulatedChildCare != null">accumulated_child_care = #{accumulatedChildCare},</if>
+            <if test="groupIds != null and groupIds !=''">group_ids = #{groupIds},</if>
+            <if test="updateBy != null and updateBy != ''">update_by = #{updateBy},</if>
+            update_time = sysdate()
+        </trim>
+        where id = #{id}
+    </update>
+
+
+    <delete id="deletePsCalculationResultByKey" parameterType="PsCalculationResult">
+        DELETE FROM ps_calculation_result WHERE duration = #{duration} AND id_no = #{idNo}
+    </delete>
+
+    <select id="selectPsCalculationResultCheckList" parameterType="PsCalculationResult" resultMap="PsCalculationResultResult">
+        <include refid="selectPsCalculationResultVo"/>
+        <where>
+            <if test="duration != null and duration != ''"> and duration = #{duration}</if>
+            <if test="idNo != null  and idNo != ''"> and id_no = #{idNo}</if>
+        </where>
+        order by p.duration desc,p.id_no
+    </select>
+
+
+    <select id="getPsCalculationResult" parameterType="PsCalculationResult" resultMap="PsCalculationResultResult">
+        <include refid="selectPsCalculationResultVo"/>
+        <where>
+            <if test="duration != null and duration != ''"> and duration = #{duration}</if>
+            <if test="idNo != null  and idNo != ''"> and id_no = #{idNo}</if>
+        </where>
+        order by p.duration desc,p.id_no
+    </select>
+
+
+
+    <select id="selectPsCalculationResultList" parameterType="PsCalculationResult" resultMap="PsCalculationResultResult">
+        SELECT
+        p.id,
+        p.duration,
+        p.id_no,
+        p.NAME,
+        p.basic_salary,
+        p.floating_salary,
+        p.monthly_award,
+        p.quarter_award,
+        p.overtime_award_150,
+        p.overtime_award_200,
+        p.overtime_award_300,
+        p.eala_deduction,
+        p.al_deduction,
+        p.absenteeism_deduction,
+        p.sl_deduction,
+        p.transportation_payment,
+        p.communication_payment,
+        p.meal_allowance,
+        p.birthday_gift,
+        p.other_benefits,
+        p.middle_shift_payment,
+        p.night_shift_payment,
+        p.high_temperature_payment,
+        p.hot_working_payment,
+        p.tahw_payment,
+        p.reissue,
+        p.wage_deduction,
+        p.pension,
+        p.medical,
+        p.unemployment,
+        p.housing_fund,
+        p.ste_housing_fund,
+        p.social_benefits_adjustment,
+        p.housing_fund_adjustment,
+        p.annuity,
+        pp.ep_union_fee as union_fee,
+        p.tax_calculation,
+        p.pre_tax_income,
+        p.basic_deduction,
+        p.accumulated_ipti,
+        p.accumulated_isiahf,
+        p.accumulated_bd,
+        p.accumulated_child_education,
+        p.accumulated_continuing_education,
+        p.accumulated_hli,
+        p.accumulated_housing_rent,
+        p.accumulated_sfte,
+        p.accumulated_other,
+        p.accumulated_tftd,
+        p.accumulated_total_cost,
+        p.accumulated_il,
+        p.individual_llt,
+        p.company_tax,
+        p.company_total_tax,
+        p.accumulated_ati,
+        p.accumulated_bti,
+        p.theoretical_income,
+        p.accumulated_llt_cai,
+        p.company_llt,
+        p.only_child_allowance,
+        p.snte_housing_fund,
+        p.expense,
+        p.expense_25,
+        p.fs_allowance,
+        p.after_tax_reissue,
+        p.after_tax_deduction,
+        p.annual_bonus,
+        p.annual_bonus_llt,
+        p.income,
+        p.cost,
+        p.net_income,
+        p.company_pension,
+        p.company_medical,
+        p.company_unemployment,
+        p.company_maternity,
+        p.company_wri,
+        p.company_disability,
+        p.company_housing_fund,
+        p.company_shf,
+        p.accumulated_payroll_tax,
+        pp.employer_liability,
+        pp.deposit,
+        pp.service_fee,
+        pp.value_added_tax,
+        p.other_bonus,
+        p.pre_tax_adjustment,
+        p.indemnity,
+        p.indemnity_tax,
+        p.share_incentives,
+        p.share_incentives_tax,
+        p.service_fee_tax,
+        p.travel_allowance,
+        p.accumulated_child_care,
+        bi.client_code,
+        bi.er_name,
+        bi.social_benefits_address,
+        bi.certificate_number,
+        CASE
+        WHEN cce.extra_data->>'$."54"' = 'null' THEN NULL
+        ELSE cce.extra_data->>'$."54"'
+        END AS entry_date
+        FROM
+        ps_calculation_result p
+        LEFT JOIN ps_basic_info bi ON p.duration = bi.duration
+        AND p.id_no = bi.id_no
+        LEFT JOIN ps_payroll pp ON p.duration = pp.duration
+        AND p.id_no = pp.id_no
+        LEFT JOIN employee_contract cce ON p.id_no = cce.employee_code
+        <where>
+            <if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
+                AND p.duration &gt;= #{params.beginTime}
+            </if>
+            <if test="params.endTime != null and params.endTime != ''"><!-- 结束时间检索 -->
+                AND p.duration &lt;= #{params.endTime}
+            </if>
+            <if test="idNo != null  and idNo != ''"> and p.id_no = #{idNo}</if>
+            <if test="name != null  and name != ''"> and p.name like concat('%', #{name}, '%')</if>
+            <if test="params.erName != null and params.erName != ''">and bi.er_name like concat('%', #{params.erName}, '%') </if>
+            <if test="duration !=null and duration !=''">and p.duration =#{duration}</if>
+        </where>
+        order by p.duration desc,p.id_no
+    </select>
+
+</mapper>

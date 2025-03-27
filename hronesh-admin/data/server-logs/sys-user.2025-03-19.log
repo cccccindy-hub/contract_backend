@@ -1,0 +1,4 @@
+2025-03-19 10:00:04.784 [SpringApplicationShutdownHook] INFO  sys-user - [shutdownAsyncManager,31] - ====关闭后台任务任务线程池====
+2025-03-19 10:16:38.334 [schedule-pool-1] INFO  sys-user - [run,57] - [127.0.0.1]内网IP[hh][Error][验证码错误]
+2025-03-19 10:18:03.044 [schedule-pool-1] INFO  sys-user - [run,57] - [127.0.0.1]内网IP[admin][Success][登录成功]
+2025-03-19 10:57:17.691 [schedule-pool-2] INFO  sys-user - [run,57] - [127.0.0.1]内网IP[admin][Success][登录成功]

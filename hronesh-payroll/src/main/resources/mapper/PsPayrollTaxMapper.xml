@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nnroad.payroll.mapper.PsPayrollTaxMapper">
+    
+    <resultMap type="PsPayrollTax" id="PsPayrollTaxResult">
+        <result property="id"    column="id"    />
+        <result property="idNo"    column="id_no"    />
+        <result property="duration"    column="duration"    />
+        <result property="erName"    column="er_name"    />
+        <result property="employmentNature"    column="employment_nature"    />
+        <result property="name"    column="name"    />
+        <result property="credentials"    column="credentials"    />
+        <result property="credentialsNumber"    column="credentials_number"    />
+        <result property="income"    column="income"    />
+        <result property="taxFreeIncome"    column="tax_free_income"    />
+        <result property="pension"    column="pension"    />
+        <result property="medical"    column="medical"    />
+        <result property="unemployment"    column="unemployment"    />
+        <result property="housingFund"    column="housing_fund"    />
+        <result property="childrenEducation"    column="children_education"    />
+        <result property="continuingEducation"    column="continuing_education"    />
+        <result property="housingLoanInterest"    column="housing_loan_interest"    />
+        <result property="housingRent"    column="housing_rent"    />
+        <result property="supportingElderly"    column="supporting_elderly"    />
+        <result property="annuity"    column="annuity"    />
+        <result property="commercialInsurance"    column="commercial_insurance"    />
+        <result property="taxPension"    column="tax_pension"    />
+        <result property="other"    column="other"    />
+        <result property="allowedDeductDonation"    column="allowed_deduct_donation"    />
+        <result property="taxSavings"    column="tax_savings"    />
+        <result property="remarks"    column="remarks"    />
+        <result property="taxPayment"    column="tax_payment"    />
+        <result property="paidTax"    column="paid_tax"    />
+        <result property="annuityTax"    column="annuity_tax"    />
+        <result property="taxPaymentPlace"    column="tax_payment_place"    />
+        <result property="severance"    column="severance"    />
+        <result property="groupIds"    column="group_ids"    />
+        <result property="createBy"   column="create_by"   />
+        <result property="createTime" column="create_time" />
+        <result property="updateBy"   column="update_by"   />
+        <result property="updateTime" column="update_time" />
+    </resultMap>
+
+    <sql id="selectPsPayrollTaxVo">
+        select id, id_no, duration, er_name, employment_nature, name, credentials, credentials_number, income, tax_free_income, pension, medical, unemployment, housing_fund, children_education, continuing_education, housing_loan_interest, housing_rent, supporting_elderly, annuity, commercial_insurance, tax_pension, other, allowed_deduct_donation, tax_savings, remarks, tax_payment, paid_tax, annuity_tax, tax_payment_place, severance, group_ids, create_by, create_time, update_by, update_time from ps_payroll_tax
+    </sql>
+
+    <delete id="deletePsPayrollTaxByKey" parameterType="PsPayrollTax">
+        DELETE FROM ps_payroll_tax WHERE duration = #{duration} AND id_no = #{idNo}
+    </delete>
+
+</mapper>

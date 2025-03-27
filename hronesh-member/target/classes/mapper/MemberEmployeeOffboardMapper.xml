@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nnroad.member.mapper.MemberEmployeeOffboardMapper">
+
+    <resultMap type="MemberEmployeeOffboard" id="MemberEmployeeOffboardResult">
+        <result property="id"    column="id"    />
+        <result property="eeCode"    column="ee_code"    />
+        <result property="offboardDate"    column="offboard_date"    />
+        <result property="offboardReason"    column="offboard_reason"    />
+    </resultMap>
+
+    <sql id="selectMemberEmployeeOffboardVo">
+        select id, ee_code, offboard_date, offboard_reason from mmgt_employee_offboard
+    </sql>
+
+    <select id="selectMemberEmployeeOffboardList" parameterType="MemberEmployeeOffboard" resultMap="MemberEmployeeOffboardResult">
+        <include refid="selectMemberEmployeeOffboardVo"/>
+        <where>
+            <if test="eeCode != null  and eeCode != ''"> and ee_code = #{eeCode}</if>
+            <if test="offboardDate != null "> and offboard_date = #{offboardDate}</if>
+            <if test="offboardReason != null  and offboardReason != ''"> and offboard_reason = #{offboardReason}</if>
+        </where>
+    </select>
+
+    <select id="selectMemberEmployeeOffboardById" parameterType="Long" resultMap="MemberEmployeeOffboardResult">
+        <include refid="selectMemberEmployeeOffboardVo"/>
+        where id = #{id}
+    </select>
+
+    <select id="selectMemberEmployeeOffboardByEecode" parameterType="string" resultMap="MemberEmployeeOffboardResult">
+        <include refid="selectMemberEmployeeOffboardVo"/>
+        where ee_code = #{eeCode}
+    </select>
+
+    <insert id="insertMemberEmployeeOffboard" parameterType="MemberEmployeeOffboard" useGeneratedKeys="true" keyProperty="id">
+        insert into mmgt_employee_offboard
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="eeCode != null">ee_code,</if>
+            <if test="offboardDate != null">offboard_date,</if>
+            <if test="offboardReason != null">offboard_reason,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="eeCode != null">#{eeCode},</if>
+            <if test="offboardDate != null">#{offboardDate},</if>
+            <if test="offboardReason != null">#{offboardReason},</if>
+        </trim>
+    </insert>
+
+    <update id="updateMemberEmployeeOffboard" parameterType="MemberEmployeeOffboard">
+        update mmgt_employee_offboard
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="eeCode != null">ee_code = #{eeCode},</if>
+            <if test="offboardDate != null">offboard_date = #{offboardDate},</if>
+            <if test="offboardReason != null">offboard_reason = #{offboardReason},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteMemberEmployeeOffboardById" parameterType="Long">
+        delete from mmgt_employee_offboard where id = #{id}
+    </delete>
+
+    <delete id="deleteMemberEmployeeOffboardByIds" parameterType="String">
+        delete from mmgt_employee_offboard where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

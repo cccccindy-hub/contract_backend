@@ -1,0 +1,91 @@
+2025-03-19 09:24:44.824 [com.nnroad.NNRoadApplication.main()] INFO  c.n.NNRoadApplication - [logStarting,55] - Starting NNRoadApplication using Java 1.8.0_442 on 10-21-133-45.dynapool.wireless.nyu.edu with PID 12912 (/Users/guo/hronesh-abp/hronesh-admin/target/classes started by guo in /Users/guo/hronesh-abp/hronesh-admin)
+2025-03-19 09:24:44.817 [background-preinit] INFO  o.h.v.i.util.Version - [<clinit>,21] - HV000001: Hibernate Validator 6.2.5.Final
+2025-03-19 09:24:44.827 [com.nnroad.NNRoadApplication.main()] INFO  c.n.NNRoadApplication - [logStartupProfileInfo,686] - The following 1 profile is active: "dev"
+2025-03-19 09:24:48.228 [com.nnroad.NNRoadApplication.main()] INFO  c.u.j.c.EnableEncryptablePropertiesBeanFactoryPostProcessor - [postProcessBeanFactory,39] - Post-processing PropertySource instances
+2025-03-19 09:24:48.264 [com.nnroad.NNRoadApplication.main()] INFO  c.u.j.EncryptablePropertySourceConverter - [makeEncryptable,56] - Converting PropertySource configurationProperties [org.springframework.boot.context.properties.source.ConfigurationPropertySourcesPropertySource] to AOP Proxy
+2025-03-19 09:24:48.265 [com.nnroad.NNRoadApplication.main()] INFO  c.u.j.EncryptablePropertySourceConverter - [makeEncryptable,56] - Converting PropertySource servletConfigInitParams [org.springframework.core.env.PropertySource$StubPropertySource] to EncryptablePropertySourceWrapper
+2025-03-19 09:24:48.265 [com.nnroad.NNRoadApplication.main()] INFO  c.u.j.EncryptablePropertySourceConverter - [makeEncryptable,56] - Converting PropertySource servletContextInitParams [org.springframework.core.env.PropertySource$StubPropertySource] to EncryptablePropertySourceWrapper
+2025-03-19 09:24:48.265 [com.nnroad.NNRoadApplication.main()] INFO  c.u.j.EncryptablePropertySourceConverter - [makeEncryptable,56] - Converting PropertySource systemProperties [org.springframework.core.env.PropertiesPropertySource] to EncryptableMapPropertySourceWrapper
+2025-03-19 09:24:48.265 [com.nnroad.NNRoadApplication.main()] INFO  c.u.j.EncryptablePropertySourceConverter - [makeEncryptable,56] - Converting PropertySource systemEnvironment [org.springframework.boot.env.SystemEnvironmentPropertySourceEnvironmentPostProcessor$OriginAwareSystemEnvironmentPropertySource] to EncryptableSystemEnvironmentPropertySourceWrapper
+2025-03-19 09:24:48.265 [com.nnroad.NNRoadApplication.main()] INFO  c.u.j.EncryptablePropertySourceConverter - [makeEncryptable,56] - Converting PropertySource random [org.springframework.boot.env.RandomValuePropertySource] to EncryptablePropertySourceWrapper
+2025-03-19 09:24:48.265 [com.nnroad.NNRoadApplication.main()] INFO  c.u.j.EncryptablePropertySourceConverter - [makeEncryptable,56] - Converting PropertySource Config resource 'class path resource [application-dev.yml]' via location 'optional:classpath:/' [org.springframework.boot.env.OriginTrackedMapPropertySource] to EncryptableMapPropertySourceWrapper
+2025-03-19 09:24:48.265 [com.nnroad.NNRoadApplication.main()] INFO  c.u.j.EncryptablePropertySourceConverter - [makeEncryptable,56] - Converting PropertySource Config resource 'class path resource [application.yml]' via location 'optional:classpath:/' [org.springframework.boot.env.OriginTrackedMapPropertySource] to EncryptableMapPropertySourceWrapper
+2025-03-19 09:24:48.266 [com.nnroad.NNRoadApplication.main()] INFO  c.u.j.EncryptablePropertySourceConverter - [makeEncryptable,56] - Converting PropertySource class path resource [generator.yml] [org.springframework.core.io.support.ResourcePropertySource] to EncryptableMapPropertySourceWrapper
+2025-03-19 09:24:48.447 [com.nnroad.NNRoadApplication.main()] INFO  c.u.j.f.DefaultLazyPropertyFilter - [lambda$null$2,31] - Property Filter custom Bean not found with name 'encryptablePropertyFilter'. Initializing Default Property Filter
+2025-03-19 09:24:49.388 [com.nnroad.NNRoadApplication.main()] INFO  c.u.j.r.DefaultLazyPropertyResolver - [lambda$null$2,35] - Property Resolver custom Bean not found with name 'encryptablePropertyResolver'. Initializing Default Property Resolver
+2025-03-19 09:24:49.393 [com.nnroad.NNRoadApplication.main()] INFO  c.u.j.d.DefaultLazyPropertyDetector - [lambda$null$2,35] - Property Detector custom Bean not found with name 'encryptablePropertyDetector'. Initializing Default Property Detector
+2025-03-19 09:24:50.127 [com.nnroad.NNRoadApplication.main()] INFO  o.a.c.h.Http11NioProtocol - [log,173] - Initializing ProtocolHandler ["http-nio-8080"]
+2025-03-19 09:24:50.127 [com.nnroad.NNRoadApplication.main()] INFO  o.a.c.c.StandardService - [log,173] - Starting service [Tomcat]
+2025-03-19 09:24:50.127 [com.nnroad.NNRoadApplication.main()] INFO  o.a.c.c.StandardEngine - [log,173] - Starting Servlet engine: [Apache Tomcat/9.0.75]
+2025-03-19 09:24:50.282 [com.nnroad.NNRoadApplication.main()] INFO  o.a.c.c.C.[.[.[/client] - [log,173] - Initializing Spring embedded WebApplicationContext
+2025-03-19 09:24:52.732 [com.nnroad.NNRoadApplication.main()] INFO  c.a.d.p.DruidDataSource - [init,1002] - {dataSource-1} inited
+2025-03-19 09:24:57.237 [com.nnroad.NNRoadApplication.main()] INFO  c.a.c.i.ReflectionUtilsMethodHandle - [performDeferredLogging,569] - Unable to create MethodHandles to use Java 9+ MethodHandles.privateLookupIn. Will attempt to fallback to using the package-private constructor.
+2025-03-19 09:25:00.083 [com.nnroad.NNRoadApplication.main()] INFO  o.q.i.StdSchedulerFactory - [instantiate,1220] - Using default implementation for ThreadExecutor
+2025-03-19 09:25:00.095 [com.nnroad.NNRoadApplication.main()] INFO  o.q.c.SchedulerSignalerImpl - [<init>,61] - Initialized Scheduler Signaller of type: class org.quartz.core.SchedulerSignalerImpl
+2025-03-19 09:25:00.095 [com.nnroad.NNRoadApplication.main()] INFO  o.q.c.QuartzScheduler - [<init>,229] - Quartz Scheduler v.2.3.2 created.
+2025-03-19 09:25:00.096 [com.nnroad.NNRoadApplication.main()] INFO  o.q.s.RAMJobStore - [initialize,155] - RAMJobStore initialized.
+2025-03-19 09:25:00.096 [com.nnroad.NNRoadApplication.main()] INFO  o.q.c.QuartzScheduler - [initialize,294] - Scheduler meta-data: Quartz Scheduler (v2.3.2) 'quartzScheduler' with instanceId 'NON_CLUSTERED'
+  Scheduler class: 'org.quartz.core.QuartzScheduler' - running locally.
+  NOT STARTED.
+  Currently in standby mode.
+  Number of jobs executed: 0
+  Using thread pool 'org.quartz.simpl.SimpleThreadPool' - with 10 threads.
+  Using job-store 'org.quartz.simpl.RAMJobStore' - which does not support persistence. and is not clustered.
+
+2025-03-19 09:25:00.097 [com.nnroad.NNRoadApplication.main()] INFO  o.q.i.StdSchedulerFactory - [instantiate,1374] - Quartz scheduler 'quartzScheduler' initialized from an externally provided properties instance.
+2025-03-19 09:25:00.097 [com.nnroad.NNRoadApplication.main()] INFO  o.q.i.StdSchedulerFactory - [instantiate,1378] - Quartz scheduler version: 2.3.2
+2025-03-19 09:25:00.097 [com.nnroad.NNRoadApplication.main()] INFO  o.q.c.QuartzScheduler - [setJobFactory,2293] - JobFactory set to: org.springframework.scheduling.quartz.SpringBeanJobFactory@5f03b7c2
+2025-03-19 09:25:03.110 [com.nnroad.NNRoadApplication.main()] INFO  o.a.c.h.Http11NioProtocol - [log,173] - Starting ProtocolHandler ["http-nio-8080"]
+2025-03-19 09:28:04.021 [com.nnroad.NNRoadApplication.main()] INFO  o.q.c.QuartzScheduler - [start,547] - Scheduler quartzScheduler_$_NON_CLUSTERED started.
+2025-03-19 09:28:04.177 [com.nnroad.NNRoadApplication.main()] INFO  c.n.NNRoadApplication - [logStarted,61] - Started NNRoadApplication in 200.037 seconds (JVM running for 206.153)
+2025-03-19 09:59:07.189 [SpringApplicationShutdownHook] INFO  o.q.c.QuartzScheduler - [standby,585] - Scheduler quartzScheduler_$_NON_CLUSTERED paused.
+2025-03-19 10:00:04.763 [SpringApplicationShutdownHook] INFO  o.q.c.QuartzScheduler - [shutdown,666] - Scheduler quartzScheduler_$_NON_CLUSTERED shutting down.
+2025-03-19 10:00:04.774 [SpringApplicationShutdownHook] INFO  o.q.c.QuartzScheduler - [standby,585] - Scheduler quartzScheduler_$_NON_CLUSTERED paused.
+2025-03-19 10:00:04.779 [SpringApplicationShutdownHook] INFO  o.q.c.QuartzScheduler - [shutdown,740] - Scheduler quartzScheduler_$_NON_CLUSTERED shutdown complete.
+2025-03-19 10:00:04.784 [SpringApplicationShutdownHook] INFO  sys-user - [shutdownAsyncManager,31] - ====关闭后台任务任务线程池====
+2025-03-19 10:00:04.831 [SpringApplicationShutdownHook] INFO  c.a.d.p.DruidDataSource - [close,2204] - {dataSource-1} closing ...
+2025-03-19 10:00:04.845 [SpringApplicationShutdownHook] INFO  c.a.d.p.DruidDataSource - [close,2277] - {dataSource-1} closed
+2025-03-19 10:00:45.592 [background-preinit] INFO  o.h.v.i.util.Version - [<clinit>,21] - HV000001: Hibernate Validator 6.2.5.Final
+2025-03-19 10:00:45.614 [com.nnroad.NNRoadApplication.main()] INFO  c.n.NNRoadApplication - [logStarting,55] - Starting NNRoadApplication using Java 1.8.0_442 on 10-21-133-45.dynapool.wireless.nyu.edu with PID 66500 (/Users/guo/hronesh-abp/hronesh-admin/target/classes started by guo in /Users/guo/hronesh-abp/hronesh-admin)
+2025-03-19 10:00:45.619 [com.nnroad.NNRoadApplication.main()] INFO  c.n.NNRoadApplication - [logStartupProfileInfo,686] - The following 1 profile is active: "dev"
+2025-03-19 10:00:48.565 [com.nnroad.NNRoadApplication.main()] INFO  c.u.j.c.EnableEncryptablePropertiesBeanFactoryPostProcessor - [postProcessBeanFactory,39] - Post-processing PropertySource instances
+2025-03-19 10:00:48.609 [com.nnroad.NNRoadApplication.main()] INFO  c.u.j.EncryptablePropertySourceConverter - [makeEncryptable,56] - Converting PropertySource configurationProperties [org.springframework.boot.context.properties.source.ConfigurationPropertySourcesPropertySource] to AOP Proxy
+2025-03-19 10:00:48.611 [com.nnroad.NNRoadApplication.main()] INFO  c.u.j.EncryptablePropertySourceConverter - [makeEncryptable,56] - Converting PropertySource servletConfigInitParams [org.springframework.core.env.PropertySource$StubPropertySource] to EncryptablePropertySourceWrapper
+2025-03-19 10:00:48.611 [com.nnroad.NNRoadApplication.main()] INFO  c.u.j.EncryptablePropertySourceConverter - [makeEncryptable,56] - Converting PropertySource servletContextInitParams [org.springframework.core.env.PropertySource$StubPropertySource] to EncryptablePropertySourceWrapper
+2025-03-19 10:00:48.611 [com.nnroad.NNRoadApplication.main()] INFO  c.u.j.EncryptablePropertySourceConverter - [makeEncryptable,56] - Converting PropertySource systemProperties [org.springframework.core.env.PropertiesPropertySource] to EncryptableMapPropertySourceWrapper
+2025-03-19 10:00:48.611 [com.nnroad.NNRoadApplication.main()] INFO  c.u.j.EncryptablePropertySourceConverter - [makeEncryptable,56] - Converting PropertySource systemEnvironment [org.springframework.boot.env.SystemEnvironmentPropertySourceEnvironmentPostProcessor$OriginAwareSystemEnvironmentPropertySource] to EncryptableSystemEnvironmentPropertySourceWrapper
+2025-03-19 10:00:48.612 [com.nnroad.NNRoadApplication.main()] INFO  c.u.j.EncryptablePropertySourceConverter - [makeEncryptable,56] - Converting PropertySource random [org.springframework.boot.env.RandomValuePropertySource] to EncryptablePropertySourceWrapper
+2025-03-19 10:00:48.612 [com.nnroad.NNRoadApplication.main()] INFO  c.u.j.EncryptablePropertySourceConverter - [makeEncryptable,56] - Converting PropertySource Config resource 'class path resource [application-dev.yml]' via location 'optional:classpath:/' [org.springframework.boot.env.OriginTrackedMapPropertySource] to EncryptableMapPropertySourceWrapper
+2025-03-19 10:00:48.612 [com.nnroad.NNRoadApplication.main()] INFO  c.u.j.EncryptablePropertySourceConverter - [makeEncryptable,56] - Converting PropertySource Config resource 'class path resource [application.yml]' via location 'optional:classpath:/' [org.springframework.boot.env.OriginTrackedMapPropertySource] to EncryptableMapPropertySourceWrapper
+2025-03-19 10:00:48.612 [com.nnroad.NNRoadApplication.main()] INFO  c.u.j.EncryptablePropertySourceConverter - [makeEncryptable,56] - Converting PropertySource class path resource [generator.yml] [org.springframework.core.io.support.ResourcePropertySource] to EncryptableMapPropertySourceWrapper
+2025-03-19 10:00:48.806 [com.nnroad.NNRoadApplication.main()] INFO  c.u.j.f.DefaultLazyPropertyFilter - [lambda$null$2,31] - Property Filter custom Bean not found with name 'encryptablePropertyFilter'. Initializing Default Property Filter
+2025-03-19 10:00:49.740 [com.nnroad.NNRoadApplication.main()] INFO  c.u.j.r.DefaultLazyPropertyResolver - [lambda$null$2,35] - Property Resolver custom Bean not found with name 'encryptablePropertyResolver'. Initializing Default Property Resolver
+2025-03-19 10:00:49.746 [com.nnroad.NNRoadApplication.main()] INFO  c.u.j.d.DefaultLazyPropertyDetector - [lambda$null$2,35] - Property Detector custom Bean not found with name 'encryptablePropertyDetector'. Initializing Default Property Detector
+2025-03-19 10:00:50.543 [com.nnroad.NNRoadApplication.main()] INFO  o.a.c.h.Http11NioProtocol - [log,173] - Initializing ProtocolHandler ["http-nio-8080"]
+2025-03-19 10:00:50.544 [com.nnroad.NNRoadApplication.main()] INFO  o.a.c.c.StandardService - [log,173] - Starting service [Tomcat]
+2025-03-19 10:00:50.544 [com.nnroad.NNRoadApplication.main()] INFO  o.a.c.c.StandardEngine - [log,173] - Starting Servlet engine: [Apache Tomcat/9.0.75]
+2025-03-19 10:00:50.697 [com.nnroad.NNRoadApplication.main()] INFO  o.a.c.c.C.[.[.[/client] - [log,173] - Initializing Spring embedded WebApplicationContext
+2025-03-19 10:00:53.041 [com.nnroad.NNRoadApplication.main()] INFO  c.a.d.p.DruidDataSource - [init,1002] - {dataSource-1} inited
+2025-03-19 10:00:57.476 [com.nnroad.NNRoadApplication.main()] INFO  c.a.c.i.ReflectionUtilsMethodHandle - [performDeferredLogging,569] - Unable to create MethodHandles to use Java 9+ MethodHandles.privateLookupIn. Will attempt to fallback to using the package-private constructor.
+2025-03-19 10:01:00.470 [com.nnroad.NNRoadApplication.main()] INFO  o.q.i.StdSchedulerFactory - [instantiate,1220] - Using default implementation for ThreadExecutor
+2025-03-19 10:01:00.482 [com.nnroad.NNRoadApplication.main()] INFO  o.q.c.SchedulerSignalerImpl - [<init>,61] - Initialized Scheduler Signaller of type: class org.quartz.core.SchedulerSignalerImpl
+2025-03-19 10:01:00.482 [com.nnroad.NNRoadApplication.main()] INFO  o.q.c.QuartzScheduler - [<init>,229] - Quartz Scheduler v.2.3.2 created.
+2025-03-19 10:01:00.483 [com.nnroad.NNRoadApplication.main()] INFO  o.q.s.RAMJobStore - [initialize,155] - RAMJobStore initialized.
+2025-03-19 10:01:00.484 [com.nnroad.NNRoadApplication.main()] INFO  o.q.c.QuartzScheduler - [initialize,294] - Scheduler meta-data: Quartz Scheduler (v2.3.2) 'quartzScheduler' with instanceId 'NON_CLUSTERED'
+  Scheduler class: 'org.quartz.core.QuartzScheduler' - running locally.
+  NOT STARTED.
+  Currently in standby mode.
+  Number of jobs executed: 0
+  Using thread pool 'org.quartz.simpl.SimpleThreadPool' - with 10 threads.
+  Using job-store 'org.quartz.simpl.RAMJobStore' - which does not support persistence. and is not clustered.
+
+2025-03-19 10:01:00.484 [com.nnroad.NNRoadApplication.main()] INFO  o.q.i.StdSchedulerFactory - [instantiate,1374] - Quartz scheduler 'quartzScheduler' initialized from an externally provided properties instance.
+2025-03-19 10:01:00.484 [com.nnroad.NNRoadApplication.main()] INFO  o.q.i.StdSchedulerFactory - [instantiate,1378] - Quartz scheduler version: 2.3.2
+2025-03-19 10:01:00.484 [com.nnroad.NNRoadApplication.main()] INFO  o.q.c.QuartzScheduler - [setJobFactory,2293] - JobFactory set to: org.springframework.scheduling.quartz.SpringBeanJobFactory@3197b5d
+2025-03-19 10:01:03.728 [com.nnroad.NNRoadApplication.main()] INFO  o.a.c.h.Http11NioProtocol - [log,173] - Starting ProtocolHandler ["http-nio-8080"]
+2025-03-19 10:04:04.740 [com.nnroad.NNRoadApplication.main()] INFO  o.q.c.QuartzScheduler - [start,547] - Scheduler quartzScheduler_$_NON_CLUSTERED started.
+2025-03-19 10:04:04.816 [com.nnroad.NNRoadApplication.main()] INFO  c.n.NNRoadApplication - [logStarted,61] - Started NNRoadApplication in 199.977 seconds (JVM running for 206.493)
+2025-03-19 10:16:27.972 [http-nio-8080-exec-1] INFO  o.a.c.c.C.[.[.[/client] - [log,173] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-03-19 10:16:38.334 [schedule-pool-1] INFO  sys-user - [run,57] - [127.0.0.1]内网IP[hh][Error][验证码错误]
+2025-03-19 10:18:03.044 [schedule-pool-1] INFO  sys-user - [run,57] - [127.0.0.1]内网IP[admin][Success][登录成功]
+2025-03-19 10:57:17.691 [schedule-pool-2] INFO  sys-user - [run,57] - [127.0.0.1]内网IP[admin][Success][登录成功]
