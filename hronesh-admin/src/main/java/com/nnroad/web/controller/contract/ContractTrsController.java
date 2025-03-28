@@ -16,8 +16,8 @@ import com.nnroad.common.annotation.Log;
 import com.nnroad.common.core.controller.BaseController;
 import com.nnroad.common.core.domain.AjaxResult;
 import com.nnroad.common.enums.BusinessType;
-import com.nnroad.system.domain.ContractTrs;
-import com.nnroad.system.service.IContractTrsService;
+import com.nnroad.contract.domain.ContractTrs;
+import com.nnroad.contract.service.IContractTrsService;
 import com.nnroad.common.utils.poi.ExcelUtil;
 import com.nnroad.common.core.page.TableDataInfo;
 

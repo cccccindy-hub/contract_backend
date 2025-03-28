@@ -1,4 +1,4 @@
-package main.java.com.nnroad.web.controller.contract;
+package com.nnroad.web.controller.contract;
 
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
@@ -16,8 +16,8 @@ import com.nnroad.common.annotation.Log;
 import com.nnroad.common.core.controller.BaseController;
 import com.nnroad.common.core.domain.AjaxResult;
 import com.nnroad.common.enums.BusinessType;
-import com.nnroad.system.domain.ContactRs;
-import com.nnroad.system.service.IContactRsService;
+import com.nnroad.contract.domain.ContactRs;
+import com.nnroad.contract.service.IContactRsService;
 import com.nnroad.common.utils.poi.ExcelUtil;
 import com.nnroad.common.core.page.TableDataInfo;
 

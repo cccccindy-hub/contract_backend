@@ -101,10 +101,10 @@
             <artifactId>hronesh-finance</artifactId>
         </dependency>
         
-        <!-- <dependency>
+        <dependency>
             <groupId>com.hronesh</groupId>
             <artifactId>hronesh-contract</artifactId>
-        </dependency> -->
+        </dependency> 
 
 
         <dependency>
