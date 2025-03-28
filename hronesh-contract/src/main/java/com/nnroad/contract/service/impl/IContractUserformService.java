@@ -1,11 +1,9 @@
-package com.nnroad.client.service.impl;
-//  change to contract later
+package com.nnroad.contract.service.impl;
 import java.util.List;
-import com.nnroad.client.domain.ContractUserform; // Update to the correct package path
+import com.nnroad.contract.domain.ContractUserform; // Update to the correct package path
 
 
-import com.nnroad.client.domain.SysClient;
-import com.nnroad.client.service.ClientSyncService;
+import com.nnroad.contract.domain.SysClient;
 import com.nnroad.common.enums.DataSourceType;
 import com.nnroad.common.utils.SecurityUtils;
 import com.nnroad.employee.domain.EmployeeInfo;

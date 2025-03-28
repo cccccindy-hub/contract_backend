@@ -1,10 +1,10 @@
-package com.nnroad.client.mapper;
+package com.nnroad.contract.mapper;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
-import com.nnroad.client.domain.SysClient;
+import com.nnroad.contract.domain.SysClient;
 import org.apache.ibatis.annotations.Param;
 
 /**

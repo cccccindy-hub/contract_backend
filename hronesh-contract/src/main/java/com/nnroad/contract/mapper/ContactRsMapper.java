@@ -1,7 +1,7 @@
-package com.nnroad.system.mapper;
+package com.nnroad.contract.mapper;
 
 import java.util.List;
-import com.nnroad.system.domain.ContactRs;
+import com.nnroad.contract.domain.ContactRs;
 
 /**
  * 【请填写功能名称】Mapper接口

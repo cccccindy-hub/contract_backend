@@ -1,6 +1,6 @@
-package com.nnroad.client.service;
+package com.nnroad.contract.service;
 
-import com.nnroad.client.domain.SysClient;
+import com.nnroad.contract.domain.SysClient;
 
 import java.time.LocalDateTime;
 import java.util.List;

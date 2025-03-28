@@ -1,7 +1,7 @@
-package com.nnroad.client.domain;
+package com.nnroad.contract.mapper;
 
 import java.util.List;
-import com.nnroad.client.domain.ContractGeneralClauses;
+import com.nnroad.contract.domain.ContractGeneralClauses;
 
 /**
  * 【请填写功能名称】Mapper接口

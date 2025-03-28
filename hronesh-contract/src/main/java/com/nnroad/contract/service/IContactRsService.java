@@ -1,7 +1,7 @@
-package com.nnroad.system.service;
+package com.nnroad.contract.service;
 
 import java.util.List;
-import com.nnroad.system.domain.ContactRs;
+import com.nnroad.contract.domain.ContactRs;
 
 /**
  * 【请填写功能名称】Service接口

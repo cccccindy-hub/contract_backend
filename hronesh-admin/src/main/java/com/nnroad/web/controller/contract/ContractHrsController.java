@@ -1,4 +1,4 @@
-package main.java.com.nnroad.web.controller.contract;
+package com.nnroad.web.controller.contract;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.security.access.prepost.PreAuthorize;

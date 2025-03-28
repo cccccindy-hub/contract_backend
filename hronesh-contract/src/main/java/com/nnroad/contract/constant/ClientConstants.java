@@ -1,4 +1,4 @@
-package com.nnroad.client.constant;
+package com.nnroad.contract.constant;
 
 public class ClientConstants {
 

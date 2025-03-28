@@ -14,7 +14,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import com.nnroad.contract.IContractUserformService; // Ensure this is the correct package for IContractUserformService
+import com.nnroad.contract.service.IContractUserformService; // Ensure this is the correct package for IContractUserformService
+import com.nnroad.contract.domain.ContractUserform; // Ensure this is the correct package for ContractUserform
 import com.nnroad.common.annotation.Log;
 import com.nnroad.common.core.controller.BaseController;
 import com.nnroad.common.core.domain.AjaxResult;

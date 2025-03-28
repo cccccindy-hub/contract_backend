@@ -1,9 +1,9 @@
 // package com.ruoyi.system.mapper;
-package com.nnroad.client.mapper;
+package com.nnroad.contract.mapper;
 import java.util.List;
-import com.nnroad.client.domain.ContractUserform;
-import com.nnroad.client.domain.ClientCRMQuestion;
-import com.nnroad.client.domain.SysClient;
+import com.nnroad.contract.domain.ContractUserform;
+import com.nnroad.contract.domain.ClientCRMQuestion;
+import com.nnroad.contract.domain.SysClient;
 import com.nnroad.common.annotation.DataSource;
 import com.nnroad.common.enums.DataSourceType;
 import org.apache.ibatis.annotations.Mapper;

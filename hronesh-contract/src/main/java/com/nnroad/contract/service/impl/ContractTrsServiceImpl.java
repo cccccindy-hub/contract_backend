@@ -1,11 +1,11 @@
-package com.nnroad.system.service.impl;
+package com.nnroad.contract.service.impl;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.nnroad.system.mapper.ContractTrsMapper;
-import com.nnroad.system.domain.ContractTrs;
-import com.nnroad.system.service.IContractTrsService;
+import com.nnroad.contract.mapper.ContractTrsMapper;
+import com.nnroad.contract.domain.ContractTrs;
+import com.nnroad.contract.service.IContractTrsService;
 
 /**
  * 【请填写功能名称】Service业务层处理

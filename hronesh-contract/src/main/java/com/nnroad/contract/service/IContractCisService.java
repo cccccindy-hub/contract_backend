@@ -1,7 +1,7 @@
-package com.nnroad.system.service;
+package com.nnroad.contract.service;
 
 import java.util.List;
-import com.nnroad.system.domain.ContractCis;
+import com.nnroad.contract.domain.ContractCis;
 
 /**
  * 【请填写功能名称】Service接口
