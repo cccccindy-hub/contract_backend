@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nnroad.client.mapper.ClientOtherServiceFeePaymentMapper">
+
+    <resultMap type="ClientOtherServiceFeePayment" id="ClientOtherServiceFeePaymentResult">
+        <result property="id"    column="id"    />
+        <result property="clientOtherServiceFeeId"    column="client_other_service_fee_id"    />
+        <result property="serviceName"    column="service_name"    />
+        <result property="serviceCost"    column="service_cost"    />
+        <result property="serviceRemark"    column="service_remark"    />
+        <result property="paymentType"    column="payment_type"    />
+        <result property="wantedCurrency"    column="wanted_currency"    />
+        <result property="targetCurrency"    column="target_currency"    />
+        <result property="hasTax"    column="has_tax"    />
+        <result property="proofCount"    column="proof_count"    />
+        <result property="vatRate"    column="vat_rate"    />
+        <result property="exchangeRate"    column="exchange_rate"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createdAt"    column="created_at"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="modifiedAt"    column="modified_at"    />
+    </resultMap>
+
+    <sql id="selectClientOtherServiceFeePaymentVo">
+        select id, client_other_service_fee_id, service_name, service_cost, service_remark, payment_type, wanted_currency, target_currency, has_tax, proof_count, exchange_rate, vat_rate, create_by, created_at, update_by, modified_at from client_other_service_fee_payment
+    </sql>
+
+    <select id="selectClientOtherServiceFeePaymentList" parameterType="ClientOtherServiceFeePayment" resultMap="ClientOtherServiceFeePaymentResult">
+        <include refid="selectClientOtherServiceFeePaymentVo"/>
+        <where>
+            <if test="clientOtherServiceFeeId != null "> and client_other_service_fee_id = #{clientOtherServiceFeeId}</if>
+            <if test="serviceName != null  and serviceName != ''"> and service_name like concat('%', #{serviceName}, '%')</if>
+            <if test="serviceCost != null "> and service_cost = #{serviceCost}</if>
+            <if test="serviceRemark != null  and serviceRemark != ''"> and service_remark = #{serviceRemark}</if>
+            <if test="paymentType != null  and paymentType != ''"> and payment_type = #{paymentType}</if>
+            <if test="wantedCurrency != null  and wantedCurrency != ''"> and wanted_currency = #{wantedCurrency}</if>
+            <if test="targetCurrency != null  and targetCurrency != ''"> and target_currency = #{targetCurrency}</if>
+            <if test="hasTax != null "> and has_tax = #{hasTax}</if>
+            <if test="exchangeRate != null "> and exchange_rate = #{exchangeRate}</if>
+            <if test="proofCount != null "> and proof_count = #{proofCount}</if>
+            <if test="params.otherServiceFeeIds != null"> and client_other_service_fee_id in
+                <foreach collection="params.otherServiceFeeIds" open="(" item="item" separator="," close=")">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="params.serviceRemarks != null"> and
+                <foreach collection="params.serviceRemarks" open="(" item="item" separator="or" close=")">
+                    service_remark LIKE CONCAT('%', #{item}, '%')
+                </foreach>
+            </if>
+        </where>
+    </select>
+
+    <select id="selectClientOtherServiceFeePaymentById" parameterType="Long" resultMap="ClientOtherServiceFeePaymentResult">
+        <include refid="selectClientOtherServiceFeePaymentVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertClientOtherServiceFeePayment" parameterType="ClientOtherServiceFeePayment" useGeneratedKeys="true" keyProperty="id">
+        insert into client_other_service_fee_payment
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="clientOtherServiceFeeId != null">client_other_service_fee_id,</if>
+            <if test="serviceName != null">service_name,</if>
+            <if test="serviceCost != null">service_cost,</if>
+            <if test="serviceRemark != null">service_remark,</if>
+            <if test="paymentType != null">payment_type,</if>
+            <if test="wantedCurrency != null">wanted_currency,</if>
+            <if test="targetCurrency != null">target_currency,</if>
+            <if test="hasTax != null">has_tax,</if>
+            <if test="exchangeRate != null">exchange_rate,</if>
+            <if test="vatRate != null">vat_rate,</if>
+            <if test="proofCount != null">proof_count,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createdAt != null">created_at,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="modifiedAt != null">modified_at,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="clientOtherServiceFeeId != null">#{clientOtherServiceFeeId},</if>
+            <if test="serviceName != null">#{serviceName},</if>
+            <if test="serviceCost != null">#{serviceCost},</if>
+            <if test="serviceRemark != null">#{serviceRemark},</if>
+            <if test="paymentType != null">#{paymentType},</if>
+            <if test="wantedCurrency != null">#{wantedCurrency},</if>
+            <if test="targetCurrency != null">#{targetCurrency},</if>
+            <if test="hasTax != null">#{hasTax},</if>
+            <if test="exchangeRate != null">#{exchangeRate},</if>
+            <if test="vatRate != null">#{vatRate},</if>
+            <if test="proofCount != null">#{proofCount},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createdAt != null">#{createdAt},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="modifiedAt != null">#{modifiedAt},</if>
+        </trim>
+    </insert>
+
+    <insert id="insertBatch" parameterType="list" useGeneratedKeys="true" keyProperty="id">
+        <choose>
+            <when test="list != null and list.size() > 0">
+                insert into client_other_service_fee_payment(
+                client_other_service_fee_id,
+                payment_type,
+                service_name,
+                service_cost,
+                service_remark,
+                create_by,
+                update_by,
+                wanted_currency,
+                target_currency,
+                has_tax,
+                exchange_rate,
+                vat_rate,
+                proof_count
+                )
+                values
+                <foreach collection="list" item="item" index="index" separator=",">
+                    (#{item.clientOtherServiceFeeId},
+                    #{item.paymentType},
+                    #{item.serviceName},
+                    #{item.serviceCost},
+                    #{item.serviceRemark},
+                    #{item.createBy},
+                    #{item.updateBy},
+                    #{item.wantedCurrency},
+                    #{item.targetCurrency},
+                    #{item.hasTax},
+                    #{item.exchangeRate},
+                    #{item.vatRate},
+                    #{item.proofCount}
+                    )
+                </foreach>
+            </when>
+            <otherwise>
+                select 1
+            </otherwise>
+        </choose>
+    </insert>
+
+    <update id="updateClientOtherServiceFeePayment" parameterType="ClientOtherServiceFeePayment">
+        update client_other_service_fee_payment
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="clientOtherServiceFeeId != null">client_other_service_fee_id = #{clientOtherServiceFeeId},</if>
+            <if test="serviceName != null">service_name = #{serviceName},</if>
+            <if test="serviceCost != null">service_cost = #{serviceCost},</if>
+            <if test="serviceRemark != null">service_remark = #{serviceRemark},</if>
+            <if test="paymentType != null">payment_type = #{paymentType},</if>
+            <if test="wantedCurrency != null">wanted_currency = #{wantedCurrency},</if>
+            <if test="targetCurrency != null">target_currency = #{targetCurrency},</if>
+            <if test="hasTax != null">has_tax = #{hasTax},</if>
+            <if test="exchangeRate != null">exchange_rate = #{exchangeRate},</if>
+            <if test="vatRate != null">vat_rate = #{vatRate},</if>
+            <if test="proofCount != null">proof_count = #{proofCount},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createdAt != null">created_at = #{createdAt},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="modifiedAt != null">modified_at = #{modifiedAt},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteClientOtherServiceFeePaymentById" parameterType="Long">
+        delete from client_other_service_fee_payment where id = #{id}
+    </delete>
+
+    <delete id="deleteClientOtherServiceFeePaymentByIds" parameterType="String">
+        delete from client_other_service_fee_payment where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <delete id="deleteClientOtherServiceFeePaymentByPid" parameterType="Long">
+        delete from client_other_service_fee_payment where client_other_service_fee_id = #{clientOtherServiceFeeId}
+    </delete>
+</mapper>
