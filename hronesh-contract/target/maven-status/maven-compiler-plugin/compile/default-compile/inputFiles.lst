@@ -6,9 +6,7 @@
 /Users/guo/contract_backend/hronesh-contract/src/main/java/com/nnroad/contract/service/impl/ContractGeneralClausesServiceImpl.java
 /Users/guo/contract_backend/hronesh-contract/src/main/java/com/nnroad/contract/service/IContractGeneralClausesService.java
 /Users/guo/contract_backend/hronesh-contract/src/main/java/com/nnroad/contract/service/IContactRsService.java
-/Users/guo/contract_backend/hronesh-contract/src/main/java/com/nnroad/contract/domain/ClientInfo.java
 /Users/guo/contract_backend/hronesh-contract/src/main/java/com/nnroad/contract/service/impl/ContractTrsServiceImpl.java
-/Users/guo/contract_backend/hronesh-contract/src/main/java/com/nnroad/contract/constant/ClientConstants.java
 /Users/guo/contract_backend/hronesh-contract/src/main/java/com/nnroad/contract/mapper/ContractTrsMapper.java
 /Users/guo/contract_backend/hronesh-contract/src/main/java/com/nnroad/contract/service/IContactEorsService.java
 /Users/guo/contract_backend/hronesh-contract/src/main/java/com/nnroad/contract/domain/ContractIrs.java

@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nnroad.client.mapper.ContractPerfaceMapper">
+    
+    <resultMap type="ContractPerface" id="ContractPerfaceResult">
+        <result property="userId"    column="user_id"    />
+        <result property="clientNo"    column="client_no"    />
+        <result property="date"    column="date"    />
+        <result property="companyName"    column="company_name"    />
+        <result property="location"    column="location"    />
+        <result property="website"    column="website"    />
+        <result property="companyNumber"    column="company_number"    />
+        <result property="email"    column="email"    />
+        <result property="personName"    column="person_name"    />
+        <result property="personEmail"    column="person_email"    />
+        <result property="personNumber"    column="person_number"    />
+        <result property="personAddress"    column="person_address"    />
+        <result property="bank"    column="bank"    />
+        <result property="SWIFT"    column="SWIFT"    />
+        <result property="beneficiary"    column="beneficiary"    />
+        <result property="bankAccountNumber"    column="bank_account_number"    />
+        <result property="bankAddress"    column="bank_address"    />
+        <result property="hroneCompanyLimited"    column="HROne_Company_Limited"    />
+        <result property="hongKong"    column="Hong_Kong"    />
+        <result property="hroneWebsite"    column="hrone_website"    />
+        <result property="hronePhone"    column="hrone_phone"    />
+        <result property="hroneEmail"    column="hrone_email"    />
+        <result property="hroneContactPerson"    column="hrone_contact_person"    />
+        <result property="hroneContactEmail"    column="hrone_contact_email"    />
+        <result property="hroneContactNumber"    column="hrone_contact_number"    />
+        <result property="hroneContactAddress"    column="hrone_contact_address"    />
+        <result property="hroneBank"    column="hrone_bank"    />
+        <result property="hroneSwift"    column="hrone_SWIFT"    />
+        <result property="hroneBeneficiary"    column="hrone_beneficiary"    />
+        <result property="hroneBankAccountNumber"    column="hrone_bank_account_number"    />
+        <result property="hroneBankAddress"    column="hrone_bank_address"    />
+        <result property="serviceType"    column="service_type"    />
+        <result property="employerOfRecordService"    column="employer_of_record_service"    />
+        <result property="recruitmentService"    column="recruitment_service"    />
+        <result property="commercialInsuranceService"    column="commercial_insurance_service"    />
+        <result property="employeeAnnualTaxReturnService"    column="employee_annual_tax_return_service"    />
+        <result property="humanResourceConsultingService"    column="human_resource_consulting_service"    />
+        <result property="individualReferenceCheckService"    column="individual_reference_check_service"    />
+        <result property="clientSignature"    column="client_signature"    />
+        <result property="clientDate"    column="client_date"    />
+        <result property="hroneSignature"    column="HROne_signature"    />
+        <result property="hroneDate"    column="HROne_date"    />
+    </resultMap>
+
+    <sql id="selectContractPerfaceVo">
+        select user_id, client_no, date, company_name, location, website, company_number, email, person_name, person_email, person_number, person_address, bank, SWIFT, beneficiary, bank_account_number, bank_address, HROne_Company_Limited, Hong_Kong, hrone_website, hrone_phone, hrone_email, hrone_contact_person, hrone_contact_email, hrone_contact_number, hrone_contact_address, hrone_bank, hrone_SWIFT, hrone_beneficiary, hrone_bank_account_number, hrone_bank_address, service_type, employer_of_record_service, recruitment_service, commercial_insurance_service, employee_annual_tax_return_service, human_resource_consulting_service, individual_reference_check_service, client_signature, client_date, HROne_signature, HROne_date from contract_perface
+    </sql>
+
+    <select id="selectContractPerfaceList" parameterType="ContractPerface" resultMap="ContractPerfaceResult">
+        <include refid="selectContractPerfaceVo"/>
+        <where>  
+            <if test="clientNo != null  and clientNo != ''"> and client_no = #{clientNo}</if>
+            <if test="date != null "> and date = #{date}</if>
+            <if test="companyName != null  and companyName != ''"> and company_name like concat('%', #{companyName}, '%')</if>
+            <if test="location != null  and location != ''"> and location = #{location}</if>
+            <if test="website != null  and website != ''"> and website = #{website}</if>
+            <if test="companyNumber != null  and companyNumber != ''"> and company_number = #{companyNumber}</if>
+            <if test="email != null  and email != ''"> and email = #{email}</if>
+            <if test="personName != null  and personName != ''"> and person_name like concat('%', #{personName}, '%')</if>
+            <if test="personEmail != null  and personEmail != ''"> and person_email = #{personEmail}</if>
+            <if test="personNumber != null  and personNumber != ''"> and person_number = #{personNumber}</if>
+            <if test="personAddress != null  and personAddress != ''"> and person_address = #{personAddress}</if>
+            <if test="bank != null  and bank != ''"> and bank = #{bank}</if>
+            <if test="SWIFT != null  and SWIFT != ''"> and SWIFT = #{SWIFT}</if>
+            <if test="beneficiary != null  and beneficiary != ''"> and beneficiary = #{beneficiary}</if>
+            <if test="bankAccountNumber != null  and bankAccountNumber != ''"> and bank_account_number = #{bankAccountNumber}</if>
+            <if test="bankAddress != null  and bankAddress != ''"> and bank_address = #{bankAddress}</if>
+            <if test="hroneCompanyLimited != null  and hroneCompanyLimited != ''"> and HROne_Company_Limited = #{hroneCompanyLimited}</if>
+            <if test="hongKong != null  and hongKong != ''"> and Hong_Kong = #{hongKong}</if>
+            <if test="hroneWebsite != null  and hroneWebsite != ''"> and hrone_website = #{hroneWebsite}</if>
+            <if test="hronePhone != null  and hronePhone != ''"> and hrone_phone = #{hronePhone}</if>
+            <if test="hroneEmail != null  and hroneEmail != ''"> and hrone_email = #{hroneEmail}</if>
+            <if test="hroneContactPerson != null  and hroneContactPerson != ''"> and hrone_contact_person = #{hroneContactPerson}</if>
+            <if test="hroneContactEmail != null  and hroneContactEmail != ''"> and hrone_contact_email = #{hroneContactEmail}</if>
+            <if test="hroneContactNumber != null  and hroneContactNumber != ''"> and hrone_contact_number = #{hroneContactNumber}</if>
+            <if test="hroneContactAddress != null  and hroneContactAddress != ''"> and hrone_contact_address = #{hroneContactAddress}</if>
+            <if test="hroneBank != null  and hroneBank != ''"> and hrone_bank = #{hroneBank}</if>
+            <if test="hroneSwift != null  and hroneSwift != ''"> and hrone_SWIFT = #{hroneSwift}</if>
+            <if test="hroneBeneficiary != null  and hroneBeneficiary != ''"> and hrone_beneficiary = #{hroneBeneficiary}</if>
+            <if test="hroneBankAccountNumber != null  and hroneBankAccountNumber != ''"> and hrone_bank_account_number = #{hroneBankAccountNumber}</if>
+            <if test="hroneBankAddress != null  and hroneBankAddress != ''"> and hrone_bank_address = #{hroneBankAddress}</if>
+            <if test="serviceType != null  and serviceType != ''"> and service_type = #{serviceType}</if>
+            <if test="employerOfRecordService != null "> and employer_of_record_service = #{employerOfRecordService}</if>
+            <if test="recruitmentService != null "> and recruitment_service = #{recruitmentService}</if>
+            <if test="commercialInsuranceService != null "> and commercial_insurance_service = #{commercialInsuranceService}</if>
+            <if test="employeeAnnualTaxReturnService != null "> and employee_annual_tax_return_service = #{employeeAnnualTaxReturnService}</if>
+            <if test="humanResourceConsultingService != null "> and human_resource_consulting_service = #{humanResourceConsultingService}</if>
+            <if test="individualReferenceCheckService != null "> and individual_reference_check_service = #{individualReferenceCheckService}</if>
+            <if test="clientSignature != null  and clientSignature != ''"> and client_signature = #{clientSignature}</if>
+            <if test="clientDate != null "> and client_date = #{clientDate}</if>
+            <if test="hroneSignature != null  and hroneSignature != ''"> and HROne_signature = #{hroneSignature}</if>
+            <if test="hroneDate != null "> and HROne_date = #{hroneDate}</if>
+        </where>
+    </select>
+    
+    <select id="selectContractPerfaceByUserId" parameterType="Long" resultMap="ContractPerfaceResult">
+        <include refid="selectContractPerfaceVo"/>
+        where user_id = #{userId}
+    </select>
+
+    <insert id="insertContractPerface" parameterType="ContractPerface" useGeneratedKeys="true" keyProperty="userId">
+        insert into contract_perface
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="clientNo != null and clientNo != ''">client_no,</if>
+            <if test="date != null">date,</if>
+            <if test="companyName != null and companyName != ''">company_name,</if>
+            <if test="location != null and location != ''">location,</if>
+            <if test="website != null and website != ''">website,</if>
+            <if test="companyNumber != null and companyNumber != ''">company_number,</if>
+            <if test="email != null and email != ''">email,</if>
+            <if test="personName != null and personName != ''">person_name,</if>
+            <if test="personEmail != null and personEmail != ''">person_email,</if>
+            <if test="personNumber != null and personNumber != ''">person_number,</if>
+            <if test="personAddress != null and personAddress != ''">person_address,</if>
+            <if test="bank != null and bank != ''">bank,</if>
+            <if test="SWIFT != null and SWIFT != ''">SWIFT,</if>
+            <if test="beneficiary != null and beneficiary != ''">beneficiary,</if>
+            <if test="bankAccountNumber != null and bankAccountNumber != ''">bank_account_number,</if>
+            <if test="bankAddress != null and bankAddress != ''">bank_address,</if>
+            <if test="hroneCompanyLimited != null">HROne_Company_Limited,</if>
+            <if test="hongKong != null">Hong_Kong,</if>
+            <if test="hroneWebsite != null">hrone_website,</if>
+            <if test="hronePhone != null">hrone_phone,</if>
+            <if test="hroneEmail != null">hrone_email,</if>
+            <if test="hroneContactPerson != null">hrone_contact_person,</if>
+            <if test="hroneContactEmail != null">hrone_contact_email,</if>
+            <if test="hroneContactNumber != null">hrone_contact_number,</if>
+            <if test="hroneContactAddress != null">hrone_contact_address,</if>
+            <if test="hroneBank != null">hrone_bank,</if>
+            <if test="hroneSwift != null">hrone_SWIFT,</if>
+            <if test="hroneBeneficiary != null">hrone_beneficiary,</if>
+            <if test="hroneBankAccountNumber != null">hrone_bank_account_number,</if>
+            <if test="hroneBankAddress != null">hrone_bank_address,</if>
+            <if test="serviceType != null">service_type,</if>
+            <if test="employerOfRecordService != null">employer_of_record_service,</if>
+            <if test="recruitmentService != null">recruitment_service,</if>
+            <if test="commercialInsuranceService != null">commercial_insurance_service,</if>
+            <if test="employeeAnnualTaxReturnService != null">employee_annual_tax_return_service,</if>
+            <if test="humanResourceConsultingService != null">human_resource_consulting_service,</if>
+            <if test="individualReferenceCheckService != null">individual_reference_check_service,</if>
+            <if test="clientSignature != null and clientSignature != ''">client_signature,</if>
+            <if test="clientDate != null">client_date,</if>
+            <if test="hroneSignature != null and hroneSignature != ''">HROne_signature,</if>
+            <if test="hroneDate != null">HROne_date,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="clientNo != null and clientNo != ''">#{clientNo},</if>
+            <if test="date != null">#{date},</if>
+            <if test="companyName != null and companyName != ''">#{companyName},</if>
+            <if test="location != null and location != ''">#{location},</if>
+            <if test="website != null and website != ''">#{website},</if>
+            <if test="companyNumber != null and companyNumber != ''">#{companyNumber},</if>
+            <if test="email != null and email != ''">#{email},</if>
+            <if test="personName != null and personName != ''">#{personName},</if>
+            <if test="personEmail != null and personEmail != ''">#{personEmail},</if>
+            <if test="personNumber != null and personNumber != ''">#{personNumber},</if>
+            <if test="personAddress != null and personAddress != ''">#{personAddress},</if>
+            <if test="bank != null and bank != ''">#{bank},</if>
+            <if test="SWIFT != null and SWIFT != ''">#{SWIFT},</if>
+            <if test="beneficiary != null and beneficiary != ''">#{beneficiary},</if>
+            <if test="bankAccountNumber != null and bankAccountNumber != ''">#{bankAccountNumber},</if>
+            <if test="bankAddress != null and bankAddress != ''">#{bankAddress},</if>
+            <if test="hroneCompanyLimited != null">#{hroneCompanyLimited},</if>
+            <if test="hongKong != null">#{hongKong},</if>
+            <if test="hroneWebsite != null">#{hroneWebsite},</if>
+            <if test="hronePhone != null">#{hronePhone},</if>
+            <if test="hroneEmail != null">#{hroneEmail},</if>
+            <if test="hroneContactPerson != null">#{hroneContactPerson},</if>
+            <if test="hroneContactEmail != null">#{hroneContactEmail},</if>
+            <if test="hroneContactNumber != null">#{hroneContactNumber},</if>
+            <if test="hroneContactAddress != null">#{hroneContactAddress},</if>
+            <if test="hroneBank != null">#{hroneBank},</if>
+            <if test="hroneSwift != null">#{hroneSwift},</if>
+            <if test="hroneBeneficiary != null">#{hroneBeneficiary},</if>
+            <if test="hroneBankAccountNumber != null">#{hroneBankAccountNumber},</if>
+            <if test="hroneBankAddress != null">#{hroneBankAddress},</if>
+            <if test="serviceType != null">#{serviceType},</if>
+            <if test="employerOfRecordService != null">#{employerOfRecordService},</if>
+            <if test="recruitmentService != null">#{recruitmentService},</if>
+            <if test="commercialInsuranceService != null">#{commercialInsuranceService},</if>
+            <if test="employeeAnnualTaxReturnService != null">#{employeeAnnualTaxReturnService},</if>
+            <if test="humanResourceConsultingService != null">#{humanResourceConsultingService},</if>
+            <if test="individualReferenceCheckService != null">#{individualReferenceCheckService},</if>
+            <if test="clientSignature != null and clientSignature != ''">#{clientSignature},</if>
+            <if test="clientDate != null">#{clientDate},</if>
+            <if test="hroneSignature != null and hroneSignature != ''">#{hroneSignature},</if>
+            <if test="hroneDate != null">#{hroneDate},</if>
+         </trim>
+    </insert>
+
+    <update id="updateContractPerface" parameterType="ContractPerface">
+        update contract_perface
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="clientNo != null and clientNo != ''">client_no = #{clientNo},</if>
+            <if test="date != null">date = #{date},</if>
+            <if test="companyName != null and companyName != ''">company_name = #{companyName},</if>
+            <if test="location != null and location != ''">location = #{location},</if>
+            <if test="website != null and website != ''">website = #{website},</if>
+            <if test="companyNumber != null and companyNumber != ''">company_number = #{companyNumber},</if>
+            <if test="email != null and email != ''">email = #{email},</if>
+            <if test="personName != null and personName != ''">person_name = #{personName},</if>
+            <if test="personEmail != null and personEmail != ''">person_email = #{personEmail},</if>
+            <if test="personNumber != null and personNumber != ''">person_number = #{personNumber},</if>
+            <if test="personAddress != null and personAddress != ''">person_address = #{personAddress},</if>
+            <if test="bank != null and bank != ''">bank = #{bank},</if>
+            <if test="SWIFT != null and SWIFT != ''">SWIFT = #{SWIFT},</if>
+            <if test="beneficiary != null and beneficiary != ''">beneficiary = #{beneficiary},</if>
+            <if test="bankAccountNumber != null and bankAccountNumber != ''">bank_account_number = #{bankAccountNumber},</if>
+            <if test="bankAddress != null and bankAddress != ''">bank_address = #{bankAddress},</if>
+            <if test="hroneCompanyLimited != null">HROne_Company_Limited = #{hroneCompanyLimited},</if>
+            <if test="hongKong != null">Hong_Kong = #{hongKong},</if>
+            <if test="hroneWebsite != null">hrone_website = #{hroneWebsite},</if>
+            <if test="hronePhone != null">hrone_phone = #{hronePhone},</if>
+            <if test="hroneEmail != null">hrone_email = #{hroneEmail},</if>
+            <if test="hroneContactPerson != null">hrone_contact_person = #{hroneContactPerson},</if>
+            <if test="hroneContactEmail != null">hrone_contact_email = #{hroneContactEmail},</if>
+            <if test="hroneContactNumber != null">hrone_contact_number = #{hroneContactNumber},</if>
+            <if test="hroneContactAddress != null">hrone_contact_address = #{hroneContactAddress},</if>
+            <if test="hroneBank != null">hrone_bank = #{hroneBank},</if>
+            <if test="hroneSwift != null">hrone_SWIFT = #{hroneSwift},</if>
+            <if test="hroneBeneficiary != null">hrone_beneficiary = #{hroneBeneficiary},</if>
+            <if test="hroneBankAccountNumber != null">hrone_bank_account_number = #{hroneBankAccountNumber},</if>
+            <if test="hroneBankAddress != null">hrone_bank_address = #{hroneBankAddress},</if>
+            <if test="serviceType != null">service_type = #{serviceType},</if>
+            <if test="employerOfRecordService != null">employer_of_record_service = #{employerOfRecordService},</if>
+            <if test="recruitmentService != null">recruitment_service = #{recruitmentService},</if>
+            <if test="commercialInsuranceService != null">commercial_insurance_service = #{commercialInsuranceService},</if>
+            <if test="employeeAnnualTaxReturnService != null">employee_annual_tax_return_service = #{employeeAnnualTaxReturnService},</if>
+            <if test="humanResourceConsultingService != null">human_resource_consulting_service = #{humanResourceConsultingService},</if>
+            <if test="individualReferenceCheckService != null">individual_reference_check_service = #{individualReferenceCheckService},</if>
+            <if test="clientSignature != null and clientSignature != ''">client_signature = #{clientSignature},</if>
+            <if test="clientDate != null">client_date = #{clientDate},</if>
+            <if test="hroneSignature != null and hroneSignature != ''">HROne_signature = #{hroneSignature},</if>
+            <if test="hroneDate != null">HROne_date = #{hroneDate},</if>
+        </trim>
+        where user_id = #{userId}
+    </update>
+
+    <delete id="deleteContractPerfaceByUserId" parameterType="Long">
+        delete from contract_perface where user_id = #{userId}
+    </delete>
+
+    <delete id="deleteContractPerfaceByUserIds" parameterType="String">
+        delete from contract_perface where user_id in 
+        <foreach item="userId" collection="array" open="(" separator="," close=")">
+            #{userId}
+        </foreach>
+    </delete>
+</mapper>
