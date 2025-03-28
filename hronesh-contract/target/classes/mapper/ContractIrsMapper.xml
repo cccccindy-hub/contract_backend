@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nnroad.system.mapper.ContractIrsMapper">
+    
+    <resultMap type="ContractIrs" id="ContractIrsResult">
+        <result property="strIndex"    column="str_index"    />
+        <result property="numIndex"    column="num_index"    />
+        <result property="rcs21"    column="RCS_2_1"    />
+        <result property="rcs22"    column="RCS_2_2"    />
+        <result property="rcs23"    column="RCS_2_3"    />
+        <result property="rcs24"    column="RCS_2_4"    />
+        <result property="userId"    column="user_id"    />
+    </resultMap>
+
+    <sql id="selectContractIrsVo">
+        select str_index, num_index, RCS_2_1, RCS_2_2, RCS_2_3, RCS_2_4, user_id from contract_irs
+    </sql>
+
+    <select id="selectContractIrsList" parameterType="ContractIrs" resultMap="ContractIrsResult">
+        <include refid="selectContractIrsVo"/>
+        <where>  
+            <if test="strIndex != null  and strIndex != ''"> and str_index = #{strIndex}</if>
+            <if test="numIndex != null "> and num_index = #{numIndex}</if>
+            <if test="rcs21 != null "> and RCS_2_1 = #{rcs21}</if>
+            <if test="rcs22 != null "> and RCS_2_2 = #{rcs22}</if>
+            <if test="rcs23 != null "> and RCS_2_3 = #{rcs23}</if>
+            <if test="rcs24 != null "> and RCS_2_4 = #{rcs24}</if>
+        </where>
+    </select>
+    
+    <select id="selectContractIrsByUserId" parameterType="String" resultMap="ContractIrsResult">
+        <include refid="selectContractIrsVo"/>
+        where user_id = #{userId}
+    </select>
+
+    <insert id="insertContractIrs" parameterType="ContractIrs">
+        insert into contract_irs
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="strIndex != null and strIndex != ''">str_index,</if>
+            <if test="numIndex != null">num_index,</if>
+            <if test="rcs21 != null">RCS_2_1,</if>
+            <if test="rcs22 != null">RCS_2_2,</if>
+            <if test="rcs23 != null">RCS_2_3,</if>
+            <if test="rcs24 != null">RCS_2_4,</if>
+            <if test="userId != null">user_id,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="strIndex != null and strIndex != ''">#{strIndex},</if>
+            <if test="numIndex != null">#{numIndex},</if>
+            <if test="rcs21 != null">#{rcs21},</if>
+            <if test="rcs22 != null">#{rcs22},</if>
+            <if test="rcs23 != null">#{rcs23},</if>
+            <if test="rcs24 != null">#{rcs24},</if>
+            <if test="userId != null">#{userId},</if>
+         </trim>
+    </insert>
+
+    <update id="updateContractIrs" parameterType="ContractIrs">
+        update contract_irs
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="strIndex != null and strIndex != ''">str_index = #{strIndex},</if>
+            <if test="numIndex != null">num_index = #{numIndex},</if>
+            <if test="rcs21 != null">RCS_2_1 = #{rcs21},</if>
+            <if test="rcs22 != null">RCS_2_2 = #{rcs22},</if>
+            <if test="rcs23 != null">RCS_2_3 = #{rcs23},</if>
+            <if test="rcs24 != null">RCS_2_4 = #{rcs24},</if>
+        </trim>
+        where user_id = #{userId}
+    </update>
+
+    <delete id="deleteContractIrsByUserId" parameterType="String">
+        delete from contract_irs where user_id = #{userId}
+    </delete>
+
+    <delete id="deleteContractIrsByUserIds" parameterType="String">
+        delete from contract_irs where user_id in 
+        <foreach item="userId" collection="array" open="(" separator="," close=")">
+            #{userId}
+        </foreach>
+    </delete>
+</mapper>

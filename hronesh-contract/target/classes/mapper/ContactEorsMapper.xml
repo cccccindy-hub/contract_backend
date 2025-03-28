@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nnroad.system.mapper.ContactEorsMapper">
+    
+    <resultMap type="ContactEors" id="ContactEorsResult">
+        <result property="strIndex"    column="str_index"    />
+        <result property="numIndex"    column="num_index"    />
+        <result property="EOR"    column="EOR"    />
+        <result property="eor1"    column="EOR_1"    />
+        <result property="eor1Value"    column="EOR_1_value"    />
+        <result property="eor2"    column="EOR_2"    />
+        <result property="eor3"    column="EOR_3"    />
+        <result property="eor4"    column="EOR_4"    />
+        <result property="eor5"    column="EOR_5"    />
+        <result property="eor6"    column="EOR_6"    />
+        <result property="flatFeeOption"    column="flat_fee_option"    />
+        <result property="flatFee1"    column="flat_fee_1"    />
+        <result property="flatFee2"    column="flat_fee_2"    />
+        <result property="flatFee3"    column="flat_fee_3"    />
+        <result property="flatFee4"    column="flat_fee_4"    />
+        <result property="appa7"    column="appA_7"    />
+        <result property="appa81"    column="appA_8_1"    />
+        <result property="appa82"    column="appA_8_2"    />
+        <result property="appa83"    column="appA_8_3"    />
+        <result property="appa8N1"    column="appA_8_n1"    />
+        <result property="other1"    column="other_1"    />
+        <result property="appb1"    column="appB_1"    />
+        <result property="appb2"    column="appB_2"    />
+        <result property="appb3"    column="appB_3"    />
+        <result property="appb4"    column="appB_4"    />
+        <result property="appb5"    column="appB_5"    />
+        <result property="appb6"    column="appB_6"    />
+        <result property="appb7"    column="appB_7"    />
+        <result property="appb81"    column="appB_8_1"    />
+        <result property="appb82"    column="appB_8_2"    />
+        <result property="appb9"    column="appB_9"    />
+        <result property="appb101"    column="appB_10_1"    />
+        <result property="appb102"    column="appB_10_2"    />
+        <result property="appb11"    column="appB_11"    />
+        <result property="appb12"    column="appB_12"    />
+        <result property="appb13"    column="appB_13"    />
+        <result property="appb14"    column="appB_14"    />
+        <result property="userId"    column="user_id"    />
+    </resultMap>
+
+    <sql id="selectContactEorsVo">
+        select str_index, num_index, EOR, EOR_1, EOR_1_value, EOR_2, EOR_3, EOR_4, EOR_5, EOR_6, flat_fee_option, flat_fee_1, flat_fee_2, flat_fee_3, flat_fee_4, appA_7, appA_8_1, appA_8_2, appA_8_3, appA_8_n1, other_1, appB_1, appB_2, appB_3, appB_4, appB_5, appB_6, appB_7, appB_8_1, appB_8_2, appB_9, appB_10_1, appB_10_2, appB_11, appB_12, appB_13, appB_14, user_id from contact_eors
+    </sql>
+
+    <select id="selectContactEorsList" parameterType="ContactEors" resultMap="ContactEorsResult">
+        <include refid="selectContactEorsVo"/>
+        <where>  
+            <if test="strIndex != null  and strIndex != ''"> and str_index = #{strIndex}</if>
+            <if test="numIndex != null "> and num_index = #{numIndex}</if>
+            <if test="EOR != null "> and EOR = #{EOR}</if>
+            <if test="eor1 != null  and eor1 != ''"> and EOR_1 = #{eor1}</if>
+            <if test="eor1Value != null "> and EOR_1_value = #{eor1Value}</if>
+            <if test="eor2 != null "> and EOR_2 = #{eor2}</if>
+            <if test="eor3 != null "> and EOR_3 = #{eor3}</if>
+            <if test="eor4 != null "> and EOR_4 = #{eor4}</if>
+            <if test="eor5 != null "> and EOR_5 = #{eor5}</if>
+            <if test="eor6 != null "> and EOR_6 = #{eor6}</if>
+            <if test="flatFeeOption != null "> and flat_fee_option = #{flatFeeOption}</if>
+            <if test="flatFee1 != null "> and flat_fee_1 = #{flatFee1}</if>
+            <if test="flatFee2 != null "> and flat_fee_2 = #{flatFee2}</if>
+            <if test="flatFee3 != null "> and flat_fee_3 = #{flatFee3}</if>
+            <if test="flatFee4 != null "> and flat_fee_4 = #{flatFee4}</if>
+            <if test="appa7 != null "> and appA_7 = #{appa7}</if>
+            <if test="appa81 != null "> and appA_8_1 = #{appa81}</if>
+            <if test="appa82 != null "> and appA_8_2 = #{appa82}</if>
+            <if test="appa83 != null "> and appA_8_3 = #{appa83}</if>
+            <if test="appa8N1 != null "> and appA_8_n1 = #{appa8N1}</if>
+            <if test="other1 != null "> and other_1 = #{other1}</if>
+            <if test="appb1 != null  and appb1 != ''"> and appB_1 = #{appb1}</if>
+            <if test="appb2 != null  and appb2 != ''"> and appB_2 = #{appb2}</if>
+            <if test="appb3 != null  and appb3 != ''"> and appB_3 = #{appb3}</if>
+            <if test="appb4 != null  and appb4 != ''"> and appB_4 = #{appb4}</if>
+            <if test="appb5 != null  and appb5 != ''"> and appB_5 = #{appb5}</if>
+            <if test="appb6 != null  and appb6 != ''"> and appB_6 = #{appb6}</if>
+            <if test="appb7 != null  and appb7 != ''"> and appB_7 = #{appb7}</if>
+            <if test="appb81 != null  and appb81 != ''"> and appB_8_1 = #{appb81}</if>
+            <if test="appb82 != null  and appb82 != ''"> and appB_8_2 = #{appb82}</if>
+            <if test="appb9 != null  and appb9 != ''"> and appB_9 = #{appb9}</if>
+            <if test="appb101 != null  and appb101 != ''"> and appB_10_1 = #{appb101}</if>
+            <if test="appb102 != null  and appb102 != ''"> and appB_10_2 = #{appb102}</if>
+            <if test="appb11 != null  and appb11 != ''"> and appB_11 = #{appb11}</if>
+            <if test="appb12 != null  and appb12 != ''"> and appB_12 = #{appb12}</if>
+            <if test="appb13 != null  and appb13 != ''"> and appB_13 = #{appb13}</if>
+            <if test="appb14 != null  and appb14 != ''"> and appB_14 = #{appb14}</if>
+        </where>
+    </select>
+    
+    <select id="selectContactEorsByUserId" parameterType="String" resultMap="ContactEorsResult">
+        <include refid="selectContactEorsVo"/>
+        where user_id = #{userId}
+    </select>
+
+    <insert id="insertContactEors" parameterType="ContactEors">
+        insert into contact_eors
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="strIndex != null">str_index,</if>
+            <if test="numIndex != null">num_index,</if>
+            <if test="EOR != null">EOR,</if>
+            <if test="eor1 != null">EOR_1,</if>
+            <if test="eor1Value != null">EOR_1_value,</if>
+            <if test="eor2 != null">EOR_2,</if>
+            <if test="eor3 != null">EOR_3,</if>
+            <if test="eor4 != null">EOR_4,</if>
+            <if test="eor5 != null">EOR_5,</if>
+            <if test="eor6 != null">EOR_6,</if>
+            <if test="flatFeeOption != null">flat_fee_option,</if>
+            <if test="flatFee1 != null">flat_fee_1,</if>
+            <if test="flatFee2 != null">flat_fee_2,</if>
+            <if test="flatFee3 != null">flat_fee_3,</if>
+            <if test="flatFee4 != null">flat_fee_4,</if>
+            <if test="appa7 != null">appA_7,</if>
+            <if test="appa81 != null">appA_8_1,</if>
+            <if test="appa82 != null">appA_8_2,</if>
+            <if test="appa83 != null">appA_8_3,</if>
+            <if test="appa8N1 != null">appA_8_n1,</if>
+            <if test="other1 != null">other_1,</if>
+            <if test="appb1 != null">appB_1,</if>
+            <if test="appb2 != null">appB_2,</if>
+            <if test="appb3 != null">appB_3,</if>
+            <if test="appb4 != null">appB_4,</if>
+            <if test="appb5 != null">appB_5,</if>
+            <if test="appb6 != null">appB_6,</if>
+            <if test="appb7 != null">appB_7,</if>
+            <if test="appb81 != null">appB_8_1,</if>
+            <if test="appb82 != null">appB_8_2,</if>
+            <if test="appb9 != null">appB_9,</if>
+            <if test="appb101 != null">appB_10_1,</if>
+            <if test="appb102 != null">appB_10_2,</if>
+            <if test="appb11 != null">appB_11,</if>
+            <if test="appb12 != null">appB_12,</if>
+            <if test="appb13 != null">appB_13,</if>
+            <if test="appb14 != null">appB_14,</if>
+            <if test="userId != null">user_id,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="strIndex != null">#{strIndex},</if>
+            <if test="numIndex != null">#{numIndex},</if>
+            <if test="EOR != null">#{EOR},</if>
+            <if test="eor1 != null">#{eor1},</if>
+            <if test="eor1Value != null">#{eor1Value},</if>
+            <if test="eor2 != null">#{eor2},</if>
+            <if test="eor3 != null">#{eor3},</if>
+            <if test="eor4 != null">#{eor4},</if>
+            <if test="eor5 != null">#{eor5},</if>
+            <if test="eor6 != null">#{eor6},</if>
+            <if test="flatFeeOption != null">#{flatFeeOption},</if>
+            <if test="flatFee1 != null">#{flatFee1},</if>
+            <if test="flatFee2 != null">#{flatFee2},</if>
+            <if test="flatFee3 != null">#{flatFee3},</if>
+            <if test="flatFee4 != null">#{flatFee4},</if>
+            <if test="appa7 != null">#{appa7},</if>
+            <if test="appa81 != null">#{appa81},</if>
+            <if test="appa82 != null">#{appa82},</if>
+            <if test="appa83 != null">#{appa83},</if>
+            <if test="appa8N1 != null">#{appa8N1},</if>
+            <if test="other1 != null">#{other1},</if>
+            <if test="appb1 != null">#{appb1},</if>
+            <if test="appb2 != null">#{appb2},</if>
+            <if test="appb3 != null">#{appb3},</if>
+            <if test="appb4 != null">#{appb4},</if>
+            <if test="appb5 != null">#{appb5},</if>
+            <if test="appb6 != null">#{appb6},</if>
+            <if test="appb7 != null">#{appb7},</if>
+            <if test="appb81 != null">#{appb81},</if>
+            <if test="appb82 != null">#{appb82},</if>
+            <if test="appb9 != null">#{appb9},</if>
+            <if test="appb101 != null">#{appb101},</if>
+            <if test="appb102 != null">#{appb102},</if>
+            <if test="appb11 != null">#{appb11},</if>
+            <if test="appb12 != null">#{appb12},</if>
+            <if test="appb13 != null">#{appb13},</if>
+            <if test="appb14 != null">#{appb14},</if>
+            <if test="userId != null">#{userId},</if>
+         </trim>
+    </insert>
+
+    <update id="updateContactEors" parameterType="ContactEors">
+        update contact_eors
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="strIndex != null">str_index = #{strIndex},</if>
+            <if test="numIndex != null">num_index = #{numIndex},</if>
+            <if test="EOR != null">EOR = #{EOR},</if>
+            <if test="eor1 != null">EOR_1 = #{eor1},</if>
+            <if test="eor1Value != null">EOR_1_value = #{eor1Value},</if>
+            <if test="eor2 != null">EOR_2 = #{eor2},</if>
+            <if test="eor3 != null">EOR_3 = #{eor3},</if>
+            <if test="eor4 != null">EOR_4 = #{eor4},</if>
+            <if test="eor5 != null">EOR_5 = #{eor5},</if>
+            <if test="eor6 != null">EOR_6 = #{eor6},</if>
+            <if test="flatFeeOption != null">flat_fee_option = #{flatFeeOption},</if>
+            <if test="flatFee1 != null">flat_fee_1 = #{flatFee1},</if>
+            <if test="flatFee2 != null">flat_fee_2 = #{flatFee2},</if>
+            <if test="flatFee3 != null">flat_fee_3 = #{flatFee3},</if>
+            <if test="flatFee4 != null">flat_fee_4 = #{flatFee4},</if>
+            <if test="appa7 != null">appA_7 = #{appa7},</if>
+            <if test="appa81 != null">appA_8_1 = #{appa81},</if>
+            <if test="appa82 != null">appA_8_2 = #{appa82},</if>
+            <if test="appa83 != null">appA_8_3 = #{appa83},</if>
+            <if test="appa8N1 != null">appA_8_n1 = #{appa8N1},</if>
+            <if test="other1 != null">other_1 = #{other1},</if>
+            <if test="appb1 != null">appB_1 = #{appb1},</if>
+            <if test="appb2 != null">appB_2 = #{appb2},</if>
+            <if test="appb3 != null">appB_3 = #{appb3},</if>
+            <if test="appb4 != null">appB_4 = #{appb4},</if>
+            <if test="appb5 != null">appB_5 = #{appb5},</if>
+            <if test="appb6 != null">appB_6 = #{appb6},</if>
+            <if test="appb7 != null">appB_7 = #{appb7},</if>
+            <if test="appb81 != null">appB_8_1 = #{appb81},</if>
+            <if test="appb82 != null">appB_8_2 = #{appb82},</if>
+            <if test="appb9 != null">appB_9 = #{appb9},</if>
+            <if test="appb101 != null">appB_10_1 = #{appb101},</if>
+            <if test="appb102 != null">appB_10_2 = #{appb102},</if>
+            <if test="appb11 != null">appB_11 = #{appb11},</if>
+            <if test="appb12 != null">appB_12 = #{appb12},</if>
+            <if test="appb13 != null">appB_13 = #{appb13},</if>
+            <if test="appb14 != null">appB_14 = #{appb14},</if>
+        </trim>
+        where user_id = #{userId}
+    </update>
+
+    <delete id="deleteContactEorsByUserId" parameterType="String">
+        delete from contact_eors where user_id = #{userId}
+    </delete>
+
+    <delete id="deleteContactEorsByUserIds" parameterType="String">
+        delete from contact_eors where user_id in 
+        <foreach item="userId" collection="array" open="(" separator="," close=")">
+            #{userId}
+        </foreach>
+    </delete>
+</mapper>
