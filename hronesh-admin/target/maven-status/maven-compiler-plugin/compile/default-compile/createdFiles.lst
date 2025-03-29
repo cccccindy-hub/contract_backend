@@ -10,9 +10,7 @@ com/nnroad/web/controller/employee/EmployeeInfoController.class
 com/nnroad/web/controller/TestLogController.class
 com/nnroad/web/controller/finance/DepositController.class
 com/nnroad/web/controller/client/ClientController.class
-com/nnroad/web/controller/contract/ContactEorsController.class
 com/nnroad/web/controller/membermgt/MemberEmployeeBaseinfoController.class
-com/nnroad/web/controller/contract/ContactRsController.class
 com/nnroad/web/controller/client/ClientQuestionController$1.class
 com/nnroad/web/controller/datacenter/DCTableResultController.class
 com/nnroad/web/controller/contract/ContractCisController.class
@@ -61,6 +59,7 @@ com/nnroad/web/controller/finance/FinanceReportController.class
 com/nnroad/web/controller/vendor/BusinessTypeController.class
 com/nnroad/web/controller/payroll/PsCalculationResultController.class
 com/nnroad/web/controller/finance/FinanceDcController.class
+com/nnroad/web/controller/contract/ContractRsController.class
 com/nnroad/NNRoadApplication.class
 com/nnroad/web/controller/lead/ClientLeadsController.class
 com/nnroad/web/controller/tool/UserEntity.class
@@ -68,6 +67,7 @@ com/nnroad/web/controller/lead/LeadsBDQuestionController$1.class
 com/nnroad/web/controller/payroll/IITReportController.class
 com/nnroad/web/controller/finance/BankBeginningBalanceController.class
 com/nnroad/web/controller/lead/ClientLeadsConfigController.class
+com/nnroad/web/controller/contract/ContractEorsController.class
 com/nnroad/web/controller/system/SysRoleController.class
 com/nnroad/web/controller/monitor/SysUserOnlineController.class
 com/nnroad/web/controller/system/SysPostController.class

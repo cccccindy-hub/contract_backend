@@ -2,9 +2,9 @@
 <!DOCTYPE mapper
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.nnroad.contract.mapper.ContactEorsMapper">
+<mapper namespace="com.nnroad.contract.mapper.ContractEorsMapper">
     
-    <resultMap type="ContactEors" id="ContactEorsResult">
+    <resultMap type="ContractEors" id="ContractEorsResult">
         <result property="strIndex"    column="str_index"    />
         <result property="numIndex"    column="num_index"    />
         <result property="EOR"    column="EOR"    />
@@ -45,12 +45,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="userId"    column="user_id"    />
     </resultMap>
 
-    <sql id="selectContactEorsVo">
+    <sql id="selectContractEorsVo">
         select str_index, num_index, EOR, EOR_1, EOR_1_value, EOR_2, EOR_3, EOR_4, EOR_5, EOR_6, flat_fee_option, flat_fee_1, flat_fee_2, flat_fee_3, flat_fee_4, appA_7, appA_8_1, appA_8_2, appA_8_3, appA_8_n1, other_1, appB_1, appB_2, appB_3, appB_4, appB_5, appB_6, appB_7, appB_8_1, appB_8_2, appB_9, appB_10_1, appB_10_2, appB_11, appB_12, appB_13, appB_14, user_id from contact_eors
     </sql>
 
-    <select id="selectContactEorsList" parameterType="ContactEors" resultMap="ContactEorsResult">
-        <include refid="selectContactEorsVo"/>
+    <select id="selectContractEorsList" parameterType="ContractEors" resultMap="ContractEorsResult">
+        <include refid="selectContractEorsVo"/>
         <where>  
             <if test="strIndex != null  and strIndex != ''"> and str_index = #{strIndex}</if>
             <if test="numIndex != null "> and num_index = #{numIndex}</if>
@@ -92,12 +92,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </where>
     </select>
     
-    <select id="selectContactEorsByUserId" parameterType="String" resultMap="ContactEorsResult">
-        <include refid="selectContactEorsVo"/>
+    <select id="selectContractEorsByUserId" parameterType="String" resultMap="ContractEorsResult">
+        <include refid="selectContractEorsVo"/>
         where user_id = #{userId}
     </select>
 
-    <insert id="insertContactEors" parameterType="ContactEors">
+    <insert id="insertContractEors" parameterType="ContractEors">
         insert into contact_eors
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="strIndex != null">str_index,</if>
@@ -181,7 +181,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          </trim>
     </insert>
 
-    <update id="updateContactEors" parameterType="ContactEors">
+    <update id="updateContractEors" parameterType="ContractEors">
         update contact_eors
         <trim prefix="SET" suffixOverrides=",">
             <if test="strIndex != null">str_index = #{strIndex},</if>
@@ -225,11 +225,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where user_id = #{userId}
     </update>
 
-    <delete id="deleteContactEorsByUserId" parameterType="String">
+    <delete id="deleteContractEorsByUserId" parameterType="String">
         delete from contact_eors where user_id = #{userId}
     </delete>
 
-    <delete id="deleteContactEorsByUserIds" parameterType="String">
+    <delete id="deleteContractEorsByUserIds" parameterType="String">
         delete from contact_eors where user_id in 
         <foreach item="userId" collection="array" open="(" separator="," close=")">
             #{userId}

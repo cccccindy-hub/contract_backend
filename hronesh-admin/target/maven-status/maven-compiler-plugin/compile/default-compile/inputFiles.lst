@@ -12,7 +12,6 @@
 /Users/guo/contract_backend/hronesh-admin/src/main/java/com/nnroad/web/controller/datacenter/DCTableResultController.java
 /Users/guo/contract_backend/hronesh-admin/src/main/java/com/nnroad/web/controller/client/ClientOtherServiceFeeController.java
 /Users/guo/contract_backend/hronesh-admin/src/main/java/com/nnroad/web/controller/tool/TestController.java
-/Users/guo/contract_backend/hronesh-admin/src/main/java/com/nnroad/web/controller/contract/ContactEorsController.java
 /Users/guo/contract_backend/hronesh-admin/src/main/java/com/nnroad/web/controller/finance/FinanceDcController.java
 /Users/guo/contract_backend/hronesh-admin/src/main/java/com/nnroad/web/controller/contract/ContractPerfaceController.java
 /Users/guo/contract_backend/hronesh-admin/src/main/java/com/nnroad/web/controller/system/SysLoginController.java
@@ -53,10 +52,11 @@
 /Users/guo/contract_backend/hronesh-admin/src/main/java/com/nnroad/web/controller/finance/FinanceReportController.java
 /Users/guo/contract_backend/hronesh-admin/src/main/java/com/nnroad/web/controller/system/SysUserController.java
 /Users/guo/contract_backend/hronesh-admin/src/main/java/com/nnroad/web/controller/monitor/ServerController.java
+/Users/guo/contract_backend/hronesh-admin/src/main/java/com/nnroad/web/controller/contract/ContractRsController.java
+/Users/guo/contract_backend/hronesh-admin/src/main/java/com/nnroad/web/controller/contract/ContractEorsController.java
 /Users/guo/contract_backend/hronesh-admin/src/main/java/com/nnroad/web/controller/timeline/TimelineController.java
 /Users/guo/contract_backend/hronesh-admin/src/main/java/com/nnroad/web/controller/payroll/PaymentNoticeTemplateController.java
 /Users/guo/contract_backend/hronesh-admin/src/main/java/com/nnroad/web/controller/extraAttribute/ExtraAttributeController.java
-/Users/guo/contract_backend/hronesh-admin/src/main/java/com/nnroad/web/controller/contract/ContactRsController.java
 /Users/guo/contract_backend/hronesh-admin/src/main/java/com/nnroad/web/controller/system/SysNoticeController.java
 /Users/guo/contract_backend/hronesh-admin/src/main/java/com/nnroad/web/controller/lead/ClientLeadsController.java
 /Users/guo/contract_backend/hronesh-admin/src/main/java/com/nnroad/web/controller/system/SysProfileController.java

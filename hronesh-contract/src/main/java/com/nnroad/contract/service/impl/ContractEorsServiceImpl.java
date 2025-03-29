@@ -17,7 +17,7 @@ import com.nnroad.contract.service.IContractEorsService;
 public class ContractEorsServiceImpl implements IContractEorsService 
 {
     @Autowired
-    private ContractEorsMapper contactEorsMapper;
+    private ContractEorsMapper ContractEorsMapper;
 
     /**
      * 查询【请填写功能名称】
@@ -26,45 +26,45 @@ public class ContractEorsServiceImpl implements IContractEorsService
      * @return 【请填写功能名称】
      */
     @Override
-    public ContractEors selectContactEorsByUserId(String userId)
+    public ContractEors selectContractEorsByUserId(String userId)
     {
-        return contactEorsMapper.selectContactEorsByUserId(userId);
+        return ContractEorsMapper.selectContractEorsByUserId(userId);
     }
 
     /**
      * 查询【请填写功能名称】列表
      * 
-     * @param contactEors 【请填写功能名称】
+     * @param ContractEors 【请填写功能名称】
      * @return 【请填写功能名称】
      */
     @Override
-    public List<ContractEors> selectContactEorsList(ContractEors contactEors)
+    public List<ContractEors> selectContractEorsList(ContractEors ContractEors)
     {
-        return contactEorsMapper.selectContactEorsList(contactEors);
+        return ContractEorsMapper.selectContractEorsList(ContractEors);
     }
 
     /**
      * 新增【请填写功能名称】
      * 
-     * @param contactEors 【请填写功能名称】
+     * @param ContractEors 【请填写功能名称】
      * @return 结果
      */
     @Override
-    public int insertContactEors(ContractEors contactEors)
+    public int insertContractEors(ContractEors ContractEors)
     {
-        return contactEorsMapper.insertContactEors(contactEors);
+        return ContractEorsMapper.insertContractEors(ContractEors);
     }
 
     /**
      * 修改【请填写功能名称】
      * 
-     * @param contactEors 【请填写功能名称】
+     * @param ContractEors 【请填写功能名称】
      * @return 结果
      */
     @Override
-    public int updateContactEors(ContractEors contactEors)
+    public int updateContractEors(ContractEors ContractEors)
     {
-        return contactEorsMapper.updateContactEors(contactEors);
+        return ContractEorsMapper.updateContractEors(ContractEors);
     }
 
     /**
@@ -74,9 +74,9 @@ public class ContractEorsServiceImpl implements IContractEorsService
      * @return 结果
      */
     @Override
-    public int deleteContactEorsByUserIds(String[] userIds)
+    public int deleteContractEorsByUserIds(String[] userIds)
     {
-        return contactEorsMapper.deleteContactEorsByUserIds(userIds);
+        return ContractEorsMapper.deleteContractEorsByUserIds(userIds);
     }
 
     /**
@@ -86,8 +86,8 @@ public class ContractEorsServiceImpl implements IContractEorsService
      * @return 结果
      */
     @Override
-    public int deleteContactEorsByUserId(String userId)
+    public int deleteContractEorsByUserId(String userId)
     {
-        return contactEorsMapper.deleteContactEorsByUserId(userId);
+        return ContractEorsMapper.deleteContractEorsByUserId(userId);
     }
 }

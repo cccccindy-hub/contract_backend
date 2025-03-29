@@ -32,17 +32,17 @@ import com.nnroad.common.core.page.TableDataInfo;
 public class ContractEorsController extends BaseController
 {
     @Autowired
-    private IContractEorsService contactEorsService;
+    private IContractEorsService contractEorsService;
 
     /**
      * 查询【请填写功能名称】列表
      */
     @PreAuthorize("@ss.hasPermi('system:eors:list')")
     @GetMapping("/list")
-    public TableDataInfo list(ContractEors contactEors)
+    public TableDataInfo list(ContractEors contractEors)
     {
         startPage();
-        List<ContractEors> list = contactEorsService.selectContactEorsList(contactEors);
+        List<ContractEors> list = contractEorsService.selectContractEorsList(contractEors);
         return getDataTable(list);
     }
 
@@ -52,9 +52,9 @@ public class ContractEorsController extends BaseController
     @PreAuthorize("@ss.hasPermi('system:eors:export')")
     @Log(title = "【请填写功能名称】", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
-    public void export(HttpServletResponse response, ContractEors contactEors)
+    public void export(HttpServletResponse response, ContractEors contractEors)
     {
-        List<ContractEors> list = contactEorsService.selectContactEorsList(contactEors);
+        List<ContractEors> list = contractEorsService.selectContractEorsList(contractEors);
         ExcelUtil<ContractEors> util = new ExcelUtil<ContractEors>(ContractEors.class);
         util.exportExcel(response, list, "【请填写功能名称】数据");
     }
@@ -66,7 +66,7 @@ public class ContractEorsController extends BaseController
     @GetMapping(value = "/{userId}")
     public AjaxResult getInfo(@PathVariable("userId") String userId)
     {
-        return success(contactEorsService.selectContactEorsByUserId(userId));
+        return success(contractEorsService.selectContractEorsByUserId(userId));
     }
 
     /**
@@ -75,9 +75,9 @@ public class ContractEorsController extends BaseController
     @PreAuthorize("@ss.hasPermi('system:eors:add')")
     @Log(title = "【请填写功能名称】", businessType = BusinessType.INSERT)
     @PostMapping
-    public AjaxResult add(@RequestBody ContractEors contactEors)
+    public AjaxResult add(@RequestBody ContractEors contractEors)
     {
-        return toAjax(contactEorsService.insertContactEors(contactEors));
+        return toAjax(contractEorsService.insertContractEors(contractEors));
     }
 
     /**
@@ -86,9 +86,9 @@ public class ContractEorsController extends BaseController
     @PreAuthorize("@ss.hasPermi('system:eors:edit')")
     @Log(title = "【请填写功能名称】", businessType = BusinessType.UPDATE)
     @PutMapping
-    public AjaxResult edit(@RequestBody ContractEors contactEors)
+    public AjaxResult edit(@RequestBody ContractEors contractEors)
     {
-        return toAjax(contactEorsService.updateContactEors(contactEors));
+        return toAjax(contractEorsService.updateContractEors(contractEors));
     }
 
     /**
@@ -99,6 +99,6 @@ public class ContractEorsController extends BaseController
 	@DeleteMapping("/{userIds}")
     public AjaxResult remove(@PathVariable String[] userIds)
     {
-        return toAjax(contactEorsService.deleteContactEorsByUserIds(userIds));
+        return toAjax(contractEorsService.deleteContractEorsByUserIds(userIds));
     }
 }
