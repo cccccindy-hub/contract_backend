@@ -29,7 +29,7 @@ import com.nnroad.common.core.page.TableDataInfo;
  */
 @RestController
 @RequestMapping("/system/eors")
-public class ContactEorsController extends BaseController
+public class ContractEorsController extends BaseController
 {
     @Autowired
     private IContractEorsService contactEorsService;
