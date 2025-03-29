@@ -2,9 +2,9 @@
 <!DOCTYPE mapper
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.nnroad.contract.mapper.ContactRsMapper">
+<mapper namespace="com.nnroad.contract.mapper.ContractRsMapper">
     
-    <resultMap type="ContactRs" id="ContactRsResult">
+    <resultMap type="ContractRs" id="ContractRsResult">
         <result property="indexColumn"    column="index_column"    />
         <result property="stringIndex"    column="string_index"    />
         <result property="rs21"    column="RS_2_1"    />
@@ -14,12 +14,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="userId"    column="user_id"    />
     </resultMap>
 
-    <sql id="selectContactRsVo">
-        select index_column, string_index, RS_2_1, RS_2_2, RS_6, RS_7, user_id from contact_rs
+    <sql id="selectContractRsVo">
+        select index_column, string_index, RS_2_1, RS_2_2, RS_6, RS_7, user_id from contract_rs
     </sql>
 
-    <select id="selectContactRsList" parameterType="ContactRs" resultMap="ContactRsResult">
-        <include refid="selectContactRsVo"/>
+    <select id="selectContractRsList" parameterType="ContractRs" resultMap="ContractRsResult">
+        <include refid="selectContractRsVo"/>
         <where>  
             <if test="indexColumn != null  and indexColumn != ''"> and index_column = #{indexColumn}</if>
             <if test="stringIndex != null  and stringIndex != ''"> and string_index = #{stringIndex}</if>
@@ -30,13 +30,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </where>
     </select>
     
-    <select id="selectContactRsByUserId" parameterType="String" resultMap="ContactRsResult">
-        <include refid="selectContactRsVo"/>
+    <select id="selectContractRsByUserId" parameterType="String" resultMap="ContractRsResult">
+        <include refid="selectContractRsVo"/>
         where user_id = #{userId}
     </select>
 
-    <insert id="insertContactRs" parameterType="ContactRs">
-        insert into contact_rs
+    <insert id="insertContractRs" parameterType="ContractRs">
+        insert into contract_rs
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="indexColumn != null and indexColumn != ''">index_column,</if>
             <if test="stringIndex != null and stringIndex != ''">string_index,</if>
@@ -57,8 +57,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          </trim>
     </insert>
 
-    <update id="updateContactRs" parameterType="ContactRs">
-        update contact_rs
+    <update id="updateContractRs" parameterType="ContractRs">
+        update contract_rs
         <trim prefix="SET" suffixOverrides=",">
             <if test="indexColumn != null and indexColumn != ''">index_column = #{indexColumn},</if>
             <if test="stringIndex != null and stringIndex != ''">string_index = #{stringIndex},</if>
@@ -70,12 +70,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where user_id = #{userId}
     </update>
 
-    <delete id="deleteContactRsByUserId" parameterType="String">
-        delete from contact_rs where user_id = #{userId}
+    <delete id="deleteContractRsByUserId" parameterType="String">
+        delete from contract_rs where user_id = #{userId}
     </delete>
 
-    <delete id="deleteContactRsByUserIds" parameterType="String">
-        delete from contact_rs where user_id in 
+    <delete id="deleteContractRsByUserIds" parameterType="String">
+        delete from contract_rs where user_id in 
         <foreach item="userId" collection="array" open="(" separator="," close=")">
             #{userId}
         </foreach>
