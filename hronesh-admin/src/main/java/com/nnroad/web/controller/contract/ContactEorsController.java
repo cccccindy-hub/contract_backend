@@ -16,8 +16,8 @@ import com.nnroad.common.annotation.Log;
 import com.nnroad.common.core.controller.BaseController;
 import com.nnroad.common.core.domain.AjaxResult;
 import com.nnroad.common.enums.BusinessType;
-import com.nnroad.contract.domain.ContactEors;
-import com.nnroad.contract.service.IContactEorsService;
+import com.nnroad.contract.domain.ContractEors;
+import com.nnroad.contract.service.IContractEorsService;
 import com.nnroad.common.utils.poi.ExcelUtil;
 import com.nnroad.common.core.page.TableDataInfo;
 
@@ -32,17 +32,17 @@ import com.nnroad.common.core.page.TableDataInfo;
 public class ContactEorsController extends BaseController
 {
     @Autowired
-    private IContactEorsService contactEorsService;
+    private IContractEorsService contactEorsService;
 
     /**
      * 查询【请填写功能名称】列表
      */
     @PreAuthorize("@ss.hasPermi('system:eors:list')")
     @GetMapping("/list")
-    public TableDataInfo list(ContactEors contactEors)
+    public TableDataInfo list(ContractEors contactEors)
     {
         startPage();
-        List<ContactEors> list = contactEorsService.selectContactEorsList(contactEors);
+        List<ContractEors> list = contactEorsService.selectContactEorsList(contactEors);
         return getDataTable(list);
     }
 
@@ -52,10 +52,10 @@ public class ContactEorsController extends BaseController
     @PreAuthorize("@ss.hasPermi('system:eors:export')")
     @Log(title = "【请填写功能名称】", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
-    public void export(HttpServletResponse response, ContactEors contactEors)
+    public void export(HttpServletResponse response, ContractEors contactEors)
     {
-        List<ContactEors> list = contactEorsService.selectContactEorsList(contactEors);
-        ExcelUtil<ContactEors> util = new ExcelUtil<ContactEors>(ContactEors.class);
+        List<ContractEors> list = contactEorsService.selectContactEorsList(contactEors);
+        ExcelUtil<ContractEors> util = new ExcelUtil<ContractEors>(ContractEors.class);
         util.exportExcel(response, list, "【请填写功能名称】数据");
     }
 
@@ -75,7 +75,7 @@ public class ContactEorsController extends BaseController
     @PreAuthorize("@ss.hasPermi('system:eors:add')")
     @Log(title = "【请填写功能名称】", businessType = BusinessType.INSERT)
     @PostMapping
-    public AjaxResult add(@RequestBody ContactEors contactEors)
+    public AjaxResult add(@RequestBody ContractEors contactEors)
     {
         return toAjax(contactEorsService.insertContactEors(contactEors));
     }
@@ -86,7 +86,7 @@ public class ContactEorsController extends BaseController
     @PreAuthorize("@ss.hasPermi('system:eors:edit')")
     @Log(title = "【请填写功能名称】", businessType = BusinessType.UPDATE)
     @PutMapping
-    public AjaxResult edit(@RequestBody ContactEors contactEors)
+    public AjaxResult edit(@RequestBody ContractEors contactEors)
     {
         return toAjax(contactEorsService.updateContactEors(contactEors));
     }

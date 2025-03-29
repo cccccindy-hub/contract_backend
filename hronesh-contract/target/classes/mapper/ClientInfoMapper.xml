@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.nnroad.client.mapper.ClientInfoMapper">
+
+    <resultMap type="ClientInfo" id="ClientInfoResult">
+        <result property="id"    column="id"    />
+        <result property="clientId"    column="client_id"    />
+        <result property="clientName"    column="client_name"    />
+        <result property="companyCode"    column="company_code"    />
+        <result property="extraData"    column="extra_data"   typeHandler = "com.nnroad.framework.datasource.JsonTypeHandler" />
+    </resultMap>
+
+    <resultMap type="ClientBillingInfo" id="ClientBillingResult">
+        <result property="clientCode" column="client_code"/>
+        <result property="clientName" column="client_name"/>
+        <result property="isPasswordDynamic" column="is_password_dynamic"/>
+        <result property="payNoticePassword" column="pay_notice_password"/>
+    </resultMap>
+
+    <sql id="selectClientInfoVo">
+        select id, client_id, company_code, extra_data from ${tableName}
+    </sql>
+
+    <select id="selectClientInfoList" parameterType="ClientInfo" resultMap="ClientInfoResult">
+        SELECT t.*, sc.client_name
+        FROM ${tableName} t
+        JOIN sys_client sc ON t.client_id = sc.id
+        WHERE 1=1
+        <if test="clientId != null "> and client_id = #{clientId}</if>
+        <if test="companyCode != null "> and company_code = #{companyCode}</if>
+        <if test="extraData != null and extraData != ''"> and extra_data = #{extraData}</if>
+    </select>
+
+    <select id="selectClientInfoById"  resultMap="ClientInfoResult">
+        <include refid="selectClientInfoVo"/>
+        where id = #{id}
+    </select>
+
+    <select id="selectClientInfoByClientId"  resultMap="ClientInfoResult">
+        <include refid="selectClientInfoVo"/>
+        where client_id = #{clientId}
+    </select>
+
+    <select id="selectClientInfoByCode"  resultMap="ClientInfoResult">
+        <include refid="selectClientInfoVo"/>
+        where company_code = #{code} LIMIT 1
+    </select>
+
+    <insert id="insertClientInfo" parameterType="ClientInfo" useGeneratedKeys="true" keyProperty="id">
+        insert into ${tableName} (
+            client_id,
+            company_code,
+            extra_data,
+            create_by,
+            update_by
+        ) VALUES (
+            #{clientId},
+            #{companyCode},
+            #{extraData, typeHandler=com.nnroad.framework.datasource.JsonTypeHandler},
+            #{createBy},
+            #{updateBy}
+        );
+
+    </insert>
+
+    <update id="updateClientInfo" parameterType="ClientInfo">
+        update ${tableName}
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="clientId != null">client_id = #{clientId},</if>
+            <if test="companyCode != null">company_code = #{companyCode},</if>
+            <if test="extraData != null">extra_data = #{extraData, typeHandler=com.nnroad.framework.datasource.JsonTypeHandler},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="updateBy != null">update_by = #{updateBy}</if>
+        </trim>
+        where company_code = #{companyCode}
+    </update>
+
+    <delete id="deleteClientInfoById" parameterType="Long">
+        delete from ${tableName} where id = #{id}
+    </delete>
+
+    <delete id="deleteClientInfoByIds">
+        delete from ${tableName} where id in
+        <foreach item="id" collection="ids" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+
+    <select id="getClientPayPassword" resultMap="ClientBillingResult">
+        SELECT
+            cbs.company_code AS client_code,
+            sys.client_name AS client_name,
+            ifnull( nullif( json_unquote( json_extract( cbs.`extra_data`, '$."206"' )), 'null' ), '' ) AS `is_password_dynamic`,
+            ifnull( nullif( json_unquote( json_extract( cbs.`extra_data`, '$."207"' )), 'null' ), '' ) AS `pay_notice_password`
+        FROM
+            client_billing_status cbs left JOIN sys_client sys ON sys.company_code=cbs.company_code
+        where cbs.company_code=#{erNo}
+    </select>
+</mapper>

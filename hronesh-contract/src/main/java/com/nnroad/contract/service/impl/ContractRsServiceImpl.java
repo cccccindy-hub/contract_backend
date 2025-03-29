@@ -3,9 +3,9 @@ package com.nnroad.contract.service.impl;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.nnroad.contract.mapper.ContactEorsMapper;
-import com.nnroad.contract.domain.ContactEors;
-import com.nnroad.contract.service.IContactEorsService;
+import com.nnroad.contract.mapper.ContractRsMapper;
+import com.nnroad.contract.domain.ContractRs;
+import com.nnroad.contract.service.IContractRsService;
 
 /**
  * 【请填写功能名称】Service业务层处理
@@ -14,10 +14,10 @@ import com.nnroad.contract.service.IContactEorsService;
  * @date 2025-03-27
  */
 @Service
-public class ContactEorsServiceImpl implements IContactEorsService 
+public class ContractRsServiceImpl implements IContractRsService 
 {
     @Autowired
-    private ContactEorsMapper contactEorsMapper;
+    private ContractRsMapper contactRsMapper;
 
     /**
      * 查询【请填写功能名称】
@@ -26,45 +26,45 @@ public class ContactEorsServiceImpl implements IContactEorsService
      * @return 【请填写功能名称】
      */
     @Override
-    public ContactEors selectContactEorsByUserId(String userId)
+    public ContractRs selectContactRsByUserId(String userId)
     {
-        return contactEorsMapper.selectContactEorsByUserId(userId);
+        return contactRsMapper.selectContactRsByUserId(userId);
     }
 
     /**
      * 查询【请填写功能名称】列表
      * 
-     * @param contactEors 【请填写功能名称】
+     * @param contactRs 【请填写功能名称】
      * @return 【请填写功能名称】
      */
     @Override
-    public List<ContactEors> selectContactEorsList(ContactEors contactEors)
+    public List<ContractRs> selectContactRsList(ContractRs contactRs)
     {
-        return contactEorsMapper.selectContactEorsList(contactEors);
+        return contactRsMapper.selectContactRsList(contactRs);
     }
 
     /**
      * 新增【请填写功能名称】
      * 
-     * @param contactEors 【请填写功能名称】
+     * @param contactRs 【请填写功能名称】
      * @return 结果
      */
     @Override
-    public int insertContactEors(ContactEors contactEors)
+    public int insertContactRs(ContractRs contactRs)
     {
-        return contactEorsMapper.insertContactEors(contactEors);
+        return contactRsMapper.insertContactRs(contactRs);
     }
 
     /**
      * 修改【请填写功能名称】
      * 
-     * @param contactEors 【请填写功能名称】
+     * @param contactRs 【请填写功能名称】
      * @return 结果
      */
     @Override
-    public int updateContactEors(ContactEors contactEors)
+    public int updateContactRs(ContractRs contactRs)
     {
-        return contactEorsMapper.updateContactEors(contactEors);
+        return contactRsMapper.updateContactRs(contactRs);
     }
 
     /**
@@ -74,9 +74,9 @@ public class ContactEorsServiceImpl implements IContactEorsService
      * @return 结果
      */
     @Override
-    public int deleteContactEorsByUserIds(String[] userIds)
+    public int deleteContactRsByUserIds(String[] userIds)
     {
-        return contactEorsMapper.deleteContactEorsByUserIds(userIds);
+        return contactRsMapper.deleteContactRsByUserIds(userIds);
     }
 
     /**
@@ -86,8 +86,8 @@ public class ContactEorsServiceImpl implements IContactEorsService
      * @return 结果
      */
     @Override
-    public int deleteContactEorsByUserId(String userId)
+    public int deleteContactRsByUserId(String userId)
     {
-        return contactEorsMapper.deleteContactEorsByUserId(userId);
+        return contactRsMapper.deleteContactRsByUserId(userId);
     }
 }

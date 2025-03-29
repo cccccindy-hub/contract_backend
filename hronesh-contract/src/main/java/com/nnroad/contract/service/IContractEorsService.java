@@ -1,7 +1,7 @@
 package com.nnroad.contract.service;
 
 import java.util.List;
-import com.nnroad.contract.domain.ContactRs;
+import com.nnroad.contract.domain.ContractEors;
 
 /**
  * 【请填写功能名称】Service接口
@@ -9,7 +9,7 @@ import com.nnroad.contract.domain.ContactRs;
  * @author ruoyi
  * @date 2025-03-27
  */
-public interface IContactRsService 
+public interface IContractEorsService 
 {
     /**
      * 查询【请填写功能名称】
@@ -17,31 +17,31 @@ public interface IContactRsService
      * @param userId 【请填写功能名称】主键
      * @return 【请填写功能名称】
      */
-    public ContactRs selectContactRsByUserId(String userId);
+    public ContractEors selectContactEorsByUserId(String userId);
 
     /**
      * 查询【请填写功能名称】列表
      * 
-     * @param contactRs 【请填写功能名称】
+     * @param contactEors 【请填写功能名称】
      * @return 【请填写功能名称】集合
      */
-    public List<ContactRs> selectContactRsList(ContactRs contactRs);
+    public List<ContractEors> selectContactEorsList(ContractEors contactEors);
 
     /**
      * 新增【请填写功能名称】
      * 
-     * @param contactRs 【请填写功能名称】
+     * @param contactEors 【请填写功能名称】
      * @return 结果
      */
-    public int insertContactRs(ContactRs contactRs);
+    public int insertContactEors(ContractEors contactEors);
 
     /**
      * 修改【请填写功能名称】
      * 
-     * @param contactRs 【请填写功能名称】
+     * @param contactEors 【请填写功能名称】
      * @return 结果
      */
-    public int updateContactRs(ContactRs contactRs);
+    public int updateContactEors(ContractEors contactEors);
 
     /**
      * 批量删除【请填写功能名称】
@@ -49,7 +49,7 @@ public interface IContactRsService
      * @param userIds 需要删除的【请填写功能名称】主键集合
      * @return 结果
      */
-    public int deleteContactRsByUserIds(String[] userIds);
+    public int deleteContactEorsByUserIds(String[] userIds);
 
     /**
      * 删除【请填写功能名称】信息
@@ -57,5 +57,5 @@ public interface IContactRsService
      * @param userId 【请填写功能名称】主键
      * @return 结果
      */
-    public int deleteContactRsByUserId(String userId);
+    public int deleteContactEorsByUserId(String userId);
 }

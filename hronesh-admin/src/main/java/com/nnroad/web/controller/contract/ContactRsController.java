@@ -16,8 +16,8 @@ import com.nnroad.common.annotation.Log;
 import com.nnroad.common.core.controller.BaseController;
 import com.nnroad.common.core.domain.AjaxResult;
 import com.nnroad.common.enums.BusinessType;
-import com.nnroad.contract.domain.ContactRs;
-import com.nnroad.contract.service.IContactRsService;
+import com.nnroad.contract.domain.ContractRs;
+import com.nnroad.contract.service.IContractRsService;
 import com.nnroad.common.utils.poi.ExcelUtil;
 import com.nnroad.common.core.page.TableDataInfo;
 
@@ -32,17 +32,17 @@ import com.nnroad.common.core.page.TableDataInfo;
 public class ContactRsController extends BaseController
 {
     @Autowired
-    private IContactRsService contactRsService;
+    private IContractRsService contactRsService;
 
     /**
      * 查询【请填写功能名称】列表
      */
     @PreAuthorize("@ss.hasPermi('system:rs:list')")
     @GetMapping("/list")
-    public TableDataInfo list(ContactRs contactRs)
+    public TableDataInfo list(ContractRs contactRs)
     {
         startPage();
-        List<ContactRs> list = contactRsService.selectContactRsList(contactRs);
+        List<ContractRs> list = contactRsService.selectContactRsList(contactRs);
         return getDataTable(list);
     }
 
@@ -52,10 +52,10 @@ public class ContactRsController extends BaseController
     @PreAuthorize("@ss.hasPermi('system:rs:export')")
     @Log(title = "【请填写功能名称】", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
-    public void export(HttpServletResponse response, ContactRs contactRs)
+    public void export(HttpServletResponse response, ContractRs contactRs)
     {
-        List<ContactRs> list = contactRsService.selectContactRsList(contactRs);
-        ExcelUtil<ContactRs> util = new ExcelUtil<ContactRs>(ContactRs.class);
+        List<ContractRs> list = contactRsService.selectContactRsList(contactRs);
+        ExcelUtil<ContractRs> util = new ExcelUtil<ContractRs>(ContractRs.class);
         util.exportExcel(response, list, "【请填写功能名称】数据");
     }
 
@@ -75,7 +75,7 @@ public class ContactRsController extends BaseController
     @PreAuthorize("@ss.hasPermi('system:rs:add')")
     @Log(title = "【请填写功能名称】", businessType = BusinessType.INSERT)
     @PostMapping
-    public AjaxResult add(@RequestBody ContactRs contactRs)
+    public AjaxResult add(@RequestBody ContractRs contactRs)
     {
         return toAjax(contactRsService.insertContactRs(contactRs));
     }
@@ -86,7 +86,7 @@ public class ContactRsController extends BaseController
     @PreAuthorize("@ss.hasPermi('system:rs:edit')")
     @Log(title = "【请填写功能名称】", businessType = BusinessType.UPDATE)
     @PutMapping
-    public AjaxResult edit(@RequestBody ContactRs contactRs)
+    public AjaxResult edit(@RequestBody ContractRs contactRs)
     {
         return toAjax(contactRsService.updateContactRs(contactRs));
     }

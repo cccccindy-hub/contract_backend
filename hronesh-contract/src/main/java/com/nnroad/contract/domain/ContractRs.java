@@ -12,7 +12,7 @@ import com.nnroad.common.core.domain.BaseEntity;
  * @author ruoyi
  * @date 2025-03-27
  */
-public class ContactRs extends BaseEntity
+public class ContractRs extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
 
