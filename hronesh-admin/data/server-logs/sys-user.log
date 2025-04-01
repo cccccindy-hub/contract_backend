@@ -1,4 +1,4 @@
-2025-03-25 00:09:14.172 [SpringApplicationShutdownHook] INFO  sys-user - [shutdownAsyncManager,31] - ====关闭后台任务任务线程池====
-2025-03-25 06:57:50.392 [SpringApplicationShutdownHook] INFO  sys-user - [shutdownAsyncManager,31] - ====关闭后台任务任务线程池====
-2025-03-25 07:01:49.430 [schedule-pool-1] INFO  sys-user - [run,57] - [127.0.0.1]内网IP[admin][Success][登录成功]
-2025-03-25 12:04:14.299 [schedule-pool-1] INFO  sys-user - [run,57] - [127.0.0.1]内网IP[admin][Success][登录成功]
+2025-04-01 06:56:11.576 [schedule-pool-1] INFO  sys-user - [run,57] - [127.0.0.1]内网IP[admin][Success][登录成功]
+2025-04-01 07:00:36.520 [SpringApplicationShutdownHook] INFO  sys-user - [shutdownAsyncManager,31] - ====关闭后台任务任务线程池====
+2025-04-01 20:02:40.874 [schedule-pool-1] INFO  sys-user - [run,57] - [127.0.0.1]内网IP[admin][Error][验证码错误]
+2025-04-01 20:02:49.762 [schedule-pool-1] INFO  sys-user - [run,57] - [127.0.0.1]内网IP[admin][Success][登录成功]

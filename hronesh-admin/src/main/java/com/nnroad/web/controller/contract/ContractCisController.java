@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.nnroad.common.annotation.Anonymous;
 import com.nnroad.common.annotation.Log;
 import com.nnroad.common.core.controller.BaseController;
 import com.nnroad.common.core.domain.AjaxResult;
@@ -28,7 +30,7 @@ import com.nnroad.common.core.page.TableDataInfo;
  * @date 2025-03-27
  */
 @RestController
-@RequestMapping("/system/cis")
+@RequestMapping("/contract/cis")
 public class ContractCisController extends BaseController
 {
     @Autowired
@@ -37,7 +39,8 @@ public class ContractCisController extends BaseController
     /**
      * 查询【请填写功能名称】列表
      */
-    @PreAuthorize("@ss.hasPermi('system:cis:list')")
+    // @PreAuthorize("@ss.hasPermi('system:cis:list')")
+    @Anonymous
     @GetMapping("/list")
     public TableDataInfo list(ContractCis contractCis)
     {

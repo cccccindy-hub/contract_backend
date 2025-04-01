@@ -28,7 +28,7 @@ import com.nnroad.common.core.page.TableDataInfo;
  * @date 2025-03-27
  */
 @RestController
-@RequestMapping("/system/perface")
+@RequestMapping("/contract/perface")
 public class ContractPerfaceController extends BaseController
 {
     @Autowired

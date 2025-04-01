@@ -115,7 +115,7 @@ public class EmployeeController extends BaseController
     }
 
     @PreAuthorize("@ss.hasPermi('employee:import')")
-    @GetMapping("/download_temp")
+    @GetMapping("/download_temp") 
     public void downloadTemplate(HttpServletResponse response) throws IOException {
         //get all extra attributes
         List<SysExtraAttribute> basicAttributeList = extraAttributeService.selectSysExtraAttributeInHierarchy("sys_employee", null);

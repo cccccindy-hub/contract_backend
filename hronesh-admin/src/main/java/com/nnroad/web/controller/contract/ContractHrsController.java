@@ -27,7 +27,7 @@ import com.nnroad.common.core.page.TableDataInfo;
  * @date 2025-03-27
  */
 @RestController
-@RequestMapping("/system/hrs")
+@RequestMapping("/contract/hrs")
 public class ContractHrsController extends BaseController
 {
     @Autowired

@@ -30,7 +30,7 @@ import com.nnroad.common.core.page.TableDataInfo;
  * @date 2025-03-25
  */
 @RestController
-@RequestMapping("/system/userform")
+@RequestMapping("/contract/userform")
 public class ContractUserformController extends BaseController
 {
     @Autowired

@@ -28,7 +28,7 @@ import com.nnroad.common.core.page.TableDataInfo;
  * @date 2025-03-27
  */
 @RestController
-@RequestMapping("/system/eors")
+@RequestMapping("/contract/eors")
 public class ContractEorsController extends BaseController
 {
     @Autowired
